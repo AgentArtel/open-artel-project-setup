@@ -14,6 +14,55 @@ repo locally. Now you want to set up the three-agent development workflow
 - The repo cloned locally
 - **The starter kit already copied into the project** (see `README.md` for copy instructions)
 
+## Step 0: Learn from Past Configurations (Recommended)
+
+Before customizing the starter kit, study past project configurations to learn
+from real experience. This step is optional but strongly recommended — it
+prevents repeating mistakes and surfaces proven patterns.
+
+### 0a. Check available past configurations
+
+```bash
+./scripts/extract-past-lessons.sh --list
+```
+
+### 0b. Extract lessons from a relevant past configuration
+
+```bash
+# Extract structured lessons (successful patterns, failures, anti-patterns)
+./scripts/extract-past-lessons.sh Even-Openclaw
+# Output: .ai/lessons/Even-Openclaw-lessons.md
+```
+
+### 0c. Compare your project structure
+
+```bash
+# Compare current project against the past configuration
+./scripts/compare-project-structure.sh Even-Openclaw
+# Output: .ai/reports/structure-comparison-Even-Openclaw.md
+```
+
+### 0d. Review and apply
+
+Read the generated files and note which patterns to apply:
+
+- **Phased approach**: Break work into phases (P1, P2, P3, P4) for complex projects
+- **File ownership**: Map every file to exactly one agent in `boundaries.md`
+- **Task format**: Use acceptance criteria and "Do NOT" sections on every task
+- **Dependencies**: Always declare what tasks depend on and block
+
+Document your decisions in `.ai/lessons/applied-lessons.md`.
+
+**Key files to read from past configs**:
+- `boundaries.md` — How file ownership was structured
+- `status.md` — How sprints were organized
+- `tasks/TASK-*.md` — What task format worked
+- `project-vision/README.md` — How architecture was documented
+
+See `.agents/skills/learn-from-past/SKILL.md` for the full process.
+
+---
+
 ## Step 1: Open the repo in Claude Code and paste this prompt
 
 ---

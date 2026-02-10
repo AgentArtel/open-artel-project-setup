@@ -319,6 +319,41 @@ When resuming a session (`--continue`):
 3. Check `.ai/instructions/` for any pending directives from Human PM
 4. Continue from where you left off
 
+## Learning from Past Configurations
+
+Before starting a new project or planning a major feature, study past project configurations to apply proven patterns and avoid known failures.
+
+### When to Study Past Configs
+
+- **Project bootstrap**: Before Phase 1 of the Bootstrap Playbook
+- **Sprint planning**: When structuring a new sprint with 5+ tasks
+- **Major feature decomposition**: When breaking a large feature into phases
+- **Post-sprint review**: To contribute new lessons back
+
+### How to Study
+
+1. **Extract lessons**: Run `./scripts/extract-past-lessons.sh <config-name>` to analyze a past configuration and produce a structured lessons file in `.ai/lessons/`
+2. **Compare structure**: Run `./scripts/compare-project-structure.sh <config-name>` to compare the current project against a past configuration and identify adaptations
+3. **Read the index**: Check `past-configurations/INDEX.md` for available configurations and their metadata
+4. **Apply and document**: Use successful patterns, avoid failed patterns, and document decisions in `.ai/lessons/applied-lessons.md`
+
+### Key Lessons to Apply
+
+- **Phased approach**: Break complex work into independently shippable phases
+- **Explicit file ownership**: Map every file to one agent in `boundaries.md`
+- **Detailed task briefs**: Always include acceptance criteria and "Do NOT" sections
+- **Dependency declarations**: Fill in "Depends on" and "Blocks" on every task
+- **Required reading**: For tasks touching unfamiliar code, list files the agent must read first
+- **Single-session sizing**: Keep tasks completable in one work session (max 4-5 specs)
+
+### Pattern Library
+
+Reusable patterns extracted from past configurations are in `.ai/patterns/from-past-configs/`. Reference these when decomposing tasks or structuring sprints.
+
+### Grounding Rule
+
+All lessons must be backed by evidence from actual project data. Never assume a pattern worked or failed — check the source files. When in doubt, use the **researcher** subagent to investigate.
+
 ## Escalation Rules
 
 Escalate to Human PM when:

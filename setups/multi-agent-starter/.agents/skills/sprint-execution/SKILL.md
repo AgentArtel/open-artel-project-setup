@@ -7,7 +7,8 @@ type: flow
 ```mermaid
 flowchart TD
     A([BEGIN]) --> B[Read sprint goals from .ai/instructions/]
-    B --> C[Dispatch Claude Code to decompose into tasks]
+    B --> B2[Check past lessons in .ai/lessons/]
+    B2 --> C[Dispatch Claude Code to decompose into tasks]
     C --> D[Review task briefs for completeness]
     D --> E{Are all tasks well-defined?}
     E -->|No| F[Request Claude Code to refine unclear tasks]
@@ -33,6 +34,16 @@ flowchart TD
 ### Step: Read sprint goals
 - Read `.ai/instructions/` for the current sprint brief
 - Identify sprint scope, priorities, and constraints
+
+### Step: Check past lessons (before decomposition)
+- Read `.ai/lessons/applied-lessons.md` for patterns already applied to this project
+- If similar work was done in a past configuration, reference those patterns:
+  - Check task sizing (past configs show what worked for single-session scope)
+  - Check dependency patterns (past configs show what caused blocking)
+  - Check acceptance criteria format (past configs show what was testable)
+- Avoid patterns marked as "failed" or "anti-pattern" in `.ai/lessons/`
+- Apply patterns marked as "successful" to the current decomposition
+- If no lessons file exists, run `./scripts/extract-past-lessons.sh` first
 
 ### Step: Dispatch Claude Code to decompose
 - Create instruction for Claude Code in `.ai/instructions/claude-decompose-sprint-X.md`
