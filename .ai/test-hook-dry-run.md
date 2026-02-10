@@ -3,3 +3,4 @@
 # report test
 # update test (should skip)
 # no-header test (should skip)
+# Live Kimi test
