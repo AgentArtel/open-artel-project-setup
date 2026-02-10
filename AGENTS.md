@@ -18,9 +18,12 @@ A configuration and workflow distribution system for multi-agent AI development.
 ├── .ai/                         # Coordination layer (for THIS repo's development)
 │   ├── status.md                # Current sprint / development status
 │   ├── boundaries.md            # Decision authority map
+│   ├── ideas.md                 # Feature ideas index
+│   ├── ideas/                   # Individual idea files
 │   ├── tasks/                   # Active task briefs
 │   └── templates/
-│       └── task.md              # Task brief template
+│       ├── task.md              # Task brief template
+│       └── idea.md              # Idea template
 ├── setups/                      # Distributable starter kits
 │   ├── README.md                # How to use setups
 │   └── multi-agent-starter/     # Three-agent workflow kit
@@ -97,5 +100,6 @@ claude/descriptive-name         # Development branches
 Development of this system is tracked in `.ai/`:
 - `.ai/status.md` — Current priorities and sprint status
 - `.ai/boundaries.md` — Decision authority (what Claude Code can do unilaterally vs. what needs approval)
+- `.ai/ideas.md` and `.ai/ideas/` — Feature ideas backlog (raw ideas that may graduate to tasks)
 - `.ai/tasks/` — Active task briefs
-- `.ai/templates/task.md` — Task format for system development work
+- `.ai/templates/` — Templates for tasks and ideas

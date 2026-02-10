@@ -9,6 +9,7 @@ These actions stay within scope. Do them, commit, report.
 - **Template refinement**: Fix typos, improve clarity, tighten wording in any template
 - **Format consistency**: Align templates to match established conventions
 - **Task management**: Create, update, and close tasks in `.ai/tasks/`
+- **Idea management**: Create, update, and organize feature ideas in `.ai/ideas/` and `.ai/ideas.md`
 - **Status updates**: Keep `.ai/status.md` current
 - **Documentation**: Update README.md, AGENTS.md, CLAUDE.md for accuracy
 - **Memory management**: Update persistent memory files for cross-session continuity

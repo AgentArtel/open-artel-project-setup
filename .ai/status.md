@@ -33,3 +33,4 @@ Exploring multi-agent Git workflow and automation — researching how to scale t
 - **Starter kit**: Stable. Complete templates, tested against one real project.
 - **Past configurations**: One example (Even-Openclaw). Needs more variety.
 - **Self-coordination**: Being established now.
+- **Feature ideas**: New tracking system (`.ai/ideas/`) captures 18 ideas from TASK-002 for future exploration.
