@@ -2,26 +2,36 @@
 
 - **Category**: Git Workflow
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Ready
+- **Roadmap Phase**: Phase 1 (Foundation)
 
 ### The Idea
 
-Make Git operations more accessible and agent-friendly by integrating Git with Claude Code CLI. Agents can describe what they want to do in natural language, and Claude Code handles the Git commands.
+Make Git operations conversational — agents describe intent, CLI handles commands.
 
 ### Why It Matters
 
-Reduces friction for agents working with Git. Instead of remembering exact Git commands, agents can describe their intent and let Claude Code figure out the right operations.
+Reduces friction. Agents focus on what, not how.
 
-### Open Questions
+### Research Findings
 
-- What Git operations should be conversational? (commit? merge? branch creation?)
-- How does Claude Code CLI handle Git? (built-in? wrapper script?)
-- How do we ensure safety? (preview before execution? approval workflows?)
-- What's the integration pattern? (Claude Code extension? separate tool?)
+**Already built into both CLIs**:
+
+- **Claude Code**: Native Git integration. Branch, stage, commit, push, PR — all via natural language. This is how we already work in this repo.
+- **Kimi Code CLI**: Shell tool for Git, plus shell mode (Ctrl-X) for direct commands. Agent mode handles natural language Git requests.
+
+**Both support**: Conversational branching, committing, merging, status queries, diff analysis.
+
+**What we add on top**: Commit message routing format (IDEA-002) and branch naming convention (IDEA-001) standardize how agents use these capabilities.
+
+### Answers to Open Questions
+
+- **Which ops**: All — commit, branch, merge, push, pull, status, diff, log. Both CLIs support natively.
+- **How**: Built-in tools. Claude Code: first-class Git. Kimi Code: Shell tool.
+- **Safety**: Both have approval workflows. Preview before execution.
+- **Integration**: No extra tooling — it's already how both CLIs work. We add conventions.
 
 ### Related Ideas
 
-- IDEA-001 (branch workflow uses Git operations)
-- IDEA-002 (commit messages are part of Git)
-- IDEA-018 (approval workflows for Git operations)
-
+- IDEA-001 (branch workflow), IDEA-002 (commit format), IDEA-018 (approval for Git ops)

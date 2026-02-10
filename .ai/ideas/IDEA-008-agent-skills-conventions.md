@@ -2,25 +2,45 @@
 
 - **Category**: Kimi Integration
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Ready
+- **Roadmap Phase**: Phase 2 (Agent Skills)
 
 ### The Idea
 
-Create Agent Skills (SKILL.md files) that codify Open Artel conventions: task format, boundaries, Git workflow, code standards. These skills get loaded into Kimi Code agents so they automatically follow project conventions.
+SKILL.md files that codify Open Artel conventions — task format, boundaries, Git workflow. Auto-loaded by Kimi Code agents.
 
 ### Why It Matters
 
-Ensures consistency across all agents without manual prompting. Skills are reusable across projects and can be version-controlled alongside the codebase.
+Consistency without manual prompting. Reusable across projects. Version-controlled.
 
-### Open Questions
+### Research Findings
 
-- What conventions should be codified? (task format, boundaries, Git workflow, code style?)
-- Where do skills live? (project-level `.agents/skills/`? user-level?)
-- How do we version skills? (Git? separate repo?)
-- Can skills reference other skills? (composition)
+**Six skills designed** (TASK-002-research.md, Section 7):
+
+```
+.agents/skills/
+├── open-artel-workflow/    # Agent roles, workflow steps, communication
+├── task-protocol/          # Task brief format, lifecycle, acceptance criteria
+├── git-routing/            # Commit message routing rules
+├── review-checklist/       # Code review standards
+├── boundary-enforcement/   # File ownership rules
+└── sprint-management/      # Sprint planning and tracking
+```
+
+**Format**: YAML frontmatter (`name`, `description`) + Markdown content. Keep under 500 lines; use subdirectories for detail.
+
+**Discovery**: Auto-discovered from `.agents/skills/` (project-level) and `~/.config/agents/skills/` (user-level). Cross-tool compatible (Kimi CLI, Claude Code, Codex).
+
+**Loading**: On-demand (AI reads when relevant) or explicit (`/skill:<name>`).
+
+### Answers to Open Questions
+
+- **What to codify**: Task format, boundaries, Git workflow, review checklist, sprint protocol. One skill per concern.
+- **Location**: `.agents/skills/` at project level.
+- **Versioning**: Git — skills live in the repo.
+- **Composition**: Relative paths to reference other files. Subdirectories for detailed content.
 
 ### Related Ideas
 
-- IDEA-007 (subagents use these skills)
-- IDEA-009 (Flow Skills for workflows)
-
+- IDEA-007 (subagents use skills), IDEA-009 (Flow Skills for workflows)

@@ -2,25 +2,44 @@
 
 - **Category**: Kimi Integration
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Ready
+- **Roadmap Phase**: Phase 4 (Kimi Overseer Agent)
 
 ### The Idea
 
-Use Kimi Code's context compression and summarization features to maintain long project histories without token bloat. The persistent overseer can compress old conversations while preserving key information.
+Use Kimi Code's context compression for long-running project oversight without token bloat.
 
 ### Why It Matters
 
-Enables long-running project oversight without hitting token limits. The overseer can remember project history across months or years while staying within budget.
+Oversight across months/years within token and cost budgets.
 
-### Open Questions
+### Research Findings
 
-- What compression strategy? (automatic? manual `/compact` command?)
-- What information should be preserved? (key decisions? task outcomes? errors?)
-- How do we handle compression loss? (can we recover details if needed?)
-- What's the performance impact? (compression time? token savings?)
+**Built-in features**:
+- **Auto-compression**: Kimi CLI compresses automatically when context grows too long.
+- **`/compact`**: Manual summarization — preserves key info, reduces tokens.
+- **`/clear`**: Full reset.
+- **Session persistence**: Auto-save to disk. `--continue` / `--session <id>` to resume.
+
+**API Context Caching**: Cached tokens at $0.15/1M (75% cheaper). Up to 90% savings. 256K context window.
+
+**Overseer strategy**:
+1. `/compact` between sprints (summarize previous sprint)
+2. Key decisions preserved in summary
+3. Detailed history in Git (`.ai/reports/`, `.ai/reviews/`) — always retrievable
+4. Context caching for repeated file reads
+5. Periodic session rotation for very long projects
+
+**Budget**: 5-hour window handles 300-1,200 API calls. Sprint of 10-20 tasks well within budget.
+
+### Answers to Open Questions
+
+- **Strategy**: Auto-compression + manual `/compact` between sprints.
+- **Preserve**: Decisions, outcomes, current state. Detail in Git.
+- **Recovery**: Full detail in Git history. Nothing truly lost.
+- **Performance**: Minimal. Compression once. Caching automatic, 75% savings.
 
 ### Related Ideas
 
-- IDEA-005 (overseer needs long history)
-- IDEA-006 (terminal connection benefits from compression)
-
+- IDEA-005 (overseer needs history), IDEA-006 (benefits from compression)

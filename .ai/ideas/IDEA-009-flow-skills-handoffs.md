@@ -2,26 +2,39 @@
 
 - **Category**: Automation
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Ready
+- **Roadmap Phase**: Phase 3 (Flow Skills)
 
 ### The Idea
 
-Define multi-step agent handoff workflows as Flow Skills (Mermaid/D2 diagrams). Flow Skills can be invoked via `/flow:` commands to automatically execute the commit → review → merge → next agent sequence.
+Multi-step agent handoff workflows as Flow Skills with Mermaid diagrams. Invoked via `/flow:` to auto-execute the commit → review → merge sequence.
 
 ### Why It Matters
 
-Makes complex workflows executable and reusable. Flow Skills encode the workflow logic visually, making it easy to understand and modify.
+Makes complex workflows executable, visual, and reusable.
 
-### Open Questions
+### Research Findings
 
-- What's the exact flow diagram? (commit → review → merge → next agent?)
-- How do Flow Skills integrate with Git hooks/triggers?
-- Can flows have conditional branches? (if review fails, then...)
-- How do we handle errors in flow execution?
+**Two flows designed** (TASK-002-research.md, Section 7):
+
+**Sprint Execution** (`/flow:sprint-execution`): Read goals → Decompose tasks → Review briefs → Assign → Wait for submit → Review work → Approve/reject → Merge → Next task → Sprint complete.
+
+**Code Review** (`/flow:code-review`): Read brief → Read diff → Check boundaries → Check criteria → Check regressions → APPROVE or REJECT.
+
+**Format**: `type: flow` in YAML frontmatter + Mermaid code block. Must have `BEGIN` and `END` nodes. Decision nodes use `<choice>` tags.
+
+**Invocation**: `/flow:sprint-execution` (executes), `/skill:sprint-execution` (loads as context).
+
+Both flows include conditional branches (reject → revise → re-review loops) and explicit failure paths.
+
+### Answers to Open Questions
+
+- **Flow diagrams**: Two complete flows with decision branches designed.
+- **Git hook integration**: Hooks trigger `/flow:code-review` on submit commits.
+- **Conditional branches**: Yes — decision nodes with labeled paths.
+- **Error handling**: Loops (reject → fix → re-submit) and failure exits.
 
 ### Related Ideas
 
-- IDEA-001 (branch workflow is the structure)
-- IDEA-003 (automated cycle uses flows)
-- IDEA-008 (Flow Skills are a type of Agent Skill)
-
+- IDEA-001 (branch structure), IDEA-003 (automated cycle), IDEA-008 (Flow Skills are Agent Skills)

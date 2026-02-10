@@ -2,26 +2,44 @@
 
 - **Category**: Git Workflow
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Ready
+- **Roadmap Phase**: Phase 1 (Foundation)
 
 ### The Idea
 
-Each agent/subagent operates on dedicated branches with commit-triggered handoffs in a specific sequence: agent → agent branch → agent branch. Agents work on their branch, push, and trigger the next agent in the sequence to pick up the work.
+Each agent/subagent operates on dedicated branches with commit-triggered handoffs. Agents work on their branch, push, and trigger the next agent in the sequence to pick up the work.
 
 ### Why It Matters
 
-Enables true multi-agent collaboration where work flows systematically between agents without manual coordination. Each agent has a clear handoff point and the next agent knows exactly when to start.
+Enables true multi-agent collaboration where work flows systematically between agents without manual coordination.
 
-### Open Questions
+### Research Findings
 
-- What is the exact sequence? (e.g., claude → cursor → lovable → kimi → claude?)
-- How do we handle blocked work or agents that need to skip a step?
-- Should there be a staging branch (like `pre-mortal`) before `main`?
-- How do we prevent merge conflicts when multiple agents work in parallel?
+**Branch hierarchy** (TASK-002-research.md, Section 1):
+
+| Branch | Purpose | Owner | Merges Into |
+|--------|---------|-------|-------------|
+| `main` | Production-stable | Human PM | — |
+| `pre-mortal` | Staging gate | Kimi + Human | `main` |
+| `claude/<task-id>` | Claude Code work | Claude Code | `pre-mortal` |
+| `cursor/<task-id>` | Cursor work | Cursor | `pre-mortal` |
+| `lovable/<task-id>` | Lovable work | Lovable | `pre-mortal` |
+| `kimi/overseer` | Overseer tracking | Kimi Code | `pre-mortal` |
+
+**Naming**: `<agent>/<task-id>-<short-description>`
+
+**Handoff sequence**: Agent pushes → Git hook triggers Kimi review → Kimi approves/rejects → approved work merges to `pre-mortal` → human reviews `pre-mortal` → merges to `main`.
+
+### Answers to Open Questions
+
+- **Sequence**: Not linear. Kimi routes based on task dependencies (Claude decomposes → Cursor implements → Lovable styles → Kimi reviews all).
+- **Blocked work**: Agent marks BLOCKED in commit. Kimi re-routes to Claude Code for re-decomposition.
+- **Staging branch**: Yes — `pre-mortal` serves this role.
+- **Merge conflicts**: Agents on separate branches. Kimi auto-resolves; escalates non-trivial conflicts to Claude Code.
 
 ### Related Ideas
 
 - IDEA-002 (commit message routing enables the handoffs)
 - IDEA-003 (automated workflow cycle)
 - IDEA-016 (conversational Git operations)
-

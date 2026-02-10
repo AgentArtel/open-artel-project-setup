@@ -2,26 +2,39 @@
 
 - **Category**: Automation
 - **Origin**: TASK-002
-- **Status**: raw
+- **Status**: researched
+- **Feasibility**: Experimental
+- **Roadmap Phase**: Phase 7 (Advanced Automation)
 
 ### The Idea
 
-Build a custom coordination layer using Kimi Code's Wire Mode (JSON-RPC 2.0 protocol). This layer bridges Git events and agent actions, handling real-time events (TurnBegin, ToolCall, etc.) and routing them appropriately.
+Custom coordination layer using Kimi Code's Wire Mode (JSON-RPC 2.0 over stdin/stdout). Persistent daemon bridging Git events and agent actions.
 
 ### Why It Matters
 
-Provides full programmatic control over agent coordination. Wire Mode enables custom UIs, application integration, and sophisticated event-driven workflows.
+Full programmatic control. Persistent context. Real-time bidirectional communication.
 
-### Open Questions
+### Research Findings
 
-- What's the architecture? (separate service? integrated into Git hooks?)
-- How do we handle Wire Mode events? (event loop? message queue?)
-- What events are relevant? (TurnBegin, ToolCall, ApprovalRequest?)
-- How do we handle errors and retries?
+**Architecture** (TASK-002-research.md, Section 8):
+
+Coordination daemon ↔ Kimi CLI (`--wire`) via JSON-RPC 2.0. Daemon watches Git, parses commits, routes messages. Kimi handles AI reasoning, file ops, subagents.
+
+**Wire Protocol v1.3**: `initialize` (handshake), `prompt` (send input), `cancel` (stop turn). Agent sends `event` (progress) and `request` (approval needed).
+
+**Key events**: TurnBegin, TurnEnd, ContentPart, ToolCall, ToolResult, ApprovalRequest, SubagentEvent.
+
+**Kimi Agent (Rust)**: Lightweight Wire-only binary — single static build, no Python, faster startup.
+
+**Print vs Wire**: Print is simpler (one-shot, stateless) — use for Phase 1-5. Wire is powerful (persistent, stateful) — use for Phase 7+.
+
+### Answers to Open Questions
+
+- **Architecture**: Separate daemon (Python/Node.js) communicating with `kimi --wire`.
+- **Event handling**: Sequential event loop reading JSON-RPC from stdout.
+- **Relevant events**: TurnEnd, ToolCall, ApprovalRequest.
+- **Errors**: JSON-RPC error codes. Daemon handles retries/escalation.
 
 ### Related Ideas
 
-- IDEA-006 (terminal connection could use Wire Mode)
-- IDEA-010 (alternative to Print Mode)
-- IDEA-018 (approval workflows use Wire requests)
-
+- IDEA-006 (Option C), IDEA-010 (simpler alternative), IDEA-018 (approval workflows)
