@@ -220,6 +220,76 @@ This project uses Agent Skills to codify conventions for AI agents (compatible w
 - **Execute flow**: `/flow:sprint-execution` — runs the automated workflow
 - **Version-controlled**: Skills live in the repo and evolve with the project
 
+## Kimi Overseer (Optional)
+
+The Kimi Overseer is a persistent AI agent that coordinates the team, reviews work, and manages sprints. It runs via Kimi Code CLI and uses the conventions defined in Agent Skills.
+
+### Prerequisites
+
+```bash
+# Install Kimi Code CLI
+pipx install kimi-cli    # or: pip install kimi-cli
+
+# Authenticate
+kimi                      # then run /login inside the CLI
+```
+
+### Agent Files
+
+```
+.agents/
+├── kimi-overseer.yaml     # Main overseer agent definition
+├── reviewer-sub.yaml      # Code review subagent
+├── researcher-sub.yaml    # Research and analysis subagent
+└── prompts/
+    └── overseer.md        # Overseer system prompt
+```
+
+### Launch and Resume
+
+```bash
+# Start a new overseer session
+kimi --agent-file .agents/kimi-overseer.yaml
+
+# Resume the most recent session (persistent oversight)
+kimi --agent-file .agents/kimi-overseer.yaml --continue
+
+# Resume a specific session
+kimi --agent-file .agents/kimi-overseer.yaml --session <session-id>
+```
+
+### What the Overseer Does
+
+1. Reads sprint goals from Human PM
+2. Dispatches Claude Code to decompose goals into task briefs
+3. Assigns tasks to agents via `.ai/instructions/`
+4. Reviews submitted work using the `reviewer` subagent
+5. Merges approved work to `pre-mortal`
+6. Updates `.ai/status.md` after each action
+7. Generates sprint summary reports in `.ai/reports/`
+
+### Subagent Dispatch
+
+The overseer uses two built-in subagents:
+
+- **reviewer**: Checks submissions against acceptance criteria, boundary compliance, and commit format
+- **researcher**: Explores codebases, APIs, and documentation for technical feasibility
+
+Dynamic subagents can be created at runtime via `CreateSubagent` for one-off specialized tasks.
+
+### Context Management
+
+- Run `/compact` between sprints to summarize and reduce token usage
+- Key decisions are preserved in `.ai/reports/` and `.ai/reviews/` (always in Git)
+- Sessions auto-save — use `--continue` to pick up where you left off
+
+### Configuration
+
+Edit `.agents/kimi-overseer.yaml` to customize:
+- `PROJECT_NAME`: Set your project name in `system_prompt_args`
+- `tools`: Add or remove tools as needed
+- `subagents`: Add custom subagents for your workflow
+
 ## Task Coordination
 
 All agents check `.ai/tasks/` for assignments.

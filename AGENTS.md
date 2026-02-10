@@ -42,7 +42,12 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       ├── BOOTSTRAP_PLAYBOOK.md
 │       ├── .ai/                 # Template coordination directory
 │       └── .cursor/rules/       # Template Cursor governance rules
-├── .agents/                     # Agent Skills (Kimi Code / Claude Code / Codex)
+├── .agents/                     # Agent Skills & Kimi Overseer (Kimi Code / Claude Code / Codex)
+│   ├── kimi-overseer.yaml       # Kimi Overseer agent definition
+│   ├── reviewer-sub.yaml        # Reviewer subagent definition
+│   ├── researcher-sub.yaml      # Researcher subagent definition
+│   ├── prompts/
+│   │   └── overseer.md          # Overseer system prompt
 │   └── skills/                  # Auto-discovered skill definitions
 │       ├── open-artel-workflow/ # Multi-agent workflow conventions
 │       ├── task-protocol/       # Task brief format and lifecycle

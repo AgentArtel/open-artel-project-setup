@@ -1,0 +1,34 @@
+# Kimi Overseer — Persistent Project Coordinator
+#
+# Launch:   kimi --agent-file .agents/kimi-overseer.yaml
+# Resume:   kimi --agent-file .agents/kimi-overseer.yaml --continue
+#
+# This agent coordinates Claude Code, Cursor, and Lovable agents.
+# It reviews work, manages branches, assigns tasks, and reports to the Human PM.
+
+version: 1
+agent:
+  name: kimi-overseer
+  system_prompt_path: ./prompts/overseer.md
+  system_prompt_args:
+    PROJECT_NAME: "[REPLACE: Your Project Name]"
+    SPRINT_STATUS: "${KIMI_WORK_DIR}/.ai/status.md"
+  tools:
+    - "kimi_cli.tools.shell:Shell"
+    - "kimi_cli.tools.file:ReadFile"
+    - "kimi_cli.tools.file:WriteFile"
+    - "kimi_cli.tools.file:StrReplaceFile"
+    - "kimi_cli.tools.file:Glob"
+    - "kimi_cli.tools.file:Grep"
+    - "kimi_cli.tools.todo:SetTodoList"
+    - "kimi_cli.tools.think:Think"
+    - "kimi_cli.tools.multiagent:Task"
+    - "kimi_cli.tools.multiagent:CreateSubagent"
+  subagents:
+    reviewer:
+      path: ./reviewer-sub.yaml
+      description: "Review agent work submissions against task acceptance criteria and boundary compliance"
+    researcher:
+      path: ./researcher-sub.yaml
+      description: "Research codebases, APIs, documentation, and technical feasibility"
+
