@@ -7,7 +7,7 @@ Repository for **saved project configurations** and **reusable setup kits** you 
 ```
 .
 ├── past-configurations/   # Saved .ai (and related) configs per project — for record-keeping and git history
-│   └── Even-Openclaw/     # Example: full .ai folder from the ClawLens / Even-Openclaw project
+│   └── Even-Openclaw/     # Root .ai from ClawLens / Even-Openclaw (subproject .ai live in main repo only)
 ├── setups/                # Setup kits to copy into new projects (multi-agent, task protocol, etc.)
 │   ├── README.md          # How to use the setups (drag & drop)
 │   └── multi-agent-starter/
@@ -22,7 +22,7 @@ One folder per project, named after the project. Each folder holds a **snapshot*
 - Track changes over time with git
 - Compare or reuse patterns across projects
 
-**This repo only tracks the contents of these folders** — not the rest of the original project.
+**This repo only tracks the contents of these folders** — not the rest of the original project. For **Even-Openclaw**, this folder contains only the **root** `.ai`; plugin and dashboard `.ai` folders remain in the main repo (see `past-configurations/Even-Openclaw/README.md` for handoff context).
 
 ### `setups/`
 

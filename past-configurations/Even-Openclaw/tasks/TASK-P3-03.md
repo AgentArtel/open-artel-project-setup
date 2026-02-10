@@ -164,4 +164,5 @@ Two options (pick one):
 
 ### Handoff Notes
 
-_Updated by Cursor when complete._
+- **Done:** Port remapping (eveng1-channel), drop `agents.skills` migration, `use-agents` skills from `agent_skills`, agent cards show skills.
+- **Remaining (optional):** Backend `resolveAgentForUser(userId, channelId)` in agent-resolver/eveng1 to read `user_settings.current_chat_agent_id` so Chat "Chat with" selection is honored; fallback to `resolveAgentForChannel(channelId)`. Spec in this task.
