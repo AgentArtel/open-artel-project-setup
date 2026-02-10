@@ -61,5 +61,41 @@
     "session_age_hours": 0,
     "file_operations": 0,
     "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-10T10:40:10Z",
+    "session": "unknown",
+    "token_count": 28860,
+    "file_size_bytes": 73090,
+    "session_age_hours": 0,
+    "file_operations": 0,
+    "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-10T10:40:29Z",
+    "session": "unknown",
+    "token_count": 28860,
+    "file_size_bytes": 73090,
+    "session_age_hours": 0,
+    "file_operations": 0,
+    "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-10T10:40:52Z",
+    "session": "unknown",
+    "token_count": 28860,
+    "file_size_bytes": 73090,
+    "session_age_hours": 0,
+    "file_operations": 0,
+    "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-10T10:41:15Z",
+    "session": "unknown",
+    "token_count": 28860,
+    "file_size_bytes": 73090,
+    "session_age_hours": 0,
+    "file_operations": 0,
+    "status": "WARNING"
   }
 ]
