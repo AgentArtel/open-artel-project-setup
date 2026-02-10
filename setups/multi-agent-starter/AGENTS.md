@@ -47,7 +47,7 @@ docs/                 # Documentation
 
 ## Agent Team
 
-Three AI agents share this repo. The Human PM is Accountable for all decisions.
+Four AI agents share this repo. The Human PM is Accountable for all decisions.
 
 ### Claude Code — Orchestrator
 
@@ -224,6 +224,19 @@ This project uses Agent Skills to codify conventions for AI agents (compatible w
 
 The Kimi Overseer is a persistent AI agent that coordinates the team, reviews work, and manages sprints. It runs via Kimi Code CLI and uses the conventions defined in Agent Skills.
 
+### Quick Setup
+
+```bash
+# One-command setup (installs hooks, creates directories, verifies)
+./scripts/setup-kimi-project.sh
+
+# Or verify an existing setup
+./scripts/verify-kimi-setup.sh
+
+# Fast pre-work check (< 5 seconds)
+./scripts/quick-kimi-check.sh
+```
+
 ### Prerequisites
 
 ```bash
@@ -290,6 +303,27 @@ Edit `.agents/kimi-overseer.yaml` to customize:
 - `tools`: Add or remove tools as needed
 - `subagents`: Add custom subagents for your workflow
 
+### Features Overview
+
+The Kimi integration includes these capabilities:
+
+- **Session Management**: Named sessions linked to sprints (`docs/kimi-sessions.md`)
+- **Dynamic Subagents**: Runtime-created specialist agents (`docs/kimi-agent-swarm.md`)
+- **Context Monitoring**: Auto-compact when context grows large (`docs/kimi-context-optimization.md`)
+- **Moonshot Files API**: Upload project files for persistent context (`docs/moonshot-api-integration.md`)
+- **Agent Swarm**: Parallel subagent dispatch with K2.5 (`docs/kimi-agent-swarm.md`)
+- **Multi-modal**: Vision + text analysis with K2.5 (`docs/kimi-multimodal.md`)
+
+### Kimi Integration
+
+Agents communicate with Kimi primarily through **commit-based routing**:
+
+- **Claude Code**: Delegates tasks via `[ACTION:delegate]`, triggers evaluations via `[ACTION:evaluate]`
+- **Cursor**: Submits work via `[ACTION:submit]`, receives reviews in `.ai/reviews/`
+- **Lovable**: Submits UI work via `[ACTION:submit]`, receives reviews in `.ai/reviews/`
+
+See `docs/cursor-kimi-integration.md` and `docs/claude-kimi-coordination.md` for agent-specific guides.
+
 ## Git Automation (Optional)
 
 Git hooks automate the agent workflow by routing commits to Kimi Code CLI Print Mode. When an agent commits with routing headers, the post-commit hook parses the action and triggers the appropriate automation.
@@ -306,10 +340,13 @@ Git hooks automate the agent workflow by routing commits to Kimi Code CLI Print 
 
 | ACTION | Automation |
 |--------|-----------|
-| `submit` | Triggers automated review — writes to `.ai/reviews/` |
-| `approve` | Merges agent branch to `pre-mortal`, updates `.ai/status.md` |
+| `submit` | Triggers automated review (writes to `.ai/reviews/`) + chat log |
+| `approve` | Merges to `pre-mortal`, updates `.ai/status.md`, context auto-compact + chat log |
+| `reject` | Logs chat entry (review feedback in `.ai/reviews/`) |
 | `report` | Appends summary to `.ai/reports/sprint-current.md` |
-| `update`, `delegate`, `merge` | Logged only, no automation |
+| `evaluate` | Generates sprint evaluation report with 8 metrics |
+| `delegate` | Chat log + auto-creates Kimi session (SPRINT tasks) |
+| `update`, `merge` | Logged only |
 
 ### Configuration
 
@@ -331,6 +368,27 @@ The hook template is at `scripts/post-commit.template`. Look for `[REPLACE]` com
 - **"kimi command not found"**: Install with `pipx install kimi-cli`
 - **"LLM not set"**: Run `kimi` then `/login` to authenticate
 - **Check logs**: `cat .git/hooks/post-commit.log`
+
+## GitHub Actions (Optional)
+
+Three CI/CD workflows automate agent coordination when code is pushed to GitHub.
+
+| Workflow | Trigger | What It Does |
+|----------|---------|-------------|
+| Agent Review | Push to `claude/**`, `cursor/**`, `lovable/**` | Reviews `[ACTION:submit]` commits via Kimi Print Mode |
+| Pre-Mortal Merge | Push to `pre-mortal` | Validates commit format, coordination files, script syntax |
+| Sprint Evaluation | Manual or `[ACTION:evaluate]` on `pre-mortal` | Generates evaluation report with 8 metrics |
+
+Setup: Add `KIMI_API_KEY` to GitHub repo Settings > Secrets > Actions.
+
+## Sprint Evaluation (Optional)
+
+Collects 8 metrics (task completion, review rejections, boundary violations, velocity, handoff latency, regressions, escalations, template coverage) and generates reports:
+
+```bash
+./scripts/generate-evaluation.sh                # Full evaluation with Kimi report
+./scripts/generate-evaluation.sh --quick        # Metrics only, no Kimi call
+```
 
 ## Task Coordination
 

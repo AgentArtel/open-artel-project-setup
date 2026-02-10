@@ -1,36 +1,32 @@
 ## TASK-XXX: [Short descriptive name]
 
 - **Status**: PENDING
-- **Assigned**: [cursor | lovable | claude-code]
 - **Priority**: [P0-Critical | P1-High | P2-Medium | P3-Low]
-- **Type**: [Create | Modify | Fix | Refactor]
+- **Type**: [Create | Improve | Fix | Research]
 - **Depends on**: [TASK-XXX | none]
 - **Blocks**: [TASK-XXX | none]
 
 ### Context
 
-[What exists currently, relevant files, why this task exists]
+[What exists currently, what prompted this task, relevant files]
 
 ### Objective
 
 [Specific measurable goal — what "done" looks like]
 
-### Specifications
+### Scope
 
-- [Requirement 1 with specifics]
-- [Requirement 2 with constraints]
-- [Files/areas IN scope]
+- [File or template area affected]
+- [What's in bounds]
+- [What's explicitly out of bounds]
 
 ### Acceptance Criteria
 
 - [ ] [Testable criterion 1]
 - [ ] [Testable criterion 2]
-- [ ] Build passes, no type errors
+- [ ] Changes are consistent with existing conventions
+- [ ] No regressions in other templates
 
-### Do NOT
+### Notes
 
-- [Explicit out-of-scope items and files not to touch]
-
-### Handoff Notes
-
-[Updated by the assigned agent when status changes]
+[Design decisions, alternatives considered, open questions]

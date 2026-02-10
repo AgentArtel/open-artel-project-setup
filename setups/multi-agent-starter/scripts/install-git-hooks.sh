@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Open Artel — Git Hooks Installation Script (Starter Kit)
+# Open Artel — Git Hooks Installation Script
 # =============================================================================
 #
 # Installs the post-commit hook that automates agent workflow routing
@@ -19,19 +19,23 @@ set -euo pipefail
 # Configuration
 # ---------------------------------------------------------------------------
 
+# Directory containing this script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Project root (parent of scripts/)
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+# Git hooks directory
 GIT_DIR="$(cd "$PROJECT_ROOT" && git rev-parse --git-dir 2>/dev/null)" || {
     echo "ERROR: Not a Git repository. Run this from the project root."
     exit 1
 }
 HOOKS_DIR="$GIT_DIR/hooks"
 
-# The template file shipped with the starter kit
-HOOK_TEMPLATE="$SCRIPT_DIR/post-commit.template"
+# Source hook file (versioned in the repo)
+HOOK_SOURCE="$SCRIPT_DIR/post-commit"
 
-# Destination
+# Destination hook file
 HOOK_DEST="$HOOKS_DIR/post-commit"
 
 # ---------------------------------------------------------------------------
@@ -42,7 +46,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m'
+NC='\033[0m' # No Color
 
 info()    { echo -e "${BLUE}[INFO]${NC} $*"; }
 success() { echo -e "${GREEN}[OK]${NC} $*"; }
@@ -63,6 +67,7 @@ install_hooks() {
     # Step 1: Check prerequisites
     info "Checking prerequisites..."
 
+    # Check for kimi command
     if command -v kimi &>/dev/null; then
         local kimi_version
         kimi_version="$(kimi --version 2>/dev/null || echo 'unknown')"
@@ -74,9 +79,9 @@ install_hooks() {
         echo ""
     fi
 
-    # Check for template
-    if [ ! -f "$HOOK_TEMPLATE" ]; then
-        error "Hook template not found: $HOOK_TEMPLATE"
+    # Check for source hook file
+    if [ ! -f "$HOOK_SOURCE" ]; then
+        error "Hook source not found: $HOOK_SOURCE"
         error "Make sure you're running this from the project root."
         exit 1
     fi
@@ -90,35 +95,44 @@ install_hooks() {
     # Step 3: Check for existing hook
     if [ -f "$HOOK_DEST" ]; then
         warn "Existing post-commit hook found at: $HOOK_DEST"
+        echo ""
+        echo "  Options:"
+        echo "    1) Overwrite with Open Artel hook"
+        echo "    2) Back up existing hook and install"
+        echo "    3) Cancel"
+        echo ""
 
+        # Non-interactive mode: default to backup + install
         if [ ! -t 0 ]; then
             info "Non-interactive mode: backing up existing hook and installing."
             cp "$HOOK_DEST" "$HOOK_DEST.backup.$(date +%s)"
             success "Existing hook backed up."
         else
-            echo ""
-            echo "  Options:"
-            echo "    1) Overwrite with Open Artel hook"
-            echo "    2) Back up existing hook and install"
-            echo "    3) Cancel"
-            echo ""
             read -rp "  Choose [1/2/3]: " choice
             case "$choice" in
-                1) info "Overwriting existing hook." ;;
+                1)
+                    info "Overwriting existing hook."
+                    ;;
                 2)
                     local backup="$HOOK_DEST.backup.$(date +%s)"
                     cp "$HOOK_DEST" "$backup"
                     success "Existing hook backed up to: $backup"
                     ;;
-                3) info "Installation cancelled."; exit 0 ;;
-                *) error "Invalid choice. Installation cancelled."; exit 1 ;;
+                3)
+                    info "Installation cancelled."
+                    exit 0
+                    ;;
+                *)
+                    error "Invalid choice. Installation cancelled."
+                    exit 1
+                    ;;
             esac
         fi
     fi
 
-    # Step 4: Copy template to hooks directory
-    info "Installing post-commit hook from template..."
-    cp "$HOOK_TEMPLATE" "$HOOK_DEST"
+    # Step 4: Copy hook
+    info "Installing post-commit hook..."
+    cp "$HOOK_SOURCE" "$HOOK_DEST"
     chmod +x "$HOOK_DEST"
     success "Hook installed: $HOOK_DEST"
 
@@ -149,11 +163,11 @@ install_hooks() {
     echo "    - Dry-run: export OPEN_ARTEL_DRY_RUN=true"
     echo "    - Logs: $HOOKS_DIR/post-commit.log"
     echo ""
-    echo "  Customize: Edit $HOOK_DEST to adjust prompts for your project."
-    echo "  Disable:   mv $HOOK_DEST $HOOK_DEST.disabled"
-    echo "  Remove:    $0 --remove"
+    echo "  Disable: mv $HOOK_DEST $HOOK_DEST.disabled"
+    echo "  Remove:  $0 --remove"
     echo ""
 
+    # Remind about authentication if kimi is installed
     if command -v kimi &>/dev/null; then
         info "Make sure Kimi Code CLI is authenticated."
         info "Run 'kimi' and then '/login' if you haven't already."
@@ -171,6 +185,7 @@ remove_hooks() {
         warn "No post-commit hook found at: $HOOK_DEST"
     fi
 
+    # Clean up log file
     local log_file="$HOOKS_DIR/post-commit.log"
     if [ -f "$log_file" ]; then
         rm "$log_file"
@@ -188,27 +203,38 @@ show_status() {
     echo "========================================="
     echo ""
 
+    # Check hook installation
     if [ -f "$HOOK_DEST" ]; then
         if [ -x "$HOOK_DEST" ]; then
             success "post-commit hook: INSTALLED (executable)"
         else
-            warn "post-commit hook: INSTALLED (not executable)"
+            warn "post-commit hook: INSTALLED (not executable — run: chmod +x $HOOK_DEST)"
         fi
     else
         info "post-commit hook: NOT INSTALLED"
     fi
 
+    # Check for disabled hook
     if [ -f "$HOOK_DEST.disabled" ]; then
         info "post-commit hook: DISABLED (rename to enable)"
     fi
 
+    # Check for backups
+    local backups
+    backups=$(find "$HOOKS_DIR" -maxdepth 1 -name 'post-commit.backup.*' 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$backups" -gt 0 ]; then
+        info "Backups found: $backups"
+    fi
+
+    # Check kimi
     echo ""
     if command -v kimi &>/dev/null; then
         success "Kimi Code CLI: $(kimi --version 2>/dev/null || echo 'installed')"
     else
-        warn "Kimi Code CLI: NOT INSTALLED"
+        warn "Kimi Code CLI: NOT INSTALLED (hooks won't trigger automation)"
     fi
 
+    # Check log
     local log_file="$HOOKS_DIR/post-commit.log"
     if [ -f "$log_file" ]; then
         local log_lines
@@ -229,8 +255,12 @@ show_status() {
 # ---------------------------------------------------------------------------
 
 case "${1:-}" in
-    --remove) remove_hooks ;;
-    --status) show_status ;;
+    --remove)
+        remove_hooks
+        ;;
+    --status)
+        show_status
+        ;;
     --help|-h)
         echo "Usage: $0 [--remove|--status|--help]"
         echo ""
@@ -239,7 +269,9 @@ case "${1:-}" in
         echo "  --status   Show hook status"
         echo "  --help     Show this help"
         ;;
-    "") install_hooks ;;
+    "")
+        install_hooks
+        ;;
     *)
         error "Unknown option: $1"
         echo "Usage: $0 [--remove|--status|--help]"

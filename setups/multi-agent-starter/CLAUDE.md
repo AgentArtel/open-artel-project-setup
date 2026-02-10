@@ -34,6 +34,7 @@ completed work, and maintain architectural coherence.
 
 - **Cursor**: Complex logic, API integration, state management, hooks, testing
 - **Lovable**: UI components, design system, layouts, styling, responsive design
+- **Kimi** (if enabled): Automated reviews, sprint management, subagent dispatch
 
 ## Delegation Rules
 
@@ -53,6 +54,14 @@ When reviewing completed work:
 - [ ] No regressions in existing functionality
 - [ ] Acceptance criteria from the task brief are met
 - [ ] Auto-generated files not modified
+- [ ] Check `.ai/reviews/` for Kimi's automated review feedback (if enabled)
+
+## Kimi Coordination (if enabled)
+
+- Delegate tasks via `[ACTION:delegate]` commits — Kimi auto-assigns
+- Trigger evaluations via `[ACTION:evaluate]` commits
+- Check `.ai/reviews/` for Kimi review feedback before your own review
+- See `docs/claude-kimi-coordination.md` for full patterns
 
 ## Do NOT
 
