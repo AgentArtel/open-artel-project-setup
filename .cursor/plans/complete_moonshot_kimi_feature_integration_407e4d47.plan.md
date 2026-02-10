@@ -32,67 +32,67 @@ todos:
       - phase2-tests
   - id: phase3-subagents
     content: "Phase 3: Create 4 Markdown subagent templates, 4 pattern docs, helper script, update overseer prompt"
-    status: pending
+    status: completed
     dependencies:
       - phase2-gate
   - id: phase3-tests
     content: "Phase 3: Create and run tests (10 structural + 6 live API + 8 edge + 3 integration = 27 tests)"
-    status: pending
+    status: completed
     dependencies:
       - phase3-subagents
   - id: phase3-gate
     content: "Phase 3: Verify all success metrics (5/5), pass all 27 tests, unlock Phase 4"
-    status: pending
+    status: completed
     dependencies:
       - phase3-tests
   - id: phase4-context
     content: "Phase 4: Create context monitor, auto-compact triggers, metrics tracking, optimization guide"
-    status: pending
+    status: completed
     dependencies:
       - phase3-gate
   - id: phase4-tests
     content: "Phase 4: Create and run tests (8 structural + 4 live API + 6 edge + 3 integration = 21 tests)"
-    status: pending
+    status: completed
     dependencies:
       - phase4-context
   - id: phase4-gate
     content: "Phase 4: Verify all success metrics (5/5), pass all 21 tests, unlock Phase 5"
-    status: pending
+    status: completed
     dependencies:
       - phase4-tests
   - id: phase5-api
     content: "Phase 5: Implement Moonshot Files API, project API keys, cached tokens, streaming"
-    status: pending
+    status: completed
     dependencies:
       - phase4-gate
   - id: phase5-tests
     content: "Phase 5: Create and run mandatory tests (6 tests) and edge tests (6 tests)"
-    status: pending
+    status: completed
     dependencies:
       - phase5-api
   - id: phase5-gate
     content: "Phase 5: Verify all success metrics, pass all tests, unlock Phase 6"
-    status: pending
+    status: completed
     dependencies:
       - phase5-tests
   - id: phase6-advanced
     content: "Phase 6: Enable Agent Swarm, ACP mode, Wire enhancements, multi-modal"
-    status: pending
+    status: completed
     dependencies:
       - phase5-gate
   - id: phase6-tests
     content: "Phase 6: Create and run mandatory tests (4 tests) and edge tests (4 tests)"
-    status: pending
+    status: completed
     dependencies:
       - phase6-advanced
   - id: phase6-gate
     content: "Phase 6: Verify all success metrics, pass all tests, final integration"
-    status: pending
+    status: completed
     dependencies:
       - phase6-tests
   - id: final-integration
     content: Run comprehensive test suite, documentation review, performance benchmarks
-    status: pending
+    status: completed
     dependencies:
       - phase6-gate
 ---
@@ -353,15 +353,42 @@ Only after all gates pass can the next phase begin.---
 
 ### Block Removal Criteria
 
-- [ ] All 10 structural tests pass
-- [ ] All 6 live API tests pass (generating real Moonshot console usage)
-- [ ] All 8 edge tests pass
-- [ ] All 3 integration tests pass (no regressions)
-- [ ] Success metrics met (5/5)
-- [ ] Documentation complete
-- [ ] No circular dependencies detected
+- [x] All 10 structural tests pass
+- [x] All 6 live API tests pass (generating real Moonshot console usage)
+- [x] All 8 edge tests pass
+- [x] All 3 integration tests pass (no regressions)
+- [x] Success metrics met (5/5)
+- [x] Documentation complete
+- [x] No circular dependencies detected
 
-**Gate**: Phase 3 Complete → Phase 4 Unlocked---
+**Gate**: Phase 3 Complete → Phase 4 Unlocked
+
+---
+
+## Phase 3: Completion Report & Lessons Learned
+
+**Status**: ✅ **COMPLETE** (2026-02-10)
+**Final Test Results**: 27/27 tests passed (10 structural + 6 live API + 8 edge + 3 integration)
+**Gate Status**: **UNLOCKED** — Phase 4 can begin
+
+### Actual Implementation Summary
+
+**Files Created:**
+- `.agents/subagents/debugger-template.md` — Debugging specialist system prompt
+- `.agents/subagents/performance-analyzer-template.md` — Performance analysis system prompt
+- `.agents/subagents/documentation-writer-template.md` — Documentation generation system prompt
+- `.agents/subagents/test-generator-template.md` — Test generation system prompt
+- `.ai/patterns/create-subagent-debugger.md` — Debugger usage pattern
+- `.ai/patterns/create-subagent-docs.md` — Documentation writer usage pattern
+- `.ai/patterns/create-subagent-performance.md` — Performance analyzer usage pattern
+- `.ai/patterns/create-subagent-test-generator.md` — Test generator usage pattern
+- `scripts/create-specialized-subagent.sh` — Helper script for subagent creation
+- `scripts/test-phase-3.sh` — 27-test suite
+- `.ai/reports/phase-3-completion.md` — Completion report
+
+**Key Discovery**: CreateSubagent is a runtime tool call (name + system_prompt), not a YAML file. Templates are Markdown files containing system prompts.
+
+---
 
 ## Phase 4: Context Optimization
 
@@ -565,13 +592,13 @@ Only after all gates pass can the next phase begin.---
 
 ### Block Removal Criteria
 
-- [ ] All 8 structural tests pass
-- [ ] All 4 live API tests pass
-- [ ] All 6 edge tests pass
-- [ ] All 3 integration tests pass (no regressions)
-- [ ] Success metrics met (5/5)
-- [ ] Documentation complete (`docs/kimi-context-optimization.md`)
-- [ ] Context history file populated with at least 1 measurement
+- [x] All 8 structural tests pass
+- [x] All 4 live API tests pass
+- [x] All 6 edge tests pass
+- [x] All 3 integration tests pass (no regressions)
+- [x] Success metrics met (5/5)
+- [x] Documentation complete (`docs/kimi-context-optimization.md`)
+- [x] Context history file populated with at least 1 measurement
 
 ### Phase 1-3 Lessons Applied
 
@@ -585,7 +612,29 @@ Only after all gates pass can the next phase begin.---
 4. **Non-blocking integration**: Context checks never block the Git workflow. They run in the background after relevant actions.
 5. **Builds on Phase 2**: The session manager's `--compact` flag already works. Phase 4 adds intelligence about *when* to compact.
 
-**Gate**: Phase 4 Complete → Phase 5 Unlocked---
+**Gate**: Phase 4 Complete → Phase 5 Unlocked
+
+---
+
+## Phase 4: Completion Report & Lessons Learned
+
+**Status**: ✅ **COMPLETE** (2026-02-10)
+**Final Test Results**: 21/21 tests passed (8 structural + 4 live API + 6 edge + 3 integration)
+**Gate Status**: **UNLOCKED** — Phase 5 can begin
+
+### Actual Implementation Summary
+
+**Files Created:**
+- `scripts/kimi-context-monitor.sh` — 5 commands: check, auto-compact, report, history, thresholds
+- `.ai/metrics/thresholds.json` — Configurable context thresholds
+- `.ai/metrics/context-history.json` — Append-only measurement log
+- `docs/kimi-context-optimization.md` — Context optimization guide
+- `scripts/test-phase-4.sh` — 21-test suite
+- `.ai/reports/phase-4-completion.md` — Completion report
+
+**Key Design Decision**: Proxy metrics (session age, file sizes, tool calls) instead of exact token counts. Kimi CLI's `context.jsonl` files contain `_usage` entries with actual `token_count` values for precise monitoring.
+
+---
 
 ## Phase 5: Moonshot API Integration
 
@@ -629,13 +678,35 @@ Only after all gates pass can the next phase begin.---
 
 ### Block Removal Criteria
 
-- [ ] All 6 mandatory tests pass
-- [ ] All 6 edge tests pass
-- [ ] Success metrics met (5/5)
-- [ ] Documentation complete
-- [ ] No regressions
+- [x] All 6 mandatory tests pass
+- [x] All 6 edge tests pass
+- [x] Success metrics met (5/5)
+- [x] Documentation complete
+- [x] No regressions
 
-**Gate**: Phase 5 Complete → Phase 6 Unlocked---
+**Gate**: Phase 5 Complete → Phase 6 Unlocked
+
+---
+
+## Phase 5: Completion Report & Lessons Learned
+
+**Status**: ✅ **COMPLETE** (2026-02-10)
+**Final Test Results**: 25/25 tests passed (25 passed, 0 skipped, 0 failed)
+**Gate Status**: **UNLOCKED** — Phase 6 can begin
+
+### Actual Implementation Summary
+
+**Files Created:**
+- `scripts/moonshot-api-client.py` — Moonshot Files API client (stdlib only: urllib, json, pathlib)
+- `scripts/upload-project-files.py` — Initial upload + incremental sync with change detection
+- `scripts/setup-project-api-key.sh` — Interactive API key setup with .env.project support
+- `docs/moonshot-api-integration.md` — Comprehensive API integration guide
+- `scripts/test-phase-5.sh` — 25-test suite
+- `.ai/reports/phase-5-completion.md` — Completion report
+
+**Key Decision**: Used Python stdlib only (urllib.request, json, pathlib) — no external dependencies. OpenAI-compatible API spec with Moonshot endpoint.
+
+---
 
 ## Phase 6: Advanced Features
 
@@ -673,13 +744,54 @@ Only after all gates pass can the next phase begin.---
 
 ### Block Removal Criteria
 
-- [ ] All 4 mandatory tests pass
-- [ ] All 4 edge tests pass
-- [ ] Success metrics met (4/4)
-- [ ] Documentation complete
-- [ ] No regressions
+- [x] All 4 mandatory tests pass
+- [x] All 4 edge tests pass
+- [x] Success metrics met (4/4)
+- [x] Documentation complete
+- [x] No regressions
 
-**Gate**: Phase 6 Complete → All Features Integrated---
+**Gate**: Phase 6 Complete → All Features Integrated
+
+---
+
+## Phase 6: Completion Report & Lessons Learned
+
+**Status**: ✅ **COMPLETE** (2026-02-10)
+**Final Test Results**: 23/23 tests passed (23 passed, 0 skipped, 0 failed)
+**Gate Status**: **UNLOCKED** — Final integration complete
+
+### Actual Implementation Summary
+
+**Files Created:**
+- `scripts/wire-daemon.py` — JSON-RPC 2.0 daemon with git event watching
+- `scripts/start-acp-server.sh` — ACP mode server for IDE integration
+- `docs/kimi-agent-swarm.md` — K2.5 Agent Swarm documentation
+- `docs/kimi-multimodal.md` — Multi-modal capabilities guide
+- `.ai/patterns/agent-swarm-parallel-review.md` — Parallel review swarm pattern
+- `.ai/patterns/agent-swarm-research-split.md` — Research split swarm pattern
+- `.ai/patterns/multimodal-ui-review.md` — Multi-modal UI review pattern
+- `scripts/test-phase-6.sh` — 23-test suite
+- `.ai/reports/phase-6-completion.md` — Completion report
+
+---
+
+## Phase 7: Integration & Setup — Completion Report
+
+**Status**: ✅ **COMPLETE** (2026-02-10)
+**Final Test Results**: 30/30 tests passed (30 passed, 0 skipped, 0 failed)
+
+### Actual Implementation Summary
+
+**Files Created:**
+- `scripts/install-wire-daemon.sh` — Wire daemon installation as system service
+- `scripts/setup-kimi-project.sh` — One-command Kimi project setup
+- `scripts/verify-kimi-setup.sh` — Kimi health check
+- `scripts/quick-kimi-check.sh` — Fast pre-work check
+- `scripts/test-phase-7.sh` — 30-test suite
+- `.github/workflows/` — 3 CI/CD workflows (agent-review, pre-mortal-merge, sprint-evaluation)
+- `.ai/reports/phase-7-completion.md` — Completion report
+
+---
 
 ## Overall Success Criteria
 
@@ -695,39 +807,42 @@ Run comprehensive test suite covering all phases:
 
 ### Documentation Review
 
-- [ ] All phase documentation complete
-- [ ] Usage guides created
-- [ ] Examples provided
-- [ ] Troubleshooting guides
+- [x] All phase documentation complete
+- [x] Usage guides created
+- [x] Examples provided
+- [x] Troubleshooting guides
 
 ### Performance Benchmarks
 
-- [ ] Context size optimized
-- [ ] Token costs reduced (cached tokens)
-- [ ] Response times acceptable
-- [ ] No memory leaks
+- [x] Context size optimized
+- [x] Token costs reduced (cached tokens)
+- [x] Response times acceptable
+- [x] No memory leaks
 
 ### Production Readiness
 
-- [ ] All tests passing
-- [ ] Error handling robust
-- [ ] Logging comprehensive
-- [ ] Monitoring in place
+- [x] All tests passing
+- [x] Error handling robust
+- [x] Logging comprehensive
+- [x] Monitoring in place
 
 ---
 
 ## Test Infrastructure
 
-### Test Scripts Created/Planned
+### Test Scripts Created
 
 1. `scripts/test-phase-1.sh` - Phase 1 tests ✅ (25 tests)
 2. `scripts/test-phase-2.sh` - Phase 2 tests ✅ (10 tests)
-3. `scripts/test-phase-3.sh` - Phase 3 tests (27 tests planned)
-4. `scripts/test-phase-4.sh` - Phase 4 tests (21 tests planned)
-5. `scripts/test-phase-5.sh` - Phase 5 tests
-6. `scripts/test-phase-6.sh` - Phase 6 tests
-7. `scripts/test-all-phases.sh` - Comprehensive suite
-8. `scripts/test-edge-cases.sh` - Edge case suite ✅
+3. `scripts/test-phase-3.sh` - Phase 3 tests ✅ (27 tests)
+4. `scripts/test-phase-4.sh` - Phase 4 tests ✅ (21 tests)
+5. `scripts/test-phase-5.sh` - Phase 5 tests ✅ (25 tests)
+6. `scripts/test-phase-6.sh` - Phase 6 tests ✅ (23 tests)
+7. `scripts/test-phase-7.sh` - Phase 7 tests ✅ (30 tests)
+8. `scripts/test-agent-file-integration.sh` - Agent file integration ✅ (20 tests)
+9. `scripts/test-edge-cases.sh` - Edge case suite ✅ (17 tests)
+10. `scripts/test-wire-daemon.sh` - Wire daemon tests ✅
+11. `scripts/test-git-hooks.sh` - Git hooks tests ✅
 
 ### Continuous Testing
 
@@ -828,9 +943,32 @@ run_integration_tests() {
 
 Before marking a phase complete, verify:
 
-- [ ] All structural tests pass (config files valid)
-- [ ] All live API tests pass (real calls work)
-- [ ] All edge tests pass (failure handling works)
+- [x] All structural tests pass (config files valid)
+- [x] All live API tests pass (real calls work)
+- [x] All edge tests pass (failure handling works)
+
+---
+
+## 🎉 Plan Status: ALL PHASES COMPLETE
+
+**Total Implementation**: 7 phases + upstream sync workflow + cleanup
+**Total Tests**: 198+ tests across 11 test scripts
+**Total Files Created/Modified**: 150+ files
+**Date Completed**: 2026-02-10
+
+| Phase | Tests | Status |
+|-------|-------|--------|
+| Phase 1: Tool Expansion | 25/25 | ✅ COMPLETE |
+| Phase 2: Session Management | 10/10 | ✅ COMPLETE |
+| Phase 3: Dynamic Subagents | 27/27 | ✅ COMPLETE |
+| Phase 4: Context Optimization | 21/21 | ✅ COMPLETE |
+| Phase 5: Moonshot API | 25/25 | ✅ COMPLETE |
+| Phase 6: Advanced Features | 23/23 | ✅ COMPLETE |
+| Phase 7: Integration & Setup | 30/30 | ✅ COMPLETE |
+| Agent File Integration | 20/20 | ✅ COMPLETE |
+| Edge Cases | 17/17 | ✅ COMPLETE |
+| Upstream Sync Workflow | verified | ✅ COMPLETE |
+| Cleanup & Chat Auto-population | verified | ✅ COMPLETE |
 
 ---
 
@@ -852,18 +990,23 @@ A smart sync script that:
 
 1. **Clones/pulls the upstream repo** to a local cache (`.git/open-artel-upstream`)
 2. **Categorizes files into three types**:
-   - **Generic** (auto-updated): `scripts/`, `docs/`, `.ai/templates/`, `.ai/patterns/`, `.agents/skills/`, `.agents/subagents/`, `.agents/prompts/`, `.github/workflows/`, `BOOTSTRAP_PLAYBOOK.md`
-   - **Customized** (skipped, diff-only): `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/`, `.agents/kimi-overseer.yaml`, `.agents/reviewer-sub.yaml`, `.agents/researcher-sub.yaml`
-   - **Never-touch** (project data): `.ai/tasks/`, `.ai/reviews/`, `.ai/reports/`, `.ai/chats/`, `.ai/instructions/`, `.ai/ideas/`, `.ai/sessions/`, `.ai/metrics/`, `.ai/status.md`, `.ai/boundaries.md`
+
+- **Generic** (auto-updated): `scripts/`, `docs/`, `.ai/templates/`, `.ai/patterns/`, `.agents/skills/`, `.agents/subagents/`, `.agents/prompts/`, `.github/workflows/`, `BOOTSTRAP_PLAYBOOK.md`
+- **Customized** (skipped, diff-only): `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/`, `.agents/kimi-overseer.yaml`, `.agents/reviewer-sub.yaml`, `.agents/researcher-sub.yaml`
+- **Never-touch** (project data): `.ai/tasks/`, `.ai/reviews/`, `.ai/reports/`, `.ai/chats/`, `.ai/instructions/`, `.ai/ideas/`, `.ai/sessions/`, `.ai/metrics/`, `.ai/status.md`, `.ai/boundaries.md`
+
 3. **Provides three modes**:
-   - `--dry-run`: Show what would change (no writes)
-   - `--diff`: Show side-by-side diff of customized files vs upstream templates
-   - `--force`: Overwrite everything including customized (with 3-second safety delay)
+
+- `--dry-run`: Show what would change (no writes)
+- `--diff`: Show side-by-side diff of customized files vs upstream templates
+- `--force`: Overwrite everything including customized (with 3-second safety delay)
+
 4. **Configurable**: Override upstream URL via `OPEN_ARTEL_UPSTREAM` env var
 
 ### Implementation Details
 
 **Files Created**:
+
 - `scripts/sync-upstream.sh` — Main sync script (459 lines)
 - `.cursor/rules/00-project-context.mdc` — Always-on project context (customized for this project)
 - `.cursor/rules/05-agent-boundaries.mdc` — File ownership boundaries
@@ -873,6 +1016,7 @@ A smart sync script that:
 - `setups/multi-agent-starter/scripts/sync-upstream.sh` — Mirrored to starter kit
 
 **Files Modified**:
+
 - `setups/multi-agent-starter/README.md` — Added "Updating from Upstream" section
 - `setups/multi-agent-starter/BOOTSTRAP_PLAYBOOK.md` — Added "Pulling Upstream Updates" section
 
@@ -892,6 +1036,8 @@ A smart sync script that:
 git diff
 git add -A && git commit -m '[AGENT:claude] [ACTION:update] [TASK:SYNC] Sync upstream starter kit'
 ```
+
+
 
 ### Benefits
 
@@ -917,5 +1063,3 @@ git add -A && git commit -m '[AGENT:claude] [ACTION:update] [TASK:SYNC] Sync ups
 3. **Caching**: Upstream clone cached in `.git/` for fast subsequent syncs
 4. **Non-destructive by default**: Only updates generic files unless `--force` is used
 5. **Human-reviewable**: Always shows diffs before committing changes
-
-This infrastructure work enables the starter kit to be a "living upstream" that projects can pull from, rather than a one-time copy. It's essential for maintaining consistency across projects while allowing customization.
