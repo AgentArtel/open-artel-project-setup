@@ -36,6 +36,7 @@ These benefit from discussion but aren't blocked on approval.
 - **Cursor rule changes**: Modifying `.mdc` file content or adding new rule files
 - **Template additions**: Adding new files within an existing setup (e.g., a new template)
 - **Convention changes**: Updating naming conventions, commit message formats
+- **Agent Skills**: Creating or modifying skills in `.agents/skills/`
 
 ## Communication Folder Ownership
 

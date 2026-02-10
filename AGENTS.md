@@ -42,6 +42,17 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       ├── BOOTSTRAP_PLAYBOOK.md
 │       ├── .ai/                 # Template coordination directory
 │       └── .cursor/rules/       # Template Cursor governance rules
+├── .agents/                     # Agent Skills (Kimi Code / Claude Code / Codex)
+│   └── skills/                  # Auto-discovered skill definitions
+│       ├── open-artel-workflow/ # Multi-agent workflow conventions
+│       ├── task-protocol/       # Task brief format and lifecycle
+│       ├── git-routing/         # Commit message routing rules
+│       ├── review-checklist/    # Code review standards
+│       ├── boundary-enforcement/# File ownership rules
+│       ├── sprint-management/   # Sprint planning and tracking
+│       ├── sprint-execution/    # Flow: automated sprint workflow
+│       ├── code-review/         # Flow: automated review process
+│       └── task-handoff/        # Flow: agent-to-agent handoff
 └── past-configurations/         # Snapshots from real projects
     └── Even-Openclaw/           # ClawLens project (30+ tasks, 4 phases)
 ```

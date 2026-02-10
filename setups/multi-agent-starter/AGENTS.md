@@ -188,6 +188,38 @@ Agents communicate via structured folders in `.ai/`:
 
 Templates for each folder are in `.ai/templates/`.
 
+## Agent Skills
+
+This project uses Agent Skills to codify conventions for AI agents (compatible with Kimi Code CLI, Claude Code, and Codex).
+
+### Skills Directory
+
+```
+.agents/skills/
+├── open-artel-workflow/    # Agent roles, workflow steps, communication
+├── task-protocol/          # Task brief format, lifecycle, acceptance criteria
+├── git-routing/            # Commit message routing rules
+├── review-checklist/       # Code review standards
+├── boundary-enforcement/   # File ownership rules
+└── sprint-management/      # Sprint planning and tracking
+```
+
+### Flow Skills (Automated Workflows)
+
+```
+.agents/skills/
+├── sprint-execution/       # /flow:sprint-execution — full sprint automation
+├── code-review/            # /flow:code-review — automated review process
+└── task-handoff/           # /flow:task-handoff — agent-to-agent handoff
+```
+
+### Usage
+
+- **Auto-loaded**: Kimi Code CLI discovers skills from `.agents/skills/` at startup
+- **Explicit load**: `/skill:open-artel-workflow` — loads skill into context
+- **Execute flow**: `/flow:sprint-execution` — runs the automated workflow
+- **Version-controlled**: Skills live in the repo and evolve with the project
+
 ## Task Coordination
 
 All agents check `.ai/tasks/` for assignments.
