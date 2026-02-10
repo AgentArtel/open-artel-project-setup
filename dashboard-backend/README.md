@@ -12,10 +12,16 @@ npm install
 
 ### 2. Configure Environment Variables
 
-Copy `.env.example` to `.env` and fill in your API keys:
+**Option 1: Interactive Setup (Recommended)**
+```bash
+npm run setup
+```
+This will guide you through setting up all configuration values.
 
+**Option 2: Manual Setup**
 ```bash
 cp .env.example .env
+# Then edit .env and add your API keys
 ```
 
 **Required Environment Variables:**
@@ -28,12 +34,19 @@ cp .env.example .env
   - Get from: https://platform.moonshot.cn/
   - Required for `/api/kimi/chat` endpoint
 
-**Optional Environment Variables:**
+**Optional Environment Variables (have defaults):**
 
 - `PORT` - Server port (default: 3001)
 - `CORS_ORIGIN` - Frontend origin (default: http://localhost:5173)
-- `NODE_ENV` - Environment (development/production)
+- `NODE_ENV` - Environment (default: development)
 - `LOG_LEVEL` - Logging level (default: info)
+- `KIMI_BASE_URL` - Kimi API base URL (default: https://api.moonshot.cn/v1)
+
+**Verify Configuration:**
+```bash
+npm run env:check
+```
+This will check that all required variables are set correctly.
 
 ### 3. Build
 

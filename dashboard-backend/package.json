@@ -7,7 +7,9 @@
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "setup": "bash scripts/setup-env.sh",
+    "env:check": "node scripts/check-env.js"
   },
   "keywords": [
     "open-artel",
@@ -16,5 +18,8 @@
     "websocket"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.4"
+  }
 }
