@@ -510,4 +510,3 @@ A comprehensive document that explains the complete lifecycle of a task in an Op
 ## Design Decisions
 
 1. **Multiple files**: Break into logical sections for easier navigation
-2. **Real examples**: Use realistic but hypothetical examples (not actual project data)

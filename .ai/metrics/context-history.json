@@ -97,5 +97,14 @@
     "session_age_hours": 0,
     "file_operations": 0,
     "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-10T12:12:06Z",
+    "session": "unknown",
+    "token_count": 29034,
+    "file_size_bytes": 74877,
+    "session_age_hours": 0,
+    "file_operations": 0,
+    "status": "WARNING"
   }
 ]

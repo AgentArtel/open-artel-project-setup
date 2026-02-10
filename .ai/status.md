@@ -10,6 +10,7 @@ Moonshot/Kimi Feature Integration — All 7 phases COMPLETE. Phase 7 (Integratio
 
 | ID | Title | Status | Notes |
 |----|-------|--------|-------|
+| TASK-CONCEPT-1-DASHBOARD | Open Artel Dashboard — Central Hub | PENDING | Standalone Lovable dashboard project — delegated to Kimi for auto-development |
 | TASK-001 | Bootstrap self-coordination system | DONE | AGENTS.md, CLAUDE.md, .ai/ layer |
 | TASK-002 | Multi-agent Git workflow + Kimi Code integration research | DONE | 12-section design document |
 | — | Phase 1: Foundation | DONE | Communication folders, commit routing, Git workflow |
