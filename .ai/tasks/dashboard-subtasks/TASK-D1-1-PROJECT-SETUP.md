@@ -11,6 +11,8 @@
 
 This is the first sub-task of TASK-CONCEPT-1-DASHBOARD. We need to create a standalone Lovable dashboard project with the full frontend foundation before building individual features.
 
+**IMPORTANT**: This task is BLOCKING all frontend work (D1-4, D1-5, D1-6). It must be completed first.
+
 ### Objective
 
 Create a new Lovable project with React 18 + TypeScript 5 + Vite 5 + Tailwind 3 + shadcn/ui. Set up the complete project structure, install all dependencies, and establish routing and base components.
@@ -100,6 +102,17 @@ npm install date-fns lucide-react clsx tailwind-merge
 - badge
 - avatar
 
+**Environment Configuration**:
+Create `.env` file with:
+```env
+VITE_BACKEND_URL=http://localhost:3001
+VITE_GITHUB_CLIENT_ID=
+```
+
+**Note**: The backend API is already complete (D1-2, D1-3). Frontend will connect to:
+- Backend API: `http://localhost:3001/api`
+- WebSocket: `ws://localhost:3001`
+
 ### Acceptance Criteria
 
 - [ ] Lovable project created with React + TypeScript + Vite + Tailwind + shadcn/ui
@@ -112,15 +125,26 @@ npm install date-fns lucide-react clsx tailwind-merge
 - [ ] Base layout component with navigation sidebar
 - [ ] Development server runs without errors (`npm run dev`)
 - [ ] Build passes without errors (`npm run build`)
+- [ ] Environment variables configured (.env file)
 
 ### Do NOT
 
 - Skip TypeScript strict mode
 - Skip any dependencies (they'll be needed by downstream tasks)
 - Create placeholder components with no structure
+- Skip environment configuration
 
 ### Handoff Notes
 
 When complete, commit with: `[AGENT:lovable] [ACTION:submit] [TASK:D1-1] Project setup complete`
 
-Next tasks waiting: D1-4 (Task Lifecycle Visualizer), D1-5 (Kimi Chat UI), D1-6 (Configuration UI)
+**This task unblocks:**
+- D1-4: Task Lifecycle Visualizer (needs frontend structure)
+- D1-5: Kimi Chat Interface (needs frontend structure)
+- D1-6: Project Configuration (needs frontend structure)
+
+**Backend is ready:**
+- Backend API running on port 3001 (D1-2 complete)
+- GitHub API integration working (D1-3 complete)
+- WebSocket server ready for real-time updates
+- All endpoints tested and functional

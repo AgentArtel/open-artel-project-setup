@@ -10,14 +10,14 @@ Moonshot/Kimi Feature Integration — All 7 phases COMPLETE. Phase 7 (Integratio
 
 | ID | Title | Status | Notes |
 |----|-------|--------|-------|
-| TASK-CONCEPT-1-DASHBOARD | Open Artel Dashboard — Central Hub | IN_PROGRESS | Standalone Lovable dashboard project — task decomposition complete, subagents created, ready for parallel development |
-| TASK-D1-1 | Project Setup — Lovable Frontend Foundation | PENDING | Assigned to: lovable | Instruction: `.ai/instructions/lovable-D1-1-PROJECT-SETUP.md` |
-| TASK-D1-2 | Backend API — Node.js + Express + WebSocket | DONE | Assigned to: cursor | ✅ Backend API complete, ready for D1-3 |
-| TASK-D1-3 | GitHub API Integration | DONE | Assigned to: cursor | ✅ GitHub API integration complete |
-| TASK-D1-4 | Task Lifecycle Visualizer | PENDING | Assigned to: cursor | Depends on: D1-1, D1-3 |
-| TASK-D1-5 | Kimi Chat Interface | PENDING | Assigned to: lovable | Depends on: D1-1, D1-2 |
-| TASK-D1-6 | Project Configuration & Auth | PENDING | Assigned to: cursor | Depends on: D1-1 |
-| TASK-D1-7 | Documentation | PENDING | Assigned to: cursor | Depends on: All D1-* tasks |
+| TASK-CONCEPT-1-DASHBOARD | Open Artel Dashboard — Central Hub | IN_PROGRESS | Standalone Lovable dashboard project — backend complete (D1-2, D1-3), frontend pending (D1-1) |
+| TASK-D1-1 | Project Setup — Lovable Frontend Foundation | PENDING | Assigned to: lovable | Instruction: `.ai/instructions/lovable-D1-1-PROJECT-SETUP.md` | **BLOCKING: D1-4, D1-5, D1-6** |
+| TASK-D1-2 | Backend API — Node.js + Express + WebSocket | DONE | Assigned to: cursor | ✅ Complete: Express server, WebSocket, all endpoints, README, .env.example |
+| TASK-D1-3 | GitHub API Integration | DONE | Assigned to: cursor | ✅ Complete: GitHubService, parsers, all endpoints connected to real data |
+| TASK-D1-4 | Task Lifecycle Visualizer | PENDING | Assigned to: cursor | Depends on: D1-1, D1-3 ✅ | Ready to start after D1-1 |
+| TASK-D1-5 | Kimi Chat Interface | PENDING | Assigned to: lovable | Depends on: D1-1, D1-2 ✅ | Ready to start after D1-1 |
+| TASK-D1-6 | Project Configuration & Auth | PENDING | Assigned to: cursor | Depends on: D1-1 | Ready to start after D1-1 |
+| TASK-D1-7 | Documentation | PENDING | Assigned to: cursor | Depends on: All D1-* tasks | Will start after all features complete |
 | TASK-001 | Bootstrap self-coordination system | DONE | AGENTS.md, CLAUDE.md, .ai/ layer |
 | TASK-002 | Multi-agent Git workflow + Kimi Code integration research | DONE | 12-section design document |
 | — | Phase 1: Foundation | DONE | Communication folders, commit routing, Git workflow |
