@@ -113,15 +113,80 @@ with business logic, touch config files.
 
 ## Git Workflow
 
+### Branch Hierarchy
+
 ```
-lovable/feature-name    # Lovable UI work
-cursor/feature-name     # Cursor implementation work
-claude/feature-name     # Claude Code orchestration
+main                                    # Production-stable, human-reviewed
+└── pre-mortal                          # Staging gate — all agent work lands here first
+    ├── claude/<task-id>-<description>  # Claude Code task work
+    ├── cursor/<task-id>-<description>  # Cursor implementation work
+    ├── lovable/<task-id>-<description> # Lovable UI work
+    └── kimi/overseer                   # Kimi Code project oversight (optional)
 ```
 
-- Branch from `main`, conventional commits
-- PRs require build pass + orchestrator review before merge
-- Lovable syncs on `main` — merge PRs before Lovable picks up changes
+| Branch | Purpose | Owner | Merges Into |
+|--------|---------|-------|-------------|
+| `main` | Production-stable, human-reviewed | Human PM | — |
+| `pre-mortal` | Staging gate. All agent work lands here before `main` | Overseer + Human | `main` |
+| `claude/<task-id>` | Claude Code task work | Claude Code | `pre-mortal` via review |
+| `cursor/<task-id>` | Cursor implementation work | Cursor | `pre-mortal` via review |
+| `lovable/<task-id>` | Lovable UI work | Lovable | `pre-mortal` via review |
+| `kimi/overseer` | Persistent overseer branch (optional) | Kimi Code | `pre-mortal` |
+
+### Branch Naming Convention
+
+```
+<agent>/<task-id>-<short-description>
+```
+
+Examples:
+- `claude/TASK-003-phase1-foundation`
+- `cursor/TASK-P4-01-gateway-client`
+- `lovable/TASK-LOVABLE-001-run-migrations`
+
+### Handoff Sequence
+
+1. Agent creates branch from `pre-mortal`
+2. Agent works on their branch, commits with routing headers
+3. Agent pushes and commits `[ACTION:submit]` when done
+4. Reviewer (Kimi or Claude Code) reviews the work
+5. If approved: merge to `pre-mortal`, assign next task
+6. If rejected: agent addresses feedback, re-submits
+7. When sprint is complete: Human reviews `pre-mortal`, merges to `main`
+
+### Commit Message Routing
+
+Commit messages carry routing instructions for agent handoffs:
+
+```
+[AGENT:agent] [ACTION:action] [TASK:task-id] Short description
+```
+
+| AGENT | ACTION | Meaning |
+|-------|--------|---------|
+| `claude`, `cursor`, `lovable`, `kimi` | `submit` | Work ready for review |
+| | `approve` | Work approved, merge to `pre-mortal` |
+| | `reject` | Work needs changes |
+| | `update` | Progress update (not a submission) |
+| | `report` | Sprint or status report |
+| | `delegate` | Assigning work to another agent |
+| | `merge` | Merging approved work |
+
+See `.ai/templates/commit-message.md` for the full routing specification and examples.
+
+## Agent Communication
+
+Agents communicate via structured folders in `.ai/`:
+
+| Folder | Purpose | Who Writes | Who Reads |
+|--------|---------|-----------|-----------|
+| `.ai/tasks/` | Task specifications | Claude Code | All agents |
+| `.ai/instructions/` | Task assignments and directives | Kimi, Claude Code | Target agent |
+| `.ai/reviews/` | Code review feedback | Kimi, Claude Code | Submitting agent + Human |
+| `.ai/reports/` | Status and completion reports | All agents | Human + all agents |
+| `.ai/chats/` | Agent-to-agent conversation logs | All agents | All agents |
+
+Templates for each folder are in `.ai/templates/`.
 
 ## Task Coordination
 
@@ -129,6 +194,7 @@ All agents check `.ai/tasks/` for assignments.
 See `.ai/templates/task.md` for the task brief format.
 See `.ai/boundaries.md` for file-to-agent ownership.
 See `.ai/status.md` for current sprint status.
+See `.ai/templates/commit-message.md` for commit routing format.
 
 ## Do
 

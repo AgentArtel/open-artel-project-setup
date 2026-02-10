@@ -10,6 +10,7 @@ These actions stay within scope. Do them, commit, report.
 - **Format consistency**: Align templates to match established conventions
 - **Task management**: Create, update, and close tasks in `.ai/tasks/`
 - **Idea management**: Create, update, and organize feature ideas in `.ai/ideas/` and `.ai/ideas.md`
+- **Communication**: Write to `.ai/chats/`, `.ai/reports/`, `.ai/instructions/`, `.ai/reviews/`
 - **Status updates**: Keep `.ai/status.md` current
 - **Documentation**: Update README.md, AGENTS.md, CLAUDE.md for accuracy
 - **Memory management**: Update persistent memory files for cross-session continuity
@@ -35,3 +36,26 @@ These benefit from discussion but aren't blocked on approval.
 - **Cursor rule changes**: Modifying `.mdc` file content or adding new rule files
 - **Template additions**: Adding new files within an existing setup (e.g., a new template)
 - **Convention changes**: Updating naming conventions, commit message formats
+
+## Communication Folder Ownership
+
+| Folder | Who Writes | Who Reads | Purpose |
+|--------|-----------|-----------|---------|
+| `.ai/tasks/` | Claude Code | All agents | Task specifications (what to build) |
+| `.ai/instructions/` | Kimi, Claude Code | Target agent | Directives and assignments |
+| `.ai/reviews/` | Kimi, Claude Code | Submitting agent + Human | Code review feedback and decisions |
+| `.ai/reports/` | All agents, primarily Kimi | Human + all agents | Status reports, sprint summaries |
+| `.ai/chats/` | All agents | All agents | Conversation logs between agents |
+| `.ai/ideas/` | Claude Code | All agents + Human | Feature ideas backlog |
+| `.ai/templates/` | Claude Code | All agents | Templates for all file types |
+
+### File Naming Conventions
+
+| Folder | Pattern | Example |
+|--------|---------|---------|
+| `tasks/` | `TASK-XXX.md` | `TASK-P4-01.md` |
+| `instructions/` | `<target-agent>-<task>.md` | `cursor-TASK-P4-01.md` |
+| `reviews/` | `<task-id>-review.md` | `TASK-P4-01-review.md` |
+| `reports/` | `<type>-<identifier>.md` | `sprint-3-summary.md` |
+| `chats/` | `<agent1>-<agent2>-<context>.md` | `kimi-cursor-TASK-P4-01.md` |
+| `ideas/` | `IDEA-XXX-<description>.md` | `IDEA-001-git-branch-workflow.md` |

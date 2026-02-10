@@ -21,9 +21,18 @@ A configuration and workflow distribution system for multi-agent AI development.
 │   ├── ideas.md                 # Feature ideas index
 │   ├── ideas/                   # Individual idea files
 │   ├── tasks/                   # Active task briefs
+│   ├── chats/                   # Agent-to-agent conversation logs
+│   ├── reports/                 # Status and completion reports
+│   ├── instructions/            # Task assignments and directives
+│   ├── reviews/                 # Code review feedback
 │   └── templates/
 │       ├── task.md              # Task brief template
-│       └── idea.md              # Idea template
+│       ├── idea.md              # Idea template
+│       ├── chat.md              # Chat log template
+│       ├── report.md            # Report template
+│       ├── instruction.md       # Instruction template
+│       ├── review.md            # Review template
+│       └── commit-message.md    # Commit routing format guide
 ├── setups/                      # Distributable starter kits
 │   ├── README.md                # How to use setups
 │   └── multi-agent-starter/     # Three-agent workflow kit
@@ -87,19 +96,28 @@ Two roles develop this system. The Human is the decision-maker and product owner
 ## Git Workflow
 
 ```
-main                            # Stable, reviewed content
-claude/descriptive-name         # Development branches
+main                            # Production-stable, human-reviewed
+└── pre-mortal                  # Staging gate — all work lands here first
+    ├── claude/<task-id>        # Claude Code development branches
+    ├── cursor/<task-id>        # Cursor implementation branches
+    ├── lovable/<task-id>       # Lovable UI branches
+    └── kimi/overseer           # Kimi Code oversight (optional)
 ```
 
-- Branch from `main`, descriptive commit messages
-- Human reviews before merge to `main`
-- No force-pushes to `main`
+- Agent branches from `pre-mortal`, merge back via review
+- Human reviews `pre-mortal` before merge to `main`
+- Commit messages use routing format: `[AGENT:x] [ACTION:y] [TASK:z]`
+- No force-pushes to `main` or `pre-mortal`
 
 ## Coordination
 
 Development of this system is tracked in `.ai/`:
 - `.ai/status.md` — Current priorities and sprint status
-- `.ai/boundaries.md` — Decision authority (what Claude Code can do unilaterally vs. what needs approval)
+- `.ai/boundaries.md` — Decision authority and folder ownership
 - `.ai/ideas.md` and `.ai/ideas/` — Feature ideas backlog (raw ideas that may graduate to tasks)
 - `.ai/tasks/` — Active task briefs
-- `.ai/templates/` — Templates for tasks and ideas
+- `.ai/instructions/` — Task assignments and directives
+- `.ai/reviews/` — Code review feedback
+- `.ai/reports/` — Status and completion reports
+- `.ai/chats/` — Agent-to-agent conversation logs
+- `.ai/templates/` — Templates for all coordination file types
