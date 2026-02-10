@@ -23,6 +23,17 @@
 set -o pipefail
 
 # ---------------------------------------------------------------------------
+# Load environment variables
+# ---------------------------------------------------------------------------
+
+# Load .env file if it exists (for API keys)
+if [ -f "$(git rev-parse --show-toplevel)/.env" ]; then
+    set -a
+    source "$(git rev-parse --show-toplevel)/.env"
+    set +a
+fi
+
+# ---------------------------------------------------------------------------
 # Configuration
 # [REPLACE: Customize these settings for your project]
 # ---------------------------------------------------------------------------
@@ -100,13 +111,22 @@ run_kimi() {
         return 0
     fi
 
-    local cmd="kimi --print -p"
+    # Build the kimi command with environment variables
+    # Export KIMI_API_KEY if it's set (from .env file)
+    local env_vars=""
+    if [ -n "${KIMI_API_KEY:-}" ]; then
+        env_vars="KIMI_API_KEY=\"$KIMI_API_KEY\" "
+    fi
+    
+    local cmd="${env_vars}kimi --print -p"
 
     if [ "$ASYNC_MODE" = "true" ]; then
-        ($cmd "$prompt" >> "$HOOK_LOG" 2>&1 || log "ERROR: $description failed (exit $?)") &
+        # Run in background so the commit returns immediately
+        (eval "$cmd \"$prompt\"" >> "$HOOK_LOG" 2>&1 || log "ERROR: $description failed (exit $?)") &
         log "Started in background (PID $!)"
     else
-        $cmd "$prompt" >> "$HOOK_LOG" 2>&1 || log "ERROR: $description failed (exit $?)"
+        # Run synchronously (blocks until complete)
+        eval "$cmd \"$prompt\"" >> "$HOOK_LOG" 2>&1 || log "ERROR: $description failed (exit $?)"
     fi
 }
 
