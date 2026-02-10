@@ -10,13 +10,16 @@
 
 The current system uses manual coordination via markdown files. To scale this framework across multiple projects and enable true multi-agent collaboration, we need to explore:
 
-1. **Git-based agent workflow**: Each agent/subagent operates on dedicated branches with commit-triggered handoffs
-2. **Kimi Code integration**: Persistent development assistant that tracks project lifetime and coordinates agent work
-3. **Conversational Git operations**: Making Git operations more accessible and agent-friendly
-4. **Agent communication channels**: Structured folders for agent-to-agent chats, reports, and reviews
-5. **Commit message routing**: Using commit message headers to automatically route work between agents
-6. **Project evaluation**: System to assess how well project configurations performed
-7. **Mono-repo oversight**: Higher-tier coordination for managing multiple connected projects
+1. **Git-based agent workflow**: Each agent/subagent operates on dedicated branches with commit-triggered handoffs in specific sequence (agent → agent branch → agent branch)
+2. **Kimi Code integration**: Persistent development assistant that tracks project lifetime and coordinates agent work; agents can open terminal connections to Kimi Code agent
+3. **Conversational Git operations**: Making Git operations more accessible and agent-friendly; integrate Git with Claude Code
+4. **Agent communication channels**: Structured folders for agent-to-agent chats, reports, and reviews (literal folders for chats where agents talk to each other)
+5. **Commit message routing**: Using commit message headers to automatically route work between agents; commit message header determines routing
+6. **Automated commit workflow**: Commit → triggers review commit → project updates → commit message for report and assigned task → agent does work → pushes to branch for review → commits back with response report and log of fixes applied → next steps → push to next branch → repeat until task sprint completed
+7. **Project evaluation**: System to assess how well project configurations performed from agent level
+8. **Project templates**: Templates for specific projects (not just generic starter kits)
+9. **Mono-repo oversight**: Higher-tier coordination for managing multiple connected projects; oversees multiple connected projects
+10. **Work delegation**: Agents taking on work for the human and passing tasks between each other
 
 Current system is pure markdown with manual coordination. This exploration will determine feasibility and design patterns for automation while maintaining simplicity.
 
@@ -35,13 +38,17 @@ Deliverable: Comprehensive design document exploring how these components work t
 
 **In scope:**
 - Research Kimi Code API capabilities and integration patterns
-- Design Git workflow for multi-agent branch coordination
-- Explore commit message header routing system
-- Design agent communication folder structure (`.ai/chats/`, `.ai/reports/`, etc.)
+- Design Git workflow for multi-agent branch coordination with specific handoff sequence
+- Explore commit message header routing system (header determines routing)
+- Design agent communication folder structure (`.ai/chats/`, `.ai/reports/`, `.ai/instructions/`, `.ai/reviews/`, etc.)
 - Research Claude Code CLI and how it could integrate with Kimi Code
-- Design project evaluation/metrics system
-- Explore mono-repo coordination patterns
+- Design terminal connection mechanism (agents opening terminal connected to Kimi Code agent)
+- Design automated commit workflow (commit → review → work → push → response report → next branch)
+- Design project evaluation/metrics system (evaluate from agent level)
+- Design project templates for specific project types
+- Explore mono-repo coordination patterns (oversees multiple connected projects)
 - Consider integration with Cursor, Claude Code, and Lovable agents
+- Design work delegation system (agents taking on work for human, passing tasks)
 - Document technical feasibility and implementation approach
 
 **Out of scope:**
@@ -51,15 +58,19 @@ Deliverable: Comprehensive design document exploring how these components work t
 
 ### Acceptance Criteria
 
-- [ ] Research document covers all 7 idea areas listed in context
+- [ ] Research document covers all 10 idea areas listed in context
 - [ ] Kimi Code API capabilities documented with relevant endpoints
 - [ ] **Kimi Code CLI features comprehensively documented** (Agent Skills, Subagents, Print Mode, Wire Mode)
 - [ ] **Subagent architecture design** for modeling Claude Code, Cursor, Lovable as subagents
 - [ ] **Agent Skills strategy** for codifying Open Artel conventions
 - [ ] **Flow Skills design** for multi-step agent handoff workflows
-- [ ] Git workflow diagram/description for agent branch handoffs
-- [ ] Commit message routing specification (header format, routing rules)
-- [ ] Agent communication folder structure proposed
+- [ ] Git workflow diagram/description for agent branch handoffs with specific sequence (agent → agent branch → agent branch)
+- [ ] Detailed automated commit workflow specification (commit → review commit → project updates → work → push → response report → next branch → repeat until sprint complete)
+- [ ] Commit message routing specification (header format, routing rules; header determines routing)
+- [ ] Agent communication folder structure proposed (literal folders for chats, reports, instructions, reviews)
+- [ ] Terminal connection mechanism design (agents opening terminal connected to Kimi Code agent)
+- [ ] Work delegation system design (agents taking on work for human, passing tasks)
+- [ ] Project template system design (templates for specific project types)
 - [ ] Integration patterns for Claude Code CLI + Kimi Code explored
 - [ ] **Print Mode integration** for Git hooks and automation
 - [ ] **Wire Mode architecture** for custom coordination layer
@@ -82,6 +93,12 @@ Deliverable: Comprehensive design document exploring how these components work t
 5. Can Claude Code CLI be extended or wrapped to add Kimi Code integration?
 6. How do we evaluate project configurations? Metrics? Success criteria?
 7. What's the relationship between single-project `.ai/` and mono-repo coordination?
+8. **NEW**: What is the exact sequence for agent branch handoffs? (agent → agent branch → agent branch)
+9. **NEW**: How does the automated commit workflow work step-by-step? (commit → triggers review commit → project updates → commit message for report → work → push → commit back with response report and log → next steps → push to next branch → repeat until sprint complete)
+10. **NEW**: How do agents open terminal connections to Kimi Code agent? What's the mechanism?
+11. **NEW**: How do agents take on work for the human and pass tasks between each other?
+12. **NEW**: What are project templates for specific projects? How do they differ from generic starter kits?
+13. **NEW**: How does the commit message header determine routing? What's the parsing and routing logic?
 8. **NEW**: Can we use Kimi Code's subagent system to model Claude Code, Cursor, and Lovable as subagents?
 9. **NEW**: How can Agent Skills be used to codify Open Artel conventions (task format, boundaries, Git workflow)?
 10. **NEW**: Can Flow Skills define the multi-step agent handoff workflow (commit → review → merge → next agent)?
@@ -201,22 +218,26 @@ Deliverable: Comprehensive design document exploring how these components work t
 **Potential implementation phases:**
 
 **Phase 1: Foundation (Markdown-based)**
-- Git branch workflow design
-- Commit message routing specification
-- Agent communication folder structure (`.ai/chats/`, `.ai/reports/`)
+- Git branch workflow design with specific handoff sequence (agent → agent branch → agent branch)
+- Commit message routing specification (header determines routing)
+- Agent communication folder structure (`.ai/chats/`, `.ai/reports/`, `.ai/instructions/`, `.ai/reviews/`)
 - Basic agent handoff protocol
+- Detailed automated commit workflow specification (commit → review → work → push → response report → next branch)
 
 **Phase 2: Kimi Code CLI Integration**
 - Set up Kimi Code CLI with persistent session
 - Create Agent Skills for Open Artel conventions
 - Define custom agent file for project overseer role
 - Test session management and context persistence
+- Design terminal connection mechanism (agents opening terminal connected to Kimi Code agent)
+- Integrate Git with Claude Code for conversational Git operations
 
 **Phase 3: Subagent Architecture**
 - Model Claude Code, Cursor, Lovable as subagents
 - Create subagent definitions with specialized system prompts
-- Implement Task tool delegation between agents
+- Implement Task tool delegation between agents (work delegation system)
 - Test isolated context and result passing
+- Design work passing mechanism (agents taking on work for human, passing tasks)
 
 **Phase 4: Flow Skills for Workflows**
 - Design Flow Skills for agent handoff workflows
@@ -237,10 +258,11 @@ Deliverable: Comprehensive design document exploring how these components work t
 - Custom UI/interface for agent coordination (optional)
 
 **Phase 7: Project Evaluation**
-- Metrics collection system
+- Metrics collection system (evaluate from agent level)
 - Success criteria definition
 - Performance tracking
 - Configuration comparison tools
+- Project template system for specific project types
 
 **Phase 8: Mono-repo Coordination**
 - Higher-tier coordination patterns
