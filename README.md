@@ -61,8 +61,9 @@ After setup, your project will have:
 │       ├── scripts/             # 16 automation scripts
 │       ├── docs/                # 12 integration guides
 │       └── .github/workflows/   # 3 CI/CD workflows
-├── past-configurations/         # Snapshots from real projects
-│   └── Even-Openclaw/           # ClawLens project (30+ tasks, 4 phases)
+├── past-configurations/         # Snapshots from real projects (saved .ai configs for record-keeping)
+│   └── Even-Openclaw/           # ClawLens project (root .ai only; subproject .ai live in main repo)
+│       └── README.md            # Handoff context and snapshot scope
 ├── .ai/                         # This repo's own coordination layer
 ├── .agents/                     # This repo's own agent definitions
 ├── scripts/                     # This repo's scripts (includes test suites)
@@ -96,6 +97,8 @@ Snapshots of `.ai/` directories from real projects. Use for:
 ## Saving a Configuration
 
 To save a project's config for reference:
+
+**Note**: This repo only tracks the contents of these folders — not the rest of the original project. For **Even-Openclaw**, this folder contains only the **root** `.ai`; plugin and dashboard `.ai` folders remain in the main repo (see `past-configurations/Even-Openclaw/README.md` for handoff context).
 
 ```bash
 mkdir -p past-configurations/YourProjectName
