@@ -42,6 +42,9 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       ├── BOOTSTRAP_PLAYBOOK.md
 │       ├── .ai/                 # Template coordination directory
 │       └── .cursor/rules/       # Template Cursor governance rules
+├── scripts/                     # Automation scripts
+│   ├── post-commit              # Git post-commit hook (source)
+│   └── install-git-hooks.sh     # Hook installation script
 ├── .agents/                     # Agent Skills & Kimi Overseer (Kimi Code / Claude Code / Codex)
 │   ├── kimi-overseer.yaml       # Kimi Overseer agent definition
 │   ├── reviewer-sub.yaml        # Reviewer subagent definition
@@ -124,6 +127,38 @@ main                            # Production-stable, human-reviewed
 - Human reviews `pre-mortal` before merge to `main`
 - Commit messages use routing format: `[AGENT:x] [ACTION:y] [TASK:z]`
 - No force-pushes to `main` or `pre-mortal`
+
+## Git Automation (Optional)
+
+Git hooks automate the agent workflow by routing commits to Kimi Code CLI Print Mode:
+
+```
+Agent commits → post-commit hook → parse [AGENT:x] [ACTION:y] [TASK:z] → kimi --print
+```
+
+| ACTION | Automation |
+|--------|-----------|
+| `submit` | Triggers automated review (writes to `.ai/reviews/`) |
+| `approve` | Triggers merge to `pre-mortal` and status update |
+| `report` | Appends summary to `.ai/reports/sprint-current.md` |
+| `update`, `delegate`, `merge` | Logged only, no automation |
+
+### Setup
+
+```bash
+./scripts/install-git-hooks.sh           # Install hooks
+./scripts/install-git-hooks.sh --status  # Check status
+./scripts/install-git-hooks.sh --remove  # Remove hooks
+```
+
+### Configuration
+
+- **Async mode**: ON by default (commits return immediately)
+- **Dry-run**: `export OPEN_ARTEL_DRY_RUN=true` to test without calling Kimi
+- **Logs**: `.git/hooks/post-commit.log`
+- **Disable**: `mv .git/hooks/post-commit .git/hooks/post-commit.disabled`
+
+Requires Kimi Code CLI (`pipx install kimi-cli`) and authentication (`kimi` then `/login`).
 
 ## Coordination
 

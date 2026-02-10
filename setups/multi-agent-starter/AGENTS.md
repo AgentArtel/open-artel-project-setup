@@ -290,6 +290,48 @@ Edit `.agents/kimi-overseer.yaml` to customize:
 - `tools`: Add or remove tools as needed
 - `subagents`: Add custom subagents for your workflow
 
+## Git Automation (Optional)
+
+Git hooks automate the agent workflow by routing commits to Kimi Code CLI Print Mode. When an agent commits with routing headers, the post-commit hook parses the action and triggers the appropriate automation.
+
+### Setup
+
+```bash
+./scripts/install-git-hooks.sh           # Install hooks
+./scripts/install-git-hooks.sh --status  # Check status
+./scripts/install-git-hooks.sh --remove  # Remove hooks
+```
+
+### What Gets Automated
+
+| ACTION | Automation |
+|--------|-----------|
+| `submit` | Triggers automated review — writes to `.ai/reviews/` |
+| `approve` | Merges agent branch to `pre-mortal`, updates `.ai/status.md` |
+| `report` | Appends summary to `.ai/reports/sprint-current.md` |
+| `update`, `delegate`, `merge` | Logged only, no automation |
+
+### Configuration
+
+- **Async mode**: ON by default (commits return immediately)
+- **Dry-run**: `export OPEN_ARTEL_DRY_RUN=true` to test without calling Kimi
+- **Logs**: `.git/hooks/post-commit.log`
+- **Disable**: `mv .git/hooks/post-commit .git/hooks/post-commit.disabled`
+
+### Customization
+
+The hook template is at `scripts/post-commit.template`. Look for `[REPLACE]` comments to customize:
+- Review prompts for your project's specific acceptance criteria
+- Merge behavior and branch naming conventions
+- Report format and destination
+
+### Troubleshooting
+
+- **Hook not running**: Check `ls -la .git/hooks/post-commit` — must be executable
+- **"kimi command not found"**: Install with `pipx install kimi-cli`
+- **"LLM not set"**: Run `kimi` then `/login` to authenticate
+- **Check logs**: `cat .git/hooks/post-commit.log`
+
 ## Task Coordination
 
 All agents check `.ai/tasks/` for assignments.
