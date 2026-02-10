@@ -1,0 +1,38 @@
+---
+description: USE WHEN modifying files to check agent ownership boundaries
+globs:
+alwaysApply: false
+---
+
+# Agent File Boundaries
+
+Claude Code owns the system design. Cursor implements scripts and features.
+See AGENTS.md and .ai/boundaries.md for the complete map.
+
+## Your Domain (Cursor)
+
+- `scripts/` — all automation scripts (post-commit, session manager, etc.)
+- `scripts/test-*.sh` — all test suites
+- `docs/` — integration guides and documentation
+- `.agents/skills/` — skill definition files
+- `.agents/subagents/` — subagent template files
+- `.agents/prompts/` — agent system prompts
+- `.ai/patterns/` — workflow pattern documentation
+
+## Do NOT Modify (Claude Code's Domain)
+
+- `AGENTS.md`, `CLAUDE.md`, `README.md` — project configuration
+- `.ai/status.md`, `.ai/boundaries.md`, `.ai/ideas.md` — coordination state
+- `setups/` — starter kit templates (modify upstream, then sync downstream)
+- `past-configurations/` — historical snapshots (never modify)
+- `.ai/templates/` — coordination file templates (propose changes, don't edit directly)
+
+## Shared (Discuss First)
+
+- `.agents/kimi-overseer.yaml`, `reviewer-sub.yaml`, `researcher-sub.yaml` — agent definitions
+- `.cursor/rules/` — Cursor governance rules
+- `.github/workflows/` — CI/CD workflows
+
+## If You Need a Change Outside Your Domain
+
+Note it in your task file's handoff notes and set status to BLOCKED.

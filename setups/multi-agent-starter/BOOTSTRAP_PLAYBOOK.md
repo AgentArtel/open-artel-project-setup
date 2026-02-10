@@ -8,10 +8,11 @@ repo locally. Now you want to set up the three-agent development workflow
 
 ## Prerequisites
 
-- A GitHub repo with Lovable's generated code already pushed to `main`
+- A GitHub repo with your code already pushed to `main`
 - Claude Code CLI installed and working
 - Cursor IDE installed
 - The repo cloned locally
+- **The starter kit already copied into the project** (see `README.md` for copy instructions)
 
 ## Step 1: Open the repo in Claude Code and paste this prompt
 
@@ -43,41 +44,43 @@ Please do the following:
    - Config, routing, schema, docs, coordination → Claude Code
 4. Identify any dead code, unused dependencies, or clutter
 
-### Phase 2: Create configuration files
+### Phase 2: Customize the starter kit files
 
-Based on your analysis, create these files:
+The starter kit has already been copied into the project. Customize these files
+based on your Phase 1 analysis (look for `[REPLACE]` placeholders):
 
-1. **AGENTS.md** (project root) — Universal source of truth:
+1. **AGENTS.md** (project root) — Fill in all `[REPLACE]` placeholders:
    - Tech stack, commands, project structure
    - Agent roles with explicit file ownership lists
    - Code conventions, git workflow
-   - References to docs/ rather than duplicating content
    - Keep under 300 lines
 
-2. **CLAUDE.md** (project root) — Orchestrator config:
-   - `See @AGENTS.md` import at the top
-   - Task creation workflow
-   - Delegation rules (UI-only → Lovable, logic-only → Cursor)
-   - Review checklist
+2. **CLAUDE.md** (project root) — Customize if needed:
+   - Already has `See @AGENTS.md` import
+   - Update delegation rules for your project
    - Keep under 60 lines
 
-3. **.cursor/rules/** — Cursor agent rules:
-   - `00-project-context.mdc` — alwaysApply: true, multi-agent awareness,
-     references AGENTS.md, defines Cursor as Implementation Specialist
-   - `01-coding-standards.mdc` — globs for src/**/*.{ts,tsx}
-   - `02-ui-standards.mdc` — globs for src/components/**
-   - `03-backend-standards.mdc` — globs for backend files (Supabase, API, etc.)
-   - `05-agent-boundaries.mdc` — agent-requested, file ownership map
-   - `06-task-protocol.mdc` — agent-requested, task handoff format
-   - `99-verification.mdc` — alwaysApply: true, pre-commit checklist
+3. **.cursor/rules/** — Customize existing rules:
+   - `00-project-context.mdc` — Fill in app identity, architecture constraints
+   - `05-agent-boundaries.mdc` — Fill in specific files per agent domain
+   - Add project-specific rules as needed:
+     - `01-coding-standards.mdc` — globs for src/**/*.{ts,tsx}
+     - `02-ui-standards.mdc` — globs for src/components/**
+     - `03-backend-standards.mdc` — globs for backend files
+     - `99-verification.mdc` — pre-commit checklist
    - Each .mdc file MUST have YAML frontmatter with description, globs, alwaysApply
 
-4. **.ai/** directory structure:
-   - `tasks/` — empty directory with .gitkeep (for task assignment files)
-   - `templates/task.md` — task brief template
-   - `boundaries.md` — complete file-to-agent ownership map
-   - `status.md` — sprint status board
-   - `lovable-knowledge.md` — text to copy-paste into Lovable's Knowledge panel
+4. **.ai/** — Create project-specific files:
+   - `boundaries.md` — complete file-to-agent ownership map (generate from analysis)
+   - Update `lovable-knowledge.md` with project-specific DO NOT MODIFY file lists
+   - Update `CURSOR_WORKFORCE.md` with project name
+   - The rest of `.ai/` (templates, patterns, metrics, sessions) works as-is
+
+5. **.agents/** — Update project name:
+   - `kimi-overseer.yaml` — change `PROJECT_NAME` from `[REPLACE: Your Project Name]`
+   - `reviewer-sub.yaml` — change `PROJECT_NAME` from `[REPLACE: Your Project Name]`
+   - `researcher-sub.yaml` — change `PROJECT_NAME` from `[REPLACE: Your Project Name]`
+   - Everything else (prompts, skills, subagent templates) works as-is
 
 ### Phase 3: Clean up
 
@@ -87,17 +90,19 @@ Based on your analysis, create these files:
 4. Run npm audit fix for security patches
 5. Verify build passes after all changes
 
-### Rules for the configuration files:
+### Rules for customization:
 
 - Domain boundaries must be FUNCTIONAL (based on what code does), not
   STRUCTURAL (based on directory name). A component with 500 lines of
   state management belongs to Cursor even if it lives in src/components/
-- AGENTS.md should reference existing docs rather than duplicating
+- AGENTS.md should reference docs/ guides rather than duplicating content
 - Cursor rules use proper .mdc format with YAML frontmatter
 - The Lovable Knowledge text must explicitly list DO NOT MODIFY files
 - Every file in the repo should map to exactly one agent in boundaries.md
 - Auto-generated files (Supabase types, client.ts, config.toml, .env)
   should be marked as DO NOT EDIT for all agents
+- Do NOT modify files in `.ai/templates/`, `.ai/patterns/`, `.agents/skills/`,
+  `.agents/subagents/`, `scripts/`, or `docs/` — these work as-is
 
 After creating everything, commit to a feature branch (claude/setup-multi-agent)
 and push. Do NOT merge to main yet — I want to review first.
@@ -138,7 +143,60 @@ See `.ai/CURSOR_WORKFORCE.md` for the full guide with prompt templates.
 3. Paste the contents of `.ai/lovable-knowledge.md` (below the `---` line)
 4. Test: ask Lovable to modify a hook — should warn about Cursor's domain
 
-## Step 5: Merge and start working
+## Step 5: Set up Kimi Overseer (Optional)
+
+If you want automated code reviews, sprint management, and agent coordination:
+
+### 5a. Install Kimi Code CLI
+
+```bash
+pipx install kimi-cli    # or: pip install kimi-cli
+kimi                      # then run /login inside the CLI
+```
+
+### 5b. Run the setup script
+
+```bash
+./scripts/setup-kimi-project.sh
+```
+
+This will:
+- Create `.agents/` and `.ai/` directory structures
+- Install git hooks for commit-based routing
+- Configure API key (optional, can skip with `--quick`)
+- Verify the setup
+
+### 5c. Verify the setup
+
+```bash
+./scripts/verify-kimi-setup.sh
+```
+
+### 5d. Test the overseer
+
+```bash
+# Start the overseer
+kimi --agent-file .agents/kimi-overseer.yaml
+
+# Ask: "What is your role?"
+# Should describe project oversight, reviews, sprint management
+
+# Create a test session
+./scripts/kimi-session-manager.sh create test-session
+
+# Run a quick check
+./scripts/quick-kimi-check.sh
+```
+
+### 5e. Clean up test session
+
+```bash
+./scripts/kimi-session-manager.sh delete test-session
+```
+
+Skip this step if you don't need Kimi automation — the three-agent workflow works without it.
+
+## Step 6: Merge and start working
 
 ```bash
 # Review the PR, then merge
@@ -148,8 +206,9 @@ git push
 ```
 
 Lovable will auto-sync with main and pick up the AGENTS.md.
+If Kimi is configured (Step 5), git hooks will start routing commits automatically.
 
-## Step 6: First real task cycle
+## Step 7: First real task cycle
 
 1. Tell Claude Code what you want to build
 2. Claude Code creates task files in `.ai/tasks/`
@@ -165,5 +224,24 @@ Lovable will auto-sync with main and pick up the AGENTS.md.
 
 - After each sprint, update `.ai/status.md`
 - When adding new files/directories, update `.ai/boundaries.md`
-- When the tech stack changes, update AGENTS.md
-- Periodically run the smoke tests from `.ai/TESTING.md`
+- When the tech stack changes, update `AGENTS.md`
+- Run `./scripts/quick-kimi-check.sh` before each work session (if using Kimi)
+- Run `./scripts/kimi-context-monitor.sh check` to monitor context health
+- Archive completed sprint sessions: `./scripts/kimi-session-manager.sh archive <name>`
+
+## Pulling Upstream Updates
+
+The Open Artel starter kit is actively developed. Periodically sync to get new features, bug fixes, and improved scripts:
+
+```bash
+# Check for updates (dry run — no changes made)
+./scripts/sync-upstream.sh --dry-run
+
+# Apply updates (generic files only — your customizations are preserved)
+./scripts/sync-upstream.sh
+
+# Compare your customized files against the latest upstream templates
+./scripts/sync-upstream.sh --diff
+```
+
+Generic files (scripts, docs, templates, patterns, skills, workflows) are updated automatically. Your project-specific files (AGENTS.md, .cursor/rules/, task data, reviews, etc.) are never overwritten. See `README.md` for the full list of file categories.

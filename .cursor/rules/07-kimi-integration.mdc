@@ -1,0 +1,35 @@
+---
+description: Kimi Overseer integration — commit-based communication, review workflow, task assignments
+alwaysApply: false
+---
+
+# Kimi Integration
+
+The Kimi Overseer coordinates the agent team through commit-based routing.
+See `docs/cursor-kimi-integration.md` for the full guide.
+
+## Your Role with Kimi
+
+You (Cursor) communicate with Kimi through Git commits:
+- **Submit work**: `[AGENT:cursor] [ACTION:submit] [TASK:X] Description`
+- **Progress update**: `[AGENT:cursor] [ACTION:update] [TASK:X] Description`
+
+## After Submitting
+
+1. Kimi reviews your work automatically (via post-commit hook)
+2. Review written to `.ai/reviews/TASK-X-review.md`
+3. If APPROVED: merged to `pre-mortal`, next task assigned
+4. If REJECTED: read feedback, fix issues, re-submit
+
+## Checking for Assignments
+
+Before starting work:
+1. Check `.ai/instructions/cursor-*.md` for new task assignments
+2. Check `.ai/tasks/` for tasks assigned to `cursor` with status `PENDING`
+3. Check `.ai/reviews/` for feedback on previously submitted work
+
+## Do NOT
+
+- Call Kimi CLI directly — use commit-based routing
+- Modify `.ai/reviews/` files — those are Kimi's output
+- Skip the `[AGENT:cursor]` header in commit messages
