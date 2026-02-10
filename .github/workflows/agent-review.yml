@@ -1,0 +1,161 @@
+# =============================================================================
+# Open Artel — Agent Review Pipeline
+# =============================================================================
+#
+# Automatically reviews agent commits pushed to agent branches using
+# Kimi Code CLI Print Mode. Creates review files in .ai/reviews/.
+#
+# Triggers on pushes to agent branches: claude/**, cursor/**, lovable/**
+# Requires KIMI_API_KEY in GitHub Secrets.
+#
+# =============================================================================
+
+name: Agent Review Pipeline
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - 'cursor/**'
+      - 'lovable/**'
+
+# Prevent concurrent reviews for the same branch
+concurrency:
+  group: review-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # -----------------------------------------------------------------
+      # Step 1: Checkout the code
+      # -----------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit for diff
+
+      # -----------------------------------------------------------------
+      # Step 2: Install Kimi Code CLI
+      # -----------------------------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Kimi Code CLI
+        run: pip install kimi-cli
+
+      # -----------------------------------------------------------------
+      # Step 3: Parse commit message for routing headers
+      # -----------------------------------------------------------------
+      - name: Parse commit message
+        id: parse
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "commit_msg=$COMMIT_MSG" >> "$GITHUB_OUTPUT"
+
+          # Extract routing headers
+          AGENT=$(echo "$COMMIT_MSG" | sed -n 's/.*\[AGENT:\([a-zA-Z0-9_]*\)\].*/\1/p' | head -1)
+          ACTION=$(echo "$COMMIT_MSG" | sed -n 's/.*\[ACTION:\([a-zA-Z0-9_]*\)\].*/\1/p' | head -1)
+          TASK=$(echo "$COMMIT_MSG" | sed -n 's/.*\[TASK:\([a-zA-Z0-9_-]*\)\].*/\1/p' | head -1)
+
+          echo "agent=$AGENT" >> "$GITHUB_OUTPUT"
+          echo "action=$ACTION" >> "$GITHUB_OUTPUT"
+          echo "task=$TASK" >> "$GITHUB_OUTPUT"
+
+          # Determine if we should run a review
+          if [ "$ACTION" = "submit" ] && [ -n "$TASK" ]; then
+            echo "should_review=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_review=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "Parsed: AGENT=$AGENT ACTION=$ACTION TASK=$TASK"
+
+      # -----------------------------------------------------------------
+      # Step 4: Run automated review via Kimi Print Mode
+      # -----------------------------------------------------------------
+      - name: Run Kimi review
+        if: steps.parse.outputs.should_review == 'true'
+        env:
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+        run: |
+          AGENT="${{ steps.parse.outputs.agent }}"
+          TASK="${{ steps.parse.outputs.task }}"
+          COMMIT_MSG="${{ steps.parse.outputs.commit_msg }}"
+          DIFF=$(git diff HEAD~1 2>/dev/null || echo "No diff available")
+
+          echo "Reviewing submission from $AGENT for task $TASK..."
+
+          kimi --agent-file .agents/kimi-overseer.yaml --print -p "You are reviewing a code submission for task $TASK from agent $AGENT.
+
+          Commit message: $COMMIT_MSG
+
+          Your review process:
+          1. Read the task brief from .ai/tasks/$TASK.md to understand the acceptance criteria.
+          2. The diff for this commit is:
+          $DIFF
+          3. Check each acceptance criterion — mark as MET or UNMET.
+          4. Check file boundary compliance against .ai/boundaries.md.
+          5. Check the commit message format follows [AGENT:x] [ACTION:y] [TASK:z] convention.
+
+          Write your review to .ai/reviews/$TASK-review.md using the structure from .ai/templates/review.md.
+          Set the verdict to APPROVED, CHANGES_REQUESTED, or REJECTED with specific findings.
+
+          If the task file .ai/tasks/$TASK.md does not exist, write a note explaining the task brief was not found."
+
+      # -----------------------------------------------------------------
+      # Step 5: Commit review file if created
+      # -----------------------------------------------------------------
+      - name: Commit review
+        if: steps.parse.outputs.should_review == 'true'
+        run: |
+          TASK="${{ steps.parse.outputs.task }}"
+          REVIEW_FILE=".ai/reviews/${TASK}-review.md"
+
+          if [ -f "$REVIEW_FILE" ]; then
+            git config user.name "Kimi Overseer (CI)"
+            git config user.email "kimi-ci@open-artel.dev"
+            git add "$REVIEW_FILE"
+            git commit -m "[AGENT:kimi] [ACTION:review] [TASK:$TASK] Automated CI review" || echo "No changes to commit"
+            git push || echo "Push failed — review file created but not pushed"
+          else
+            echo "No review file created at $REVIEW_FILE"
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 6: Post summary
+      # -----------------------------------------------------------------
+      - name: Post summary
+        if: always()
+        run: |
+          TASK="${{ steps.parse.outputs.task }}"
+          ACTION="${{ steps.parse.outputs.action }}"
+          AGENT="${{ steps.parse.outputs.agent }}"
+
+          echo "## Agent Review Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Agent | $AGENT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Action | $ACTION |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Task | $TASK |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Branch | ${{ github.ref_name }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Commit | ${{ github.sha }} |" >> "$GITHUB_STEP_SUMMARY"
+
+          REVIEW_FILE=".ai/reviews/${TASK}-review.md"
+          if [ -f "$REVIEW_FILE" ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Review" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat "$REVIEW_FILE" >> "$GITHUB_STEP_SUMMARY"
+          fi
+

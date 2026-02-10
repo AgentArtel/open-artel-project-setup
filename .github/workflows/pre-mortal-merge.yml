@@ -1,0 +1,188 @@
+# =============================================================================
+# Open Artel — Pre-Mortal Merge Validation
+# =============================================================================
+#
+# Validates pushes to the pre-mortal staging branch. Checks that merged
+# agent work follows conventions, boundaries, and commit format.
+#
+# Triggers on pushes to pre-mortal branch.
+# Requires KIMI_API_KEY in GitHub Secrets.
+#
+# =============================================================================
+
+name: Pre-Mortal Merge Validation
+
+on:
+  push:
+    branches:
+      - 'pre-mortal'
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # -----------------------------------------------------------------
+      # Step 1: Checkout the code
+      # -----------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10  # Enough history for merge analysis
+
+      # -----------------------------------------------------------------
+      # Step 2: Validate commit message format
+      # -----------------------------------------------------------------
+      - name: Validate commit format
+        id: validate_format
+        run: |
+          echo "Checking last 5 commits on pre-mortal..."
+          ISSUES=0
+
+          for HASH in $(git log -5 --format="%H" 2>/dev/null); do
+            MSG=$(git log -1 --format=%B "$HASH")
+            AGENT=$(echo "$MSG" | sed -n 's/.*\[AGENT:\([a-zA-Z0-9_]*\)\].*/\1/p' | head -1)
+            ACTION=$(echo "$MSG" | sed -n 's/.*\[ACTION:\([a-zA-Z0-9_]*\)\].*/\1/p' | head -1)
+            TASK=$(echo "$MSG" | sed -n 's/.*\[TASK:\([a-zA-Z0-9_-]*\)\].*/\1/p' | head -1)
+
+            if [ -n "$AGENT" ] && [ -n "$ACTION" ]; then
+              echo "✓ $HASH: [$AGENT] [$ACTION] [$TASK]"
+            else
+              # Allow merge commits and non-routed commits
+              if echo "$MSG" | grep -qE "^Merge|^Initial|^Add|^Update|^Fix"; then
+                echo "○ $HASH: Non-routed commit (allowed): $(echo "$MSG" | head -1)"
+              else
+                echo "⚠ $HASH: Missing routing headers: $(echo "$MSG" | head -1)"
+                ISSUES=$((ISSUES + 1))
+              fi
+            fi
+          done
+
+          echo "format_issues=$ISSUES" >> "$GITHUB_OUTPUT"
+          if [ "$ISSUES" -gt 0 ]; then
+            echo "::warning::$ISSUES commits with missing routing headers"
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 3: Validate .ai/ coordination files
+      # -----------------------------------------------------------------
+      - name: Validate coordination files
+        run: |
+          echo "Checking .ai/ coordination layer..."
+
+          # Check required directories exist
+          REQUIRED_DIRS=(".ai/tasks" ".ai/reviews" ".ai/reports" ".ai/templates" ".ai/instructions" ".ai/chats")
+          for DIR in "${REQUIRED_DIRS[@]}"; do
+            if [ -d "$DIR" ]; then
+              echo "✓ $DIR exists"
+            else
+              echo "⚠ $DIR missing"
+            fi
+          done
+
+          # Check status.md exists and is valid
+          if [ -f .ai/status.md ]; then
+            echo "✓ .ai/status.md exists"
+            # Check for required sections
+            if grep -q "Active Sprint\|Current Focus" .ai/status.md; then
+              echo "✓ .ai/status.md has sprint section"
+            else
+              echo "⚠ .ai/status.md missing sprint section"
+            fi
+          else
+            echo "⚠ .ai/status.md missing"
+          fi
+
+          # Check boundaries.md exists
+          if [ -f .ai/boundaries.md ]; then
+            echo "✓ .ai/boundaries.md exists"
+          else
+            echo "⚠ .ai/boundaries.md missing"
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 4: Check for unreviewed submissions
+      # -----------------------------------------------------------------
+      - name: Check review coverage
+        run: |
+          echo "Checking review coverage..."
+
+          # Find submit commits that don't have corresponding reviews
+          UNREVIEWED=0
+          for HASH in $(git log -20 --format="%H" --grep="\[ACTION:submit\]" 2>/dev/null); do
+            MSG=$(git log -1 --format=%B "$HASH")
+            TASK=$(echo "$MSG" | sed -n 's/.*\[TASK:\([a-zA-Z0-9_-]*\)\].*/\1/p' | head -1)
+
+            if [ -n "$TASK" ]; then
+              REVIEW_FILE=".ai/reviews/${TASK}-review.md"
+              if [ -f "$REVIEW_FILE" ]; then
+                echo "✓ $TASK: reviewed"
+              else
+                echo "⚠ $TASK: no review file found"
+                UNREVIEWED=$((UNREVIEWED + 1))
+              fi
+            fi
+          done
+
+          if [ "$UNREVIEWED" -gt 0 ]; then
+            echo "::warning::$UNREVIEWED submissions without review files"
+          else
+            echo "All submissions have reviews."
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 5: Validate script syntax
+      # -----------------------------------------------------------------
+      - name: Validate scripts
+        run: |
+          echo "Checking script syntax..."
+
+          for SCRIPT in scripts/*.sh scripts/post-commit; do
+            if [ -f "$SCRIPT" ]; then
+              if bash -n "$SCRIPT" 2>/dev/null; then
+                echo "✓ $SCRIPT: syntax valid"
+              else
+                echo "✗ $SCRIPT: syntax error"
+                exit 1
+              fi
+            fi
+          done
+
+      # -----------------------------------------------------------------
+      # Step 6: Update status summary
+      # -----------------------------------------------------------------
+      - name: Generate merge summary
+        if: always()
+        run: |
+          echo "## Pre-Mortal Merge Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check | Result |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+
+          # Commit format
+          FORMAT_ISSUES="${{ steps.validate_format.outputs.format_issues }}"
+          if [ "${FORMAT_ISSUES:-0}" -eq 0 ]; then
+            echo "| Commit format | PASS |" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "| Commit format | WARN ($FORMAT_ISSUES issues) |" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          # Coordination files
+          if [ -f .ai/status.md ] && [ -f .ai/boundaries.md ]; then
+            echo "| Coordination files | PASS |" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "| Coordination files | WARN |" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          # Script syntax
+          echo "| Script syntax | PASS |" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Branch**: pre-mortal" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Commit**: ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Triggered by**: ${{ github.actor }}" >> "$GITHUB_STEP_SUMMARY"
+

@@ -1,0 +1,192 @@
+# =============================================================================
+# Open Artel — Sprint Evaluation Workflow
+# =============================================================================
+#
+# Generates sprint evaluation reports using the metrics collection script
+# and Kimi Print Mode. Can be triggered manually or on sprint completion.
+#
+# Triggers:
+#   - Manual dispatch (workflow_dispatch) with optional sprint number
+#   - Push to pre-mortal with [ACTION:evaluate] in commit message
+#
+# Requires KIMI_API_KEY in GitHub Secrets.
+#
+# =============================================================================
+
+name: Sprint Evaluation
+
+on:
+  # Manual trigger with optional parameters
+  workflow_dispatch:
+    inputs:
+      sprint_number:
+        description: 'Sprint number (e.g., 3)'
+        required: false
+        default: ''
+      project_name:
+        description: 'Project name'
+        required: false
+        default: 'Open Artel'
+      include_baseline:
+        description: 'Include baseline comparison'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      quick_mode:
+        description: 'Quick mode (metrics only, no Kimi report)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+  # Auto-trigger on evaluate action commits
+  push:
+    branches:
+      - 'pre-mortal'
+      - 'main'
+
+permissions:
+  contents: write
+
+jobs:
+  # -----------------------------------------------------------------
+  # Check if we should run (for push triggers)
+  # -----------------------------------------------------------------
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Check trigger
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            # For push events, only run if commit has [ACTION:evaluate]
+            COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" || echo "")
+            if echo "$COMMIT_MSG" | grep -q "\[ACTION:evaluate\]"; then
+              echo "should_run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "should_run=false" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+  # -----------------------------------------------------------------
+  # Generate evaluation report
+  # -----------------------------------------------------------------
+  evaluate:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.should_run == 'true'
+    timeout-minutes: 15
+
+    steps:
+      # -----------------------------------------------------------------
+      # Step 1: Checkout the code
+      # -----------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for metrics
+
+      # -----------------------------------------------------------------
+      # Step 2: Install Kimi Code CLI
+      # -----------------------------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Kimi Code CLI
+        run: pip install kimi-cli
+
+      # -----------------------------------------------------------------
+      # Step 3: Run evaluation script
+      # -----------------------------------------------------------------
+      - name: Generate evaluation
+        env:
+          KIMI_API_KEY: ${{ secrets.KIMI_API_KEY }}
+        run: |
+          chmod +x scripts/generate-evaluation.sh
+
+          # Build command arguments
+          ARGS=""
+
+          # Sprint number
+          SPRINT="${{ github.event.inputs.sprint_number }}"
+          if [ -n "$SPRINT" ]; then
+            ARGS="$ARGS --sprint $SPRINT"
+          fi
+
+          # Project name
+          PROJECT="${{ github.event.inputs.project_name }}"
+          if [ -n "$PROJECT" ]; then
+            ARGS="$ARGS --project \"$PROJECT\""
+          fi
+
+          # Baseline
+          BASELINE="${{ github.event.inputs.include_baseline }}"
+          if [ "$BASELINE" = "true" ] || [ -z "$BASELINE" ]; then
+            ARGS="$ARGS --baseline"
+          fi
+
+          # Quick mode
+          QUICK="${{ github.event.inputs.quick_mode }}"
+          if [ "$QUICK" = "true" ]; then
+            ARGS="$ARGS --quick"
+          fi
+
+          echo "Running: ./scripts/generate-evaluation.sh $ARGS"
+          eval "./scripts/generate-evaluation.sh $ARGS"
+
+      # -----------------------------------------------------------------
+      # Step 4: Commit evaluation report
+      # -----------------------------------------------------------------
+      - name: Commit evaluation report
+        run: |
+          # Check if any evaluation reports were created/modified
+          if git diff --name-only | grep -q ".ai/reports/eval-"; then
+            git config user.name "Kimi Overseer (CI)"
+            git config user.email "kimi-ci@open-artel.dev"
+            git add .ai/reports/eval-*.md
+            git commit -m "[AGENT:kimi] [ACTION:report] [TASK:SPRINT-EVAL] Sprint evaluation report generated"
+            git push
+            echo "Evaluation report committed and pushed."
+          elif ls .ai/reports/eval-*.md 1>/dev/null 2>&1; then
+            # Files exist but might be new (untracked)
+            git config user.name "Kimi Overseer (CI)"
+            git config user.email "kimi-ci@open-artel.dev"
+            git add .ai/reports/eval-*.md
+            git commit -m "[AGENT:kimi] [ACTION:report] [TASK:SPRINT-EVAL] Sprint evaluation report generated" || echo "No changes to commit"
+            git push || echo "Push failed"
+          else
+            echo "No evaluation report files found."
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 5: Post summary
+      # -----------------------------------------------------------------
+      - name: Post summary
+        if: always()
+        run: |
+          echo "## Sprint Evaluation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Show metrics if available
+          REPORT=$(ls -t .ai/reports/eval-*.md 2>/dev/null | head -1)
+          if [ -n "$REPORT" ] && [ -f "$REPORT" ]; then
+            echo "### Report: $(basename "$REPORT")" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No evaluation report was generated." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Check the workflow logs for details." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
