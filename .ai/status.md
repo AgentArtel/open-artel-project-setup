@@ -12,7 +12,7 @@ Moonshot/Kimi Feature Integration — All 7 phases COMPLETE. Phase 7 (Integratio
 |----|-------|--------|-------|
 | TASK-CONCEPT-1-DASHBOARD | Open Artel Dashboard — Central Hub | IN_PROGRESS | Standalone Lovable dashboard project — task decomposition complete, subagents created, ready for parallel development |
 | TASK-D1-1 | Project Setup — Lovable Frontend Foundation | PENDING | Assigned to: lovable | Instruction: `.ai/instructions/lovable-D1-1-PROJECT-SETUP.md` |
-| TASK-D1-2 | Backend API — Node.js + Express + WebSocket | PENDING | Assigned to: cursor | Instruction: `.ai/instructions/cursor-D1-2-BACKEND-API.md` |
+| TASK-D1-2 | Backend API — Node.js + Express + WebSocket | DONE | Assigned to: cursor | ✅ Backend API complete, ready for D1-3 |
 | TASK-D1-3 | GitHub API Integration | PENDING | Assigned to: cursor | Blocks: D1-2 |
 | TASK-D1-4 | Task Lifecycle Visualizer | PENDING | Assigned to: cursor | Depends on: D1-1, D1-3 |
 | TASK-D1-5 | Kimi Chat Interface | PENDING | Assigned to: lovable | Depends on: D1-1, D1-2 |
