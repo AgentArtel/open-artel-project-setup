@@ -323,7 +323,7 @@ export class GitHubService {
         type: item.type === 'dir' ? 'dir' : 'file',
         size: item.size || 0,
         sha: item.sha,
-        url: item.html_url,
+        url: item.html_url || '',
       }));
     } catch (error: any) {
       if (error.status === 404) {
