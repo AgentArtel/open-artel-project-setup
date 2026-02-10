@@ -4,13 +4,14 @@ Last updated: 2026-02-10
 
 ## Current Focus
 
-System bootstrap — establishing coordination layer for this repo's own development.
+Exploring multi-agent Git workflow and automation — researching how to scale the coordination system with Git-based agent handoffs and Kimi Code integration.
 
 ## Active Sprint
 
 | ID | Title | Status | Notes |
 |----|-------|--------|-------|
 | TASK-001 | Bootstrap self-coordination system | DONE | AGENTS.md, CLAUDE.md, .ai/ layer |
+| TASK-002 | Explore multi-agent Git workflow and Kimi Code integration | PENDING | Research phase — design automation system |
 
 ## Backlog
 
