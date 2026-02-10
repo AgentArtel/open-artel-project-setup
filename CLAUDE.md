@@ -32,6 +32,10 @@ See `.ai/boundaries.md` for what you can do unilaterally vs. what needs human si
 - Past configurations must be complete snapshots (not partial)
 - Every template change should be tested against the Even-Openclaw example mentally: "would this still work for ClawLens?"
 
+## Kimi Coordination
+
+When Kimi Overseer is enabled, coordinate via commit-based routing. See `docs/claude-kimi-coordination.md` for delegation patterns, review workflow, and session management.
+
 ## Do NOT
 
 - Add runtime dependencies — this repo stays pure markdown

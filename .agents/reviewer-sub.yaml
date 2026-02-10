@@ -3,11 +3,17 @@
 # Dispatched by the Kimi Overseer via Task tool.
 # Reviews agent submissions against acceptance criteria and boundary compliance.
 # Returns APPROVED, CHANGES_REQUESTED, or REJECTED with specific findings.
+#
+# NOTE: This is a standalone subagent. It does NOT extend kimi-overseer.yaml
+# to avoid circular reference (overseer → subagent → extend overseer → ...).
 
 version: 1
 agent:
-  extend: ./kimi-overseer.yaml
+  name: reviewer
+  system_prompt_path: ./prompts/overseer.md
   system_prompt_args:
+    PROJECT_NAME: "Open Artel Project Setup"
+    SPRINT_STATUS: "${KIMI_WORK_DIR}/.ai/status.md"
     ROLE_ADDITIONAL: |
       You are a **Code Reviewer** subagent dispatched by the Kimi Overseer.
 
@@ -59,7 +65,13 @@ agent:
       - Unmet acceptance criteria require CHANGES_REQUESTED
       - Critical bugs or security issues require REJECTED
       - Always provide specific, actionable feedback
-  exclude_tools:
-    - "kimi_cli.tools.multiagent:Task"
-    - "kimi_cli.tools.multiagent:CreateSubagent"
-
+  tools:
+    # Reviewer needs file access and search, but NOT multi-agent dispatch
+    - "kimi_cli.tools.shell:Shell"
+    - "kimi_cli.tools.file:ReadFile"
+    - "kimi_cli.tools.file:WriteFile"
+    - "kimi_cli.tools.file:StrReplaceFile"
+    - "kimi_cli.tools.file:Glob"
+    - "kimi_cli.tools.file:Grep"
+    - "kimi_cli.tools.think:Think"
+    - "kimi_cli.tools.web:FetchURL"

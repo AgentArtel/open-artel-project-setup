@@ -5,8 +5,9 @@ A configuration and workflow distribution system for multi-agent AI development.
 ## Tech Stack
 
 - **Content**: Pure Markdown (`.md`, `.mdc`) — zero runtime dependencies
-- **Tooling**: Git, GitHub, Claude Code CLI
-- **Validation**: Manual review (no build, no linter, no tests — content is prose)
+- **Tooling**: Git, GitHub, Claude Code CLI, Kimi Code CLI
+- **Automation**: Shell scripts (Bash), Python 3 (stdlib only)
+- **Validation**: Manual review + automated phase tests (`scripts/test-phase-*.sh`)
 
 ## Project Structure
 
@@ -44,7 +45,26 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       └── .cursor/rules/       # Template Cursor governance rules
 ├── scripts/                     # Automation scripts
 │   ├── post-commit              # Git post-commit hook (source)
-│   └── install-git-hooks.sh     # Hook installation script
+│   ├── install-git-hooks.sh     # Hook installation script
+│   ├── setup-kimi-project.sh    # One-command Kimi setup
+│   ├── verify-kimi-setup.sh     # Kimi health check
+│   ├── quick-kimi-check.sh      # Fast pre-work check
+│   ├── kimi-session-manager.sh  # Session lifecycle management
+│   ├── kimi-context-monitor.sh  # Context health monitoring
+│   ├── generate-evaluation.sh   # Sprint evaluation reports
+│   ├── moonshot-api-client.py   # Moonshot Files API client
+│   ├── upload-project-files.py  # File upload/sync to Moonshot
+│   ├── wire-daemon.py           # Wire Mode daemon (advanced)
+│   └── test-phase-*.sh          # Phase test suites
+├── docs/                        # Integration guides
+│   ├── cursor-kimi-integration.md
+│   ├── claude-kimi-coordination.md
+│   ├── kimi-sessions.md
+│   ├── kimi-context-optimization.md
+│   ├── kimi-agent-swarm.md
+│   ├── kimi-multimodal.md
+│   ├── moonshot-api-integration.md
+│   └── kimi-evaluation-procedures.md
 ├── .agents/                     # Agent Skills & Kimi Overseer (Kimi Code / Claude Code / Codex)
 │   ├── kimi-overseer.yaml       # Kimi Overseer agent definition
 │   ├── reviewer-sub.yaml        # Reviewer subagent definition
@@ -138,10 +158,15 @@ Agent commits → post-commit hook → parse [AGENT:x] [ACTION:y] [TASK:z] → k
 
 | ACTION | Automation |
 |--------|-----------|
-| `submit` | Triggers automated review (writes to `.ai/reviews/`) |
-| `approve` | Triggers merge to `pre-mortal` and status update |
+| `submit` | Triggers automated review (writes to `.ai/reviews/`) + chat log |
+| `approve` | Triggers merge to `pre-mortal`, status update, context auto-compact + chat log |
+| `reject` | Logs chat entry (review feedback in `.ai/reviews/`) |
 | `report` | Appends summary to `.ai/reports/sprint-current.md` |
-| `update`, `delegate`, `merge` | Logged only, no automation |
+| `evaluate` | Generates sprint evaluation report with 8 metrics |
+| `delegate` | Chat log + auto-creates Kimi session (SPRINT tasks) |
+| `update`, `merge` | Logged only |
+
+Sprint completion is auto-detected: when all tasks in `.ai/status.md` are DONE, evaluation and session archive trigger automatically.
 
 ### Setup
 

@@ -75,3 +75,28 @@ flowchart TD
 | CHANGES REQUESTED | `[AGENT:kimi] [ACTION:reject] [TASK:X]` | Agent fixes and re-submits |
 | REJECT | `[AGENT:kimi] [ACTION:reject] [TASK:X]` | Task re-scoped or reassigned |
 
+## Advanced Review Patterns
+
+### Dynamic Reviewer Subagents
+
+For specialized reviews, create a dynamic subagent at runtime:
+
+```python
+CreateSubagent(name="security-reviewer", system_prompt="<security review prompt>")
+Task(subagent_name="security-reviewer", prompt="Review TASK-X for security issues...")
+```
+
+Templates available in `.agents/subagents/` (debugger, performance, docs, test-generator).
+
+### Agent Swarm for Batch Reviews
+
+At sprint end, dispatch multiple reviewer subagents in parallel:
+
+```python
+# Review 5 tasks simultaneously (K2.5 supports up to 100 sub-agents)
+for task in tasks:
+    Task(subagent_name="reviewer", prompt=f"Review {task}...")
+```
+
+See `.ai/patterns/agent-swarm-parallel-review.md` for the full pattern.
+

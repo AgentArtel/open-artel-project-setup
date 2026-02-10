@@ -105,6 +105,29 @@ Last updated: [DATE]
 - **When a task is approved**: Move to Recently Completed, set status to DONE
 - **When a task is blocked**: Set status to BLOCKED, add blocker in Notes
 
+## Kimi Session & Context Integration
+
+### Session Lifecycle
+
+Sessions are automatically linked to sprints:
+
+- **Sprint start**: `[ACTION:delegate] [TASK:SPRINT-N]` auto-creates a Kimi session named `sprint-N`
+- **During sprint**: Session persists across all task reviews and handoffs
+- **Sprint end**: Session auto-archived when all tasks are DONE, evaluation triggered
+
+### Context Monitoring
+
+The context monitor runs in background after approve/merge actions:
+
+- Checks context file size, session age, and file operations against thresholds
+- Auto-compacts if CRITICAL threshold exceeded (configurable in `.ai/metrics/thresholds.json`)
+- History tracked in `.ai/metrics/context-history.json`
+
+### Sprint Evaluation
+
+At sprint completion, 8 metrics are collected automatically:
+task completion rate, review rejection rate, boundary violations, sprint velocity, handoff latency, regression rate, escalation rate, template coverage.
+
 ## Sprint Execution
 
 ### Workflow

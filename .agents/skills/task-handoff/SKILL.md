@@ -106,3 +106,31 @@ Cursor submits TASK-P4-01 → Review → REJECT (missing error handling)
 → Cursor fixes → Re-submits → Review → APPROVE → Merge
 ```
 
+## Kimi Session Context in Handoffs
+
+### Session Continuity
+
+Each sprint has a named Kimi session. During handoffs:
+
+- The session retains context from previous reviews and decisions
+- Use `--continue` to resume the session for the next task
+- Key findings are always saved to `.ai/` files (survive compaction)
+
+### Context-Aware Handoffs
+
+After approve/merge, the post-commit hook:
+
+1. Runs context monitor in background (checks if compaction needed)
+2. Updates session metadata with task completion
+3. If all tasks DONE: triggers sprint evaluation and session archive
+
+### Handoff with Subagent Specialization
+
+For complex handoffs, the overseer can create specialized subagents:
+
+- **Debugger**: When a rejection requires deep investigation
+- **Performance analyzer**: When a task involves optimization
+- **Documentation writer**: When handoff requires docs update
+
+Templates: `.agents/subagents/` | Patterns: `.ai/patterns/create-subagent-*.md`
+

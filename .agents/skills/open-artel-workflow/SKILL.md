@@ -76,6 +76,19 @@ All commits use the routing header format:
 
 See the `git-routing` skill for the full specification.
 
+## Kimi Features
+
+The Kimi Overseer integrates these capabilities into the workflow:
+
+- **Session Management**: Named sessions linked to sprints, auto-created on `[ACTION:delegate]` for SPRINT tasks
+- **Dynamic Subagents**: Runtime-created specialist agents via `CreateSubagent` (debugger, performance, docs, test-generator templates)
+- **Context Monitoring**: Automatic compaction when context grows large, triggered after `[ACTION:approve]` commits
+- **Moonshot Files API**: Upload project files for persistent context across sessions
+- **Agent Swarm**: Parallel subagent dispatch for batch reviews and research (K2.5, up to 100 sub-agents)
+- **Multi-modal**: Vision + text analysis for UI screenshot reviews (K2.5)
+
+Setup: `./scripts/setup-kimi-project.sh` | Verify: `./scripts/verify-kimi-setup.sh`
+
 ## Key Principles
 
 - **Convention over automation** — the system works with just markdown and Git

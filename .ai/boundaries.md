@@ -46,7 +46,7 @@ These benefit from discussion but aren't blocked on approval.
 | `.ai/instructions/` | Kimi, Claude Code | Target agent | Directives and assignments |
 | `.ai/reviews/` | Kimi, Claude Code | Submitting agent + Human | Code review feedback and decisions |
 | `.ai/reports/` | All agents, primarily Kimi | Human + all agents | Status reports, sprint summaries |
-| `.ai/chats/` | All agents | All agents | Conversation logs between agents |
+| `.ai/chats/` | Post-commit hook (auto) + all agents | All agents | Inter-agent communication logs (auto-populated on submit, approve, reject, delegate) |
 | `.ai/ideas/` | Claude Code | All agents + Human | Feature ideas backlog |
 | `.ai/templates/` | Claude Code | All agents | Templates for all file types |
 

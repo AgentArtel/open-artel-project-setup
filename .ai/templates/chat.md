@@ -28,6 +28,8 @@
 ---
 
 <!-- Usage notes:
+- Auto-populated by the post-commit hook on submit, approve, reject, and delegate actions
+- Agents can also append entries manually for ad-hoc coordination
 - One file per conversation thread (task-scoped or sprint-scoped)
 - Entries are appended chronologically
 - Use ISO date format: YYYY-MM-DD HH:MM

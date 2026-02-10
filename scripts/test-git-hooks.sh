@@ -33,7 +33,7 @@ fi
 # Test configuration
 VERBOSE="${VERBOSE:-false}"
 QUICK="${QUICK:-false}"
-TEST_DIR=".ai/test-hooks"
+TEST_DIR=".ai/test-hooks-tmp"
 HOOK_LOG=".git/hooks/post-commit.log"
 
 # Color output
@@ -401,6 +401,11 @@ main() {
     echo "  Failed:  $TESTS_FAILED"
     echo "  Skipped: $TESTS_SKIPPED"
     echo ""
+
+    # Clean up temp test directory
+    if [ -d "$TEST_DIR" ]; then
+        rm -rf "$TEST_DIR"
+    fi
 
     if [ $TESTS_FAILED -eq 0 ]; then
         log_success "All tests passed!"
