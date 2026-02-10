@@ -5,8 +5,9 @@ export const filesRouter = Router({ mergeParams: true });
 
 // GET /api/projects/:owner/:repo/files/:path* - Read file content
 filesRouter.get('/*', (req, res) => {
-  const owner = req.params.owner as string;
-  const repo = req.params.repo as string;
+  const params = req.params as { owner?: string; repo?: string; [key: string]: string | string[] | undefined };
+  const owner = params.owner || '';
+  const repo = params.repo || '';
   const filePath = (req.params as Record<string, string>)[0] || ''; // Capture everything after /files/
   
   if (!filePath) {

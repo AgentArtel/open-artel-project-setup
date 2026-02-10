@@ -8,7 +8,9 @@ const commits: Commit[] = [];
 
 // GET /api/projects/:owner/:repo/commits - Commit history
 commitsRouter.get('/', (req, res) => {
-  const { owner, repo } = req.params;
+  const params = req.params as { owner?: string; repo?: string };
+  const owner = params.owner || '';
+  const repo = params.repo || '';
   const limit = parseInt(req.query.limit as string || '50', 10);
   
   // TODO: Fetch from GitHub API in D1-3
