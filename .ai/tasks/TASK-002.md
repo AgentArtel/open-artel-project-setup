@@ -109,14 +109,17 @@ Deliverable: Comprehensive design document exploring how these components work t
 15. **NEW**: How can approval workflows integrate with Git commit review process?
 16. **NEW**: Can context compression/summarization help maintain long project histories without token bloat?
 
-**Resources to review:**
+**Primary Research Sources:**
+- **Claude Code Quickstart (Git Integration)**: https://code.claude.com/docs/en/quickstart#step-6-use-git-with-claude-code — Essential for understanding conversational Git operations with Claude Code
+- **Kimi Code CLI Getting Started**: https://moonshotai.github.io/kimi-cli/en/guides/getting-started.html — Core documentation for Kimi Code CLI installation, configuration, and basic usage
+- **Kimi Code Documentation**: https://www.kimi.com/code/docs/en/ — Comprehensive guide covering Kimi Code membership benefits, integration, and features
+
+**Additional Resources to review:**
 - Kimi Code API docs: https://platform.moonshot.ai/docs/overview
 - Kimi Code agent support: https://platform.moonshot.ai/docs/guide/agent-support
 - Kimi Code multi-turn conversations: https://platform.moonshot.ai/docs/guide/engage-in-multi-turn-conversations-using-kimi-api
 - Kimi Code K2 setup: https://platform.moonshot.ai/docs/guide/use-kimi-k2-to-setup-agent
-- Claude Code Git integration: https://code.claude.com/docs/en/quickstart#step-6-use-git-with-claude-code
 - Claude Code CLI docs: https://code.claude.com/docs/en/quickstart
-- Kimi Code CLI documentation: https://www.kimi.com/code/docs/en/
 
 **Kimi Code advanced features to explore:**
 
