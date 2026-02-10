@@ -9,7 +9,8 @@ const lifecycleEvents: TaskLifecycleEvent[] = [];
 
 // GET /api/projects/:owner/:repo/tasks - List all tasks
 tasksRouter.get('/', (req, res) => {
-  const { owner, repo } = req.params;
+  const owner = req.params.owner as string;
+  const repo = req.params.repo as string;
   
   // TODO: Fetch from GitHub API in D1-3
   const response: ApiResponse<Task[]> = {
