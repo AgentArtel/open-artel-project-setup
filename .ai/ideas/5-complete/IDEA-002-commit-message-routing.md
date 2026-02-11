@@ -2,9 +2,10 @@
 
 - **Category**: Automation
 - **Origin**: TASK-002
-- **Status**: researched
+- **Status**: complete
 - **Feasibility**: Ready
 - **Roadmap Phase**: Phase 1 (Foundation)
+- **Implemented**: Phase 1 + Phase 5 (2026-02-10)
 
 ### The Idea
 
@@ -81,6 +82,19 @@ The `[TO:]` field from Cursor's design adds explicit destination routing — val
 - Cursor F2 (commit routing protocol) — direct match
 - Cursor F4 (agent response reports in commits) — folded in above
 - Cursor F5 (fix logs and next-steps) — folded in above
+
+### Implementation Summary
+
+**Files created**: `.ai/templates/commit-message.md` (reference guide), `.agents/skills/git-routing/SKILL.md` (routing format), `scripts/post-commit` (hook that parses headers), `setups/multi-agent-starter/scripts/post-commit.template`
+
+### Dev Log
+
+| Date | Stage | Action | By |
+|------|-------|--------|----|
+| 2026-02-10 | capture | Extracted from TASK-002 brainstorm | Claude Code |
+| 2026-02-10 | research | Header format, routing table, parsing regex designed | Claude Code |
+| 2026-02-10 | complete | Implemented in template + skill + hook | Cursor + Human |
+| 2026-02-11 | enriched | Added Cursor's F4/F5 detail (structured reports, fix logs) | Claude Code |
 
 ### Related Ideas
 

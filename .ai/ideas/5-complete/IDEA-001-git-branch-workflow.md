@@ -2,9 +2,10 @@
 
 - **Category**: Git Workflow
 - **Origin**: TASK-002
-- **Status**: researched
+- **Status**: complete
 - **Feasibility**: Ready
 - **Roadmap Phase**: Phase 1 (Foundation)
+- **Implemented**: Phase 1 (2026-02-10)
 
 ### The Idea
 
@@ -37,6 +38,18 @@ Enables true multi-agent collaboration where work flows systematically between a
 - **Blocked work**: Agent marks BLOCKED in commit. Kimi re-routes to Claude Code for re-decomposition.
 - **Staging branch**: Yes — `pre-mortal` serves this role.
 - **Merge conflicts**: Agents on separate branches. Kimi auto-resolves; escalates non-trivial conflicts to Claude Code.
+
+### Implementation Summary
+
+**Files created/modified**: `AGENTS.md` (branch hierarchy, naming, handoff sequence), `.agents/skills/git-routing/SKILL.md`, `.agents/skills/open-artel-workflow/SKILL.md`, `setups/multi-agent-starter/AGENTS.md`
+
+### Dev Log
+
+| Date | Stage | Action | By |
+|------|-------|--------|----|
+| 2026-02-10 | capture | Extracted from TASK-002 brainstorm | Claude Code |
+| 2026-02-10 | research | Feasibility assessed, branch hierarchy designed | Claude Code |
+| 2026-02-10 | complete | Implemented in AGENTS.md + skills | Cursor + Human |
 
 ### Related Ideas
 

@@ -2,9 +2,10 @@
 
 - **Category**: Communication
 - **Origin**: TASK-002
-- **Status**: researched
+- **Status**: complete
 - **Feasibility**: Ready
 - **Roadmap Phase**: Phase 1 (Foundation)
+- **Implemented**: Phase 1 (2026-02-10)
 
 ### The Idea
 
@@ -106,6 +107,19 @@ vs. our design:
 - Cursor F10 (agent reports) — folded in above
 - Cursor F11 (agent instructions) — folded in above
 - Cursor F12 (review submission) — folded in above
+
+### Implementation Summary
+
+**Files/folders created**: `.ai/chats/`, `.ai/reports/`, `.ai/instructions/`, `.ai/reviews/` (with .gitkeep), `.ai/templates/chat.md`, `.ai/templates/instruction.md`, `.ai/templates/report.md`, `.ai/templates/review.md`, `.ai/boundaries.md` updated with folder ownership
+
+### Dev Log
+
+| Date | Stage | Action | By |
+|------|-------|--------|----|
+| 2026-02-10 | capture | Extracted from TASK-002 brainstorm | Claude Code |
+| 2026-02-10 | research | Folder structure, naming, formats designed | Claude Code |
+| 2026-02-10 | complete | Folders + 4 templates + ownership rules created | Cursor + Human |
+| 2026-02-11 | enriched | Added Cursor's F10/F11/F12 detail | Claude Code |
 
 ### Related Ideas
 
