@@ -44,8 +44,47 @@ Commits without matching headers are treated as regular commits — no routing t
 - **Valid actions**: submit, review, approve, reject, report, update, merge.
 - **Malformed headers**: Ignored — treated as regular commits.
 
+### Structured Commit Reports (from Cursor F4+F5)
+
+Cursor's analysis identified two sub-features that belong here:
+
+**Report format in commits** — every agent commit includes structured sections, not just a description:
+- `## Work Summary` — what was done
+- `## Files Changed` — with brief rationale per file
+- `## Tests` — pass/fail status
+- `## Issues Found` — anything unexpected
+- `## Next Steps` — what should happen next
+
+**Fix logs** — when a reviewer sends feedback and the coder fixes issues, the fix commit includes:
+- `## Fixes Applied` — referencing the review feedback
+- `## Next Step` — explicit routing: "Ready for re-review" or "Ready for merge"
+
+**Validation**: `pre-commit` hook can check that required sections exist in routed commits.
+
+**Design decision**: The `[TO:]` header Cursor uses (`[AGENT:source][TO:dest][TYPE:action]`) and our `[AGENT:] [ACTION:] [TASK:]` format serve the same purpose. Unified format recommendation:
+
+```
+[AGENT:<source>][TO:<target>][ACTION:<action>][TASK:<task-id>] <description>
+
+## Work Summary
+...
+## Files Changed
+...
+## Next Step
+...
+```
+
+The `[TO:]` field from Cursor's design adds explicit destination routing — valuable addition to our original format.
+
+### Cross-reference: Cursor Features
+
+- Cursor F2 (commit routing protocol) — direct match
+- Cursor F4 (agent response reports in commits) — folded in above
+- Cursor F5 (fix logs and next-steps) — folded in above
+
 ### Related Ideas
 
 - IDEA-001 (branch workflow uses this routing)
 - IDEA-003 (automated workflow relies on routing)
 - IDEA-010 (Print Mode could generate these headers)
+- IDEA-021 (auto-triggered review parses these headers)
