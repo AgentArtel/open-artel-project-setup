@@ -15,6 +15,7 @@ export interface SettingsState {
   
   // Appearance
   theme: 'light' | 'dark' | 'system';
+  uiStyle: 'classic' | 'clawlens';
   
   // Project Defaults
   defaultRefreshInterval: number;
@@ -40,6 +41,7 @@ export interface SettingsState {
   updateGithubToken: (token: string) => void;
   updateKimiApiKey: (key: string) => void;
   updateTheme: (theme: 'light' | 'dark' | 'system') => void;
+  updateUiStyle: (style: 'classic' | 'clawlens') => void;
   updateBackendHealth: (health: SettingsState['backendHealth']) => void;
   resetToDefaults: () => void;
   
@@ -57,6 +59,7 @@ const defaultSettings = {
   githubToken: '',
   kimiApiKey: '',
   theme: 'system' as const,
+  uiStyle: 'classic' as const,
   defaultRefreshInterval: 30,
   defaultView: 'tasks' as const,
   notifications: true,
@@ -105,6 +108,7 @@ export const useSettingsStore = create<SettingsState>(
           githubToken: newState.githubToken,
           kimiApiKey: newState.kimiApiKey,
           theme: newState.theme,
+          uiStyle: newState.uiStyle,
           defaultRefreshInterval: newState.defaultRefreshInterval,
           defaultView: newState.defaultView,
           notifications: newState.notifications,
@@ -134,6 +138,10 @@ export const useSettingsStore = create<SettingsState>(
 
     updateTheme: (theme) => {
       get().updateSettings({ theme });
+    },
+
+    updateUiStyle: (style) => {
+      get().updateSettings({ uiStyle: style });
     },
 
     updateBackendHealth: (health) => {
@@ -180,6 +188,7 @@ useSettingsStore.subscribe((state) => {
     githubToken: state.githubToken,
     kimiApiKey: state.kimiApiKey,
     theme: state.theme,
+    uiStyle: state.uiStyle,
     defaultRefreshInterval: state.defaultRefreshInterval,
     defaultView: state.defaultView,
     notifications: state.notifications,

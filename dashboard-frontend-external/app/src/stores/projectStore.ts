@@ -5,6 +5,8 @@
 import { create } from 'zustand';
 import type { Project, CreateProjectData } from '@/types';
 import { projectsApi } from '@/lib/api';
+import { mockProjects, isBackendConfigured } from '@/lib/mockData';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 interface ProjectState {
   // State
@@ -12,6 +14,7 @@ interface ProjectState {
   currentProject: Project | null;
   isLoading: boolean;
   error: string | null;
+  usingMockData: boolean;
   
   // Actions
   fetchProjects: () => Promise<void>;
@@ -29,27 +32,44 @@ export const useProjectStore = create<ProjectState>(
     currentProject: null,
     isLoading: false,
     error: null,
+    usingMockData: false,
 
     // Fetch all projects
     fetchProjects: async () => {
+      const apiBaseUrl = useSettingsStore.getState().apiBaseUrl;
+      if (!isBackendConfigured(apiBaseUrl)) {
+        set({ projects: mockProjects, isLoading: false, error: null, usingMockData: true });
+        return;
+      }
+
       set({ isLoading: true, error: null });
       try {
         const projects = await projectsApi.list();
-        set({ projects, isLoading: false });
+        set({ projects, isLoading: false, usingMockData: false });
       } catch (error) {
+        console.debug('[ProjectStore] API failed, falling back to mock data');
         set({ 
-          error: error instanceof Error ? error.message : 'Failed to fetch projects',
-          isLoading: false 
+          projects: mockProjects,
+          isLoading: false,
+          error: null,
+          usingMockData: true,
         });
       }
     },
 
     // Fetch single project
     fetchProject: async (owner: string, repo: string) => {
+      const apiBaseUrl = useSettingsStore.getState().apiBaseUrl;
+      if (!isBackendConfigured(apiBaseUrl)) {
+        const mock = mockProjects.find(p => p.owner === owner && p.repo === repo);
+        set({ currentProject: mock || null, isLoading: false, usingMockData: true });
+        return;
+      }
+
       set({ isLoading: true, error: null });
       try {
         const project = await projectsApi.get(owner, repo);
-        set({ currentProject: project, isLoading: false });
+        set({ currentProject: project, isLoading: false, usingMockData: false });
       } catch (error) {
         set({ 
           error: error instanceof Error ? error.message : 'Failed to fetch project',

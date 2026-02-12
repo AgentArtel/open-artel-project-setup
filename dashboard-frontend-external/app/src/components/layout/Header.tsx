@@ -26,11 +26,14 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useUiStyle } from '@/hooks/useUiStyle';
+import { cn } from '@/lib/utils';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
   const { owner, repo } = useParams<{ owner?: string; repo?: string }>();
   const { backendHealth } = useSettingsStore();
+  const { isClawLens } = useUiStyle();
 
   // Get health icon
   const getHealthIcon = () => {
@@ -45,16 +48,30 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-50 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+      isClawLens && "border-b-primary/20"
+    )}>
       <div className="flex h-full items-center px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 mr-8">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+          <div className={cn(
+            "flex h-8 w-8 items-center justify-center rounded-lg bg-primary",
+            isClawLens && "rounded-sm"
+          )}>
             <Github className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="font-semibold text-lg hidden sm:inline">
+          <span className={cn(
+            "font-semibold text-lg hidden sm:inline",
+            isClawLens && "font-mono tracking-wider cyan-glow"
+          )}>
             Open Artel
           </span>
+          {isClawLens && (
+            <span className="text-[9px] text-muted-foreground tracking-widest hidden md:inline ml-1">
+              オープン
+            </span>
+          )}
         </Link>
 
         {/* Breadcrumb */}
@@ -73,9 +90,15 @@ export function Header() {
         {/* Right side actions */}
         <div className="flex items-center gap-2 ml-auto">
           {/* Health Status Indicator */}
-          <div className="hidden sm:flex items-center gap-2 mr-2 px-2 py-1 rounded-md bg-muted/50">
+          <div className={cn(
+            "hidden sm:flex items-center gap-2 mr-2 px-2 py-1 rounded-md bg-muted/50",
+            isClawLens && "rounded-sm"
+          )}>
             {getHealthIcon()}
-            <span className="text-xs text-muted-foreground capitalize">
+            <span className={cn(
+              "text-xs text-muted-foreground capitalize",
+              isClawLens && "font-mono tracking-wider cyan-glow"
+            )}>
               {backendHealth.status}
             </span>
           </div>

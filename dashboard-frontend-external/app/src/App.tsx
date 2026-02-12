@@ -12,20 +12,46 @@ import { TaskDetail } from '@/pages/TaskDetail';
 import { AgentStatus } from '@/pages/AgentStatus';
 import { CommitHistory } from '@/pages/CommitHistory';
 import { FileBrowser } from '@/pages/FileBrowser';
+import { ReviewList } from '@/pages/ReviewList';
+import { ReportList } from '@/pages/ReportList';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { initializeSocket } from '@/lib/websocket';
 import { healthApi } from '@/lib/api';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { isBackendConfigured } from '@/lib/mockData';
 import { useEffect } from 'react';
 
-// Initialize WebSocket and health check on app load
-function AppInit() {
+// Apply ClawLens class to document root
+function UiStyleSync() {
+  const uiStyle = useSettingsStore((s) => s.uiStyle);
+
   useEffect(() => {
-    // Initialize WebSocket
+    if (uiStyle === 'clawlens') {
+      document.documentElement.classList.add('clawlens');
+    } else {
+      document.documentElement.classList.remove('clawlens');
+    }
+  }, [uiStyle]);
+
+  return null;
+}
+
+// Initialize WebSocket and health check only when backend is configured
+function AppInit() {
+  const apiBaseUrl = useSettingsStore((s) => s.apiBaseUrl);
+  const refreshIntervalSeconds = useSettingsStore((s) => s.defaultRefreshInterval);
+
+  useEffect(() => {
+    // Don't auto-connect if backend URL is localhost/not configured
+    if (!isBackendConfigured(apiBaseUrl)) {
+      console.debug('[AppInit] No backend configured — running with mock data');
+      useSettingsStore.getState().updateBackendHealth({ status: 'unknown' });
+      return;
+    }
+
     initializeSocket();
-    
-    // Check backend health on startup
+
     const checkHealth = async () => {
       try {
         const health = await healthApi.check();
@@ -34,21 +60,19 @@ function AppInit() {
           timestamp: health.timestamp,
           uptime: health.uptime,
         });
-      } catch (error) {
-        useSettingsStore.getState().updateBackendHealth({
-          status: 'unhealthy',
-        });
-        console.warn('Backend health check failed:', error);
+      } catch {
+        useSettingsStore.getState().updateBackendHealth({ status: 'unhealthy' });
+        console.debug('[AppInit] Backend health check failed (will retry)');
       }
     };
-    
+
     checkHealth();
-    
-    // Periodic health check every 30 seconds
-    const interval = setInterval(checkHealth, 30000);
+
+    const intervalMs = Math.max(5000, Math.min(300000, refreshIntervalSeconds * 1000));
+    const interval = setInterval(checkHealth, intervalMs);
     return () => clearInterval(interval);
-  }, []);
-  
+  }, [apiBaseUrl, refreshIntervalSeconds]);
+
   return null;
 }
 
@@ -57,6 +81,7 @@ function App() {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Router>
         <AppInit />
+        <UiStyleSync />
         <Routes>
           <Route path="/" element={<MainLayout />}>
             {/* Dashboard - Project List */}
@@ -73,6 +98,8 @@ function App() {
               <Route path="agents" element={<AgentStatus />} />
               <Route path="commits" element={<CommitHistory />} />
               <Route path="files/*" element={<FileBrowser />} />
+              <Route path="reviews" element={<ReviewList />} />
+              <Route path="reports" element={<ReportList />} />
             </Route>
             
             {/* Catch all */}

@@ -9,6 +9,8 @@ import {
   Bot, 
   GitCommit, 
   FolderOpen,
+  MessageSquare,
+  FileText,
   Loader2,
   ExternalLink,
   Github
@@ -45,6 +47,8 @@ export function ProjectDetail() {
     { value: 'agents', label: 'Agents', icon: Bot, href: `/project/${owner}/${repo}/agents` },
     { value: 'commits', label: 'Commits', icon: GitCommit, href: `/project/${owner}/${repo}/commits` },
     { value: 'files', label: 'Files', icon: FolderOpen, href: `/project/${owner}/${repo}/files` },
+    { value: 'reviews', label: 'Reviews', icon: MessageSquare, href: `/project/${owner}/${repo}/reviews` },
+    { value: 'reports', label: 'Reports', icon: FileText, href: `/project/${owner}/${repo}/reports` },
   ] : [];
 
   // Determine active tab from pathname

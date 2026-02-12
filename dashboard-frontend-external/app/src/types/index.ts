@@ -132,6 +132,25 @@ export interface ParsedCommit {
 }
 
 // ----------------------------------------------------------------------------
+// Review & Report Types (from .ai/reviews and .ai/reports)
+// ----------------------------------------------------------------------------
+export interface Review {
+  id: string;
+  taskId: string;
+  reviewer: string;
+  verdict: 'APPROVED' | 'CHANGES_REQUESTED' | 'REJECTED';
+  feedback: string;
+  date: string;
+}
+
+export interface Report {
+  id: string;
+  title: string;
+  date: string;
+  summary: string;
+}
+
+// ----------------------------------------------------------------------------
 // WebSocket Types
 // ----------------------------------------------------------------------------
 export interface WebSocketMessage {

@@ -1,6 +1,8 @@
-# Open Artel Dashboard Frontend
+# Open Artel Dashboard
 
 A complete, production-ready frontend for the Open Artel Dashboard that integrates with the backend API to display project data, provide real-time updates via WebSocket, and includes a Kimi chat interface.
+
+**Repo structure:** Frontend at repo root; Node/Express backend reference in `backend/` for wiring and local dev (see `backend/README.md`). Backend strategy (Node vs Supabase/edge vs hybrid) is to be decided—see `.lovable/plan.md` and IDEA-019 in the open-artel-project-setup repo.
 
 ## Features
 

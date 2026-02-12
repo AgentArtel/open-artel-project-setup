@@ -4,6 +4,7 @@
 
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
+import { isBackendConfigured } from '@/lib/mockData';
 import type { 
   KimiChatMessage, 
   KimiStreamResponse,
@@ -138,7 +139,14 @@ function scheduleReconnect(): void {
 /**
  * Initialize Socket.io connection
  */
-export function initializeSocket(): Socket {
+export function initializeSocket(): Socket | null {
+  // Guard: don't connect if no real backend is configured
+  const wsUrl = getWsUrl();
+  if (!isBackendConfigured(wsUrl)) {
+    console.debug('[WebSocket] Skipping connection — no backend configured');
+    return socket as Socket | null;
+  }
+
   if (socket?.connected) {
     return socket;
   }
@@ -149,7 +157,7 @@ export function initializeSocket(): Socket {
     socket.close();
   }
 
-  socket = io(getWsUrl(), {
+  socket = io(wsUrl, {
     transports: ['websocket'],
     reconnection: false, // We handle reconnection manually for better control
   });
@@ -170,7 +178,7 @@ export function initializeSocket(): Socket {
 
   // Connection lost
   socket.on('disconnect', (reason: string) => {
-    console.log('❌ WebSocket disconnected:', reason);
+    console.debug('WebSocket disconnected:', reason);
     notifyConnectionState({ 
       connected: false, 
       reconnecting: false, 
@@ -185,7 +193,7 @@ export function initializeSocket(): Socket {
 
   // Connection error
   socket.on('connect_error', (error: Error) => {
-    console.error('WebSocket connection error:', error.message);
+    console.debug('WebSocket connection error:', error.message);
     notifyConnectionState({ 
       connected: false, 
       reconnecting: false, 
@@ -200,7 +208,7 @@ export function initializeSocket(): Socket {
 /**
  * Get the socket instance (initializes if needed)
  */
-export function getSocket(): Socket {
+export function getSocket(): Socket | null {
   if (!socket) {
     return initializeSocket();
   }
@@ -233,12 +241,16 @@ export function subscribeToEvent<T>(
   
   // Register with socket if connected
   const sock = getSocket();
-  sock.on(event, callback as (data: unknown) => void);
+  if (sock) {
+    sock.on(event, callback as (data: unknown) => void);
+  }
   
   // Return unsubscribe function
   return () => {
     eventHandlers.get(event)?.delete(callback as (data: unknown) => void);
-    sock.off(event, callback as (data: unknown) => void);
+    if (sock) {
+      sock.off(event, callback as (data: unknown) => void);
+    }
   };
 }
 
@@ -251,12 +263,12 @@ export function subscribeToEvent<T>(
  */
 export function joinProject(owner: string, repo: string): void {
   const sock = getSocket();
+  if (!sock) return;
   if (sock.connected) {
     sock.emit('join:project', { owner, repo });
   } else {
-    // Queue join until connected
     const unsubscribe = subscribeToConnectionState((state) => {
-      if (state.connected) {
+      if (state.connected && sock) {
         sock.emit('join:project', { owner, repo });
         unsubscribe();
       }
@@ -269,7 +281,7 @@ export function joinProject(owner: string, repo: string): void {
  */
 export function leaveProject(owner: string, repo: string): void {
   const sock = getSocket();
-  if (sock.connected) {
+  if (sock?.connected) {
     sock.emit('leave:project', { owner, repo });
   }
 }
@@ -341,5 +353,7 @@ export function onJoinedProject(
  */
 export function sendKimiChat(message: KimiChatMessage): void {
   const sock = getSocket();
-  sock.emit('kimi:chat', message);
+  if (sock) {
+    sock.emit('kimi:chat', message);
+  }
 }

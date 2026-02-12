@@ -8,8 +8,10 @@ import { Header } from './Header';
 import { WebSocketStatus } from './WebSocketStatus';
 import { KimiChat } from '@/components/chat/KimiChat';
 import { cn } from '@/lib/utils';
+import { useUiStyle } from '@/hooks/useUiStyle';
 
 export function MainLayout() {
+  const { isClawLens } = useUiStyle();
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -29,7 +31,7 @@ export function MainLayout() {
           "pl-64", // Sidebar width
         )}
       >
-        <div className="p-6">
+        <div className={cn("p-6", isClawLens && "animate-fade-in")}>
           <Outlet />
         </div>
       </main>

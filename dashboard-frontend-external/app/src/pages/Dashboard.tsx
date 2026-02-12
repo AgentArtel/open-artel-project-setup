@@ -37,11 +37,15 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useProject } from '@/hooks/useProject';
+import { MockWrapper } from '@/components/ui/mock-label';
 import { reposApi, type GitHubRepo } from '@/lib/api';
 import { toast } from 'sonner';
+import { useUiStyle } from '@/hooks/useUiStyle';
+import { cn } from '@/lib/utils';
 
 export function Dashboard() {
   const { projects, isLoading, error, createProject, deleteProject } = useProject();
+  const { isClawLens } = useUiStyle();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<{ owner: string; repo: string } | null>(null);
@@ -169,7 +173,10 @@ export function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className={cn("text-3xl font-bold tracking-tight", isClawLens && "section-title tracking-wider")}>Dashboard</h1>
+          {isClawLens && (
+            <p className="text-[9px] text-muted-foreground tracking-widest mt-1">ダッシュボード // OVERVIEW</p>
+          )}
           <p className="text-muted-foreground">
             Manage your monitored GitHub projects
           </p>
@@ -186,8 +193,8 @@ export function Dashboard() {
           }}
         >
           <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
+            <Button className={cn(isClawLens && "btn-cyan")}>
+              <Plus className="mr-2 h-4 w-4" strokeWidth={isClawLens ? 1.5 : 2} />
               Add Project
             </Button>
           </DialogTrigger>
@@ -386,13 +393,17 @@ export function Dashboard() {
         </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <Card key={project.id} className="group">
+          {projects.map((project) => {
+            const isMock = '_isMock' in project && (project as { _isMock?: boolean })._isMock;
+            return (
+            <Card key={project.id} className={cn("group", isClawLens && "hud-card corner-accent")}>
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
                     <Github className="h-5 w-5 text-muted-foreground" />
-                    <CardTitle className="text-lg">{project.name}</CardTitle>
+                    <CardTitle className="text-lg">
+                      <MockWrapper isMock={isMock}>{project.name}</MockWrapper>
+                    </CardTitle>
                   </div>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button
@@ -409,6 +420,7 @@ export function Dashboard() {
                         <ExternalLink className="h-4 w-4" />
                       </a>
                     </Button>
+                    {!isMock && (
                     <Button
                       variant="ghost"
                       size="icon"
@@ -417,16 +429,19 @@ export function Dashboard() {
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
+                    )}
                   </div>
                 </div>
-                <CardDescription>{project.fullName}</CardDescription>
+                <CardDescription>
+                  <MockWrapper isMock={isMock}>{project.fullName}</MockWrapper>
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
-                  <Badge variant="secondary">
-                    {project.isLocal ? 'Local' : 'GitHub'}
+                  <Badge variant="secondary" className={cn(isClawLens && "badge-cyan")}>
+                    {isMock ? <em className="italic">Mock Data</em> : (project.isLocal ? 'Local' : 'GitHub')}
                   </Badge>
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" className={cn(isClawLens && "btn-outline")} asChild>
                     <Link to={`/project/${project.owner}/${project.repo}/tasks`}>
                       View Tasks
                     </Link>
@@ -434,7 +449,8 @@ export function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       )}
 

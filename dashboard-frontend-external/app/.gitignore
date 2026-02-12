@@ -1,0 +1,17 @@
+# Dependencies and build
+node_modules/
+.vite/
+dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS and editor
+.DS_Store
+.idea/
+*.log
+
+# Upstream sync cache (scripts/sync-ai-upstream.sh)
+.git/open-artel-ai-upstream/

@@ -11,7 +11,9 @@ import type {
   Commit, 
   FileContent,
   CreateProjectData,
-  ProjectSettings
+  ProjectSettings,
+  Review,
+  Report
 } from '@/types';
 import { useSettingsStore } from '@/stores/settingsStore';
 
@@ -275,6 +277,30 @@ export const commitsApi = {
 };
 
 // ============================================================================
+// Reviews API
+// ============================================================================
+export const reviewsApi = {
+  list: async (owner: string, repo: string): Promise<Review[]> => {
+    const response = await apiRequest<Review[]>(
+      `/api/projects/${owner}/${repo}/reviews`
+    );
+    return response.data ?? [];
+  },
+};
+
+// ============================================================================
+// Reports API
+// ============================================================================
+export const reportsApi = {
+  list: async (owner: string, repo: string): Promise<Report[]> => {
+    const response = await apiRequest<Report[]>(
+      `/api/projects/${owner}/${repo}/reports`
+    );
+    return response.data ?? [];
+  },
+};
+
+// ============================================================================
 // Files API
 // ============================================================================
 export interface FileItem {
@@ -311,26 +337,16 @@ export const filesApi = {
 
   /**
    * List directory contents
-   * Note: This endpoint may not be implemented in backend, 
-   * falls back to empty array if not available
    */
   listDirectory: async (
     owner: string,
     repo: string,
     path: string
   ): Promise<FileItem[]> => {
-    try {
-      // Try to fetch directory listing
-      // Backend may return directory listing for paths ending in /
-      const response = await apiRequest<FileItem[]>(
-        `/api/projects/${owner}/${repo}/files/${path}${path ? '/' : ''}`
-      );
-      return response.data || [];
-    } catch {
-      // If endpoint doesn't exist, return empty array
-      // In production, this would be implemented in backend
-      return [];
-    }
+    const response = await apiRequest<{ path: string; items: FileItem[] }>(
+      `/api/projects/${owner}/${repo}/files/${path}${path ? '/' : ''}`
+    );
+    return response.data?.items ?? [];
   },
 };
 

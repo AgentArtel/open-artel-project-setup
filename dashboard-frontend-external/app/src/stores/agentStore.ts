@@ -6,12 +6,15 @@ import { create } from 'zustand';
 import type { Agent, AgentStatus } from '@/types';
 import { agentsApi } from '@/lib/api';
 import { subscribeToEvent } from '@/lib/websocket';
+import { mockAgents, isBackendConfigured } from '@/lib/mockData';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 interface AgentState {
   // State
   agents: Agent[];
   isLoading: boolean;
   error: string | null;
+  usingMockData: boolean;
   
   // Actions
   fetchAgents: (owner: string, repo: string) => Promise<void>;
@@ -26,17 +29,27 @@ export const useAgentStore = create<AgentState>(
     agents: [],
     isLoading: false,
     error: null,
+    usingMockData: false,
 
     // Fetch agents for a project
     fetchAgents: async (owner: string, repo: string) => {
+      const apiBaseUrl = useSettingsStore.getState().apiBaseUrl;
+      if (!isBackendConfigured(apiBaseUrl)) {
+        set({ agents: mockAgents, isLoading: false, error: null, usingMockData: true });
+        return;
+      }
+
       set({ isLoading: true, error: null });
       try {
         const agents = await agentsApi.list(owner, repo);
-        set({ agents, isLoading: false });
+        set({ agents, isLoading: false, usingMockData: false });
       } catch (error) {
+        console.debug('[AgentStore] API failed, falling back to mock data');
         set({ 
-          error: error instanceof Error ? error.message : 'Failed to fetch agents',
-          isLoading: false 
+          agents: mockAgents,
+          isLoading: false,
+          error: null,
+          usingMockData: true,
         });
       }
     },

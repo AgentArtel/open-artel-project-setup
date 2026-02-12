@@ -9,14 +9,16 @@ import {
   Bot, 
   GitCommit, 
   FolderOpen,
+  MessageSquare,
+  FileText,
   ChevronRight,
-  Settings,
-  Cog
+  Settings
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useProject } from '@/hooks/useProject';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUiStyle } from '@/hooks/useUiStyle';
 
 interface NavItem {
   label: string;
@@ -29,6 +31,7 @@ export function Sidebar() {
   const { owner, repo } = useParams<{ owner?: string; repo?: string }>();
   const location = useLocation();
   const { projects, isLoading } = useProject();
+  const { isClawLens } = useUiStyle();
 
   // Project-specific navigation items
   const projectNavItems: NavItem[] = owner && repo ? [
@@ -56,6 +59,18 @@ export function Sidebar() {
       href: `/project/${owner}/${repo}/files`,
       active: location.pathname.includes('/files'),
     },
+    {
+      label: 'Reviews',
+      icon: MessageSquare,
+      href: `/project/${owner}/${repo}/reviews`,
+      active: location.pathname.includes('/reviews'),
+    },
+    {
+      label: 'Reports',
+      icon: FileText,
+      href: `/project/${owner}/${repo}/reports`,
+      active: location.pathname.includes('/reports'),
+    },
   ] : [];
 
   const isSettingsActive = location.pathname === '/settings';
@@ -66,16 +81,20 @@ export function Sidebar() {
         <div className="p-4 space-y-6">
           {/* Dashboard Link */}
           <div>
+            {isClawLens && (
+              <p className="px-3 mb-1 text-[9px] text-muted-foreground tracking-widest">ナビゲーション</p>
+            )}
             <Link
               to="/"
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
+                isClawLens ? "rounded-sm" : "rounded-lg",
                 location.pathname === '/' 
-                  ? "bg-primary/10 text-primary" 
+                  ? isClawLens ? "sidebar-link-active" : "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-accent hover:text-foreground"
               )}
             >
-              <LayoutDashboard className="h-4 w-4" />
+              <LayoutDashboard className="h-4 w-4" strokeWidth={isClawLens ? 1.5 : 2} />
               Dashboard
             </Link>
           </div>
@@ -86,18 +105,22 @@ export function Sidebar() {
               <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {owner}/{repo}
               </div>
+              {isClawLens && (
+                <p className="px-3 -mt-1 mb-1 text-[9px] text-muted-foreground tracking-widest">プロジェクト</p>
+              )}
               {projectNavItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
+                    isClawLens ? "rounded-sm" : "rounded-lg",
                     item.active
-                      ? "bg-primary/10 text-primary"
+                      ? isClawLens ? "sidebar-link-active" : "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-accent hover:text-foreground"
                   )}
                 >
-                  <item.icon className="h-4 w-4" />
+                  <item.icon className="h-4 w-4" strokeWidth={isClawLens ? 1.5 : 2} />
                   {item.label}
                 </Link>
               ))}
@@ -109,6 +132,9 @@ export function Sidebar() {
             <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Projects
             </div>
+            {isClawLens && (
+              <p className="px-3 -mt-1 mb-1 text-[9px] text-muted-foreground tracking-widest">プロジェクト一覧</p>
+            )}
             
             {isLoading ? (
               // Loading skeletons
@@ -127,13 +153,14 @@ export function Sidebar() {
                   key={project.id}
                   to={`/project/${project.owner}/${project.repo}/tasks`}
                   className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors",
+                    "flex items-center gap-2 px-3 py-2 text-sm transition-colors",
+                    isClawLens ? "rounded-sm" : "rounded-lg",
                     owner === project.owner && repo === project.repo
-                      ? "bg-primary/10 text-primary"
+                      ? isClawLens ? "sidebar-link-active" : "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-accent hover:text-foreground"
                   )}
                 >
-                  <ChevronRight className="h-3 w-3 opacity-50" />
+                  <ChevronRight className="h-3 w-3 opacity-50" strokeWidth={isClawLens ? 1.5 : 2} />
                   <span className="truncate">{project.name}</span>
                 </Link>
               ))
@@ -142,16 +169,20 @@ export function Sidebar() {
 
           {/* Settings Link */}
           <div className="pt-4 border-t">
+            {isClawLens && (
+              <p className="px-3 mb-1 text-[9px] text-muted-foreground tracking-widest">設定</p>
+            )}
             <Link
               to="/settings"
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors",
+                isClawLens ? "rounded-sm" : "rounded-lg",
                 isSettingsActive
-                  ? "bg-primary/10 text-primary"
+                  ? isClawLens ? "sidebar-link-active" : "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-accent hover:text-foreground"
               )}
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="h-4 w-4" strokeWidth={isClawLens ? 1.5 : 2} />
               Settings
             </Link>
           </div>

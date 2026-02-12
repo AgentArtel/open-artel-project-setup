@@ -4,20 +4,18 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
+import {
   ArrowLeft, 
   Server, 
   Wifi, 
   Key, 
   Palette, 
-  Bell, 
+   
   Settings,
   CheckCircle2,
   XCircle,
   AlertCircle,
   Loader2,
-  Eye,
-  EyeOff,
   RefreshCw,
   RotateCcw,
   Save
@@ -42,19 +40,18 @@ import { useSettingsStore } from '@/stores/settingsStore';
 import { healthApi } from '@/lib/api';
 import { getSocket, initializeSocket, closeSocket } from '@/lib/websocket';
 import { toast } from 'sonner';
-
+import { useUiStyle } from '@/hooks/useUiStyle';
+import { cn } from '@/lib/utils';
 export function SettingsPage() {
   const settings = useSettingsStore();
+  const { isClawLens } = useUiStyle();
+  const sw = isClawLens ? 1.5 : 2;
   const [isTestingBackend, setIsTestingBackend] = useState(false);
   const [isTestingWebSocket, setIsTestingWebSocket] = useState(false);
-  const [showGithubToken, setShowGithubToken] = useState(false);
-  const [showKimiKey, setShowKimiKey] = useState(false);
 
   // Local state for form values
   const [apiBaseUrl, setApiBaseUrl] = useState(settings.apiBaseUrl);
   const [wsUrl, setWsUrl] = useState(settings.wsUrl);
-  const [githubToken, setGithubToken] = useState(settings.githubToken);
-  const [kimiApiKey, setKimiApiKey] = useState(settings.kimiApiKey);
   const [refreshInterval, setRefreshInterval] = useState(settings.defaultRefreshInterval);
   const [defaultView, setDefaultView] = useState(settings.defaultView);
   const [notifications, setNotifications] = useState(settings.notifications);
@@ -89,7 +86,7 @@ export function SettingsPage() {
     setIsTestingWebSocket(true);
     const socket = getSocket();
     
-    if (socket.connected) {
+    if (socket?.connected) {
       toast.success('WebSocket connected', {
         description: `Socket ID: ${socket.id}`,
       });
@@ -102,7 +99,7 @@ export function SettingsPage() {
     
     setTimeout(() => {
       const updatedSocket = getSocket();
-      if (updatedSocket.connected) {
+      if (updatedSocket?.connected) {
         toast.success('WebSocket connected', {
           description: `Socket ID: ${updatedSocket.id}`,
         });
@@ -129,15 +126,6 @@ export function SettingsPage() {
     });
   };
 
-  // Save API keys
-  const saveApiKeys = () => {
-    settings.updateGithubToken(githubToken);
-    settings.updateKimiApiKey(kimiApiKey);
-    toast.success('API keys saved', {
-      description: 'Keys are stored locally in your browser',
-    });
-  };
-
   // Save project defaults
   const saveProjectDefaults = () => {
     settings.updateSettings({
@@ -154,8 +142,6 @@ export function SettingsPage() {
       settings.resetToDefaults();
       setApiBaseUrl(settings.apiBaseUrl);
       setWsUrl(settings.wsUrl);
-      setGithubToken('');
-      setKimiApiKey('');
       setRefreshInterval(30);
       setDefaultView('tasks');
       setNotifications(true);
@@ -197,53 +183,44 @@ export function SettingsPage() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" asChild>
             <Link to="/">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
+              <ArrowLeft className="mr-2 h-4 w-4" strokeWidth={sw} />Back
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-            <p className="text-muted-foreground">
-              Configure application preferences and connections
-            </p>
+            <h1 className={cn("text-3xl font-bold tracking-tight", isClawLens && "section-title tracking-wider")}>Settings</h1>
+            {isClawLens && <p className="text-[9px] text-muted-foreground tracking-widest mt-1">設定 // SETTINGS</p>}
+            <p className="text-muted-foreground">Configure application preferences and connections</p>
           </div>
         </div>
         <Button variant="outline" onClick={handleReset}>
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Reset to Defaults
+          <RotateCcw className="mr-2 h-4 w-4" strokeWidth={sw} />Reset to Defaults
         </Button>
       </div>
 
       <Tabs defaultValue="connections" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
-          <TabsTrigger value="connections">
-            <Server className="h-4 w-4 mr-2" />
-            Connections
-          </TabsTrigger>
-          <TabsTrigger value="apikeys">
-            <Key className="h-4 w-4 mr-2" />
-            API Keys
-          </TabsTrigger>
-          <TabsTrigger value="defaults">
-            <Settings className="h-4 w-4 mr-2" />
-            Defaults
-          </TabsTrigger>
-          <TabsTrigger value="appearance">
-            <Palette className="h-4 w-4 mr-2" />
-            Appearance
-          </TabsTrigger>
+        <TabsList className={cn(
+          "grid w-full grid-cols-4 lg:w-[400px]",
+          isClawLens && "[&_[data-state=active]]:bg-primary [&_[data-state=active]]:text-primary-foreground"
+        )}>
+          <TabsTrigger value="connections"><Server className="h-4 w-4 mr-2" strokeWidth={sw} />Connections</TabsTrigger>
+          <TabsTrigger value="apikeys"><Key className="h-4 w-4 mr-2" strokeWidth={sw} />API Keys</TabsTrigger>
+          <TabsTrigger value="defaults"><Settings className="h-4 w-4 mr-2" strokeWidth={sw} />Defaults</TabsTrigger>
+          <TabsTrigger value="appearance"><Palette className="h-4 w-4 mr-2" strokeWidth={sw} />Appearance</TabsTrigger>
         </TabsList>
 
         {/* Connections Tab */}
         <TabsContent value="connections" className="space-y-4">
-          <Card>
+          <Card className={cn(isClawLens && "hud-card")}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Server className="h-5 w-5" />
                 Backend Connection
               </CardTitle>
               <CardDescription>
-                Configure the backend API server connection
+                Configure the backend API server connection.
+                <span className="block mt-1 text-xs">
+                  💡 Deploy your backend to Railway, then paste the URL here to connect.
+                </span>
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -253,10 +230,10 @@ export function SettingsPage() {
                   id="api-url"
                   value={apiBaseUrl}
                   onChange={(e) => setApiBaseUrl(e.target.value)}
-                  placeholder="http://localhost:3001"
+                  placeholder="https://your-backend.railway.app"
                 />
                 <p className="text-sm text-muted-foreground">
-                  The base URL for the Open Artel Dashboard backend API
+                  The base URL for the Open Artel Dashboard backend API. Use your Railway deployment URL.
                 </p>
               </div>
 
@@ -284,7 +261,7 @@ export function SettingsPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className={cn(isClawLens && "hud-card")}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Wifi className="h-5 w-5" />
@@ -321,132 +298,42 @@ export function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button onClick={saveConnectionSettings}>
-              <Save className="mr-2 h-4 w-4" />
-              Save Connection Settings
+            <Button onClick={saveConnectionSettings} className={cn(isClawLens && "btn-cyan")}>
+              <Save className="mr-2 h-4 w-4" strokeWidth={sw} />Save Connection Settings
             </Button>
           </div>
         </TabsContent>
 
-        {/* API Keys Tab */}
+        {/* API Keys Tab - Keys are configured in backend .env */}
         <TabsContent value="apikeys" className="space-y-4">
-          <Card>
+          <Card className={cn(isClawLens && "hud-card")}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Key className="h-5 w-5" />
-                GitHub Token
+                API Keys (Backend)
               </CardTitle>
               <CardDescription>
-                Personal access token for GitHub API access
+                GitHub and Kimi API keys are configured on the backend server, not in the browser.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="github-token">GitHub Personal Access Token</Label>
-                <div className="relative">
-                  <Input
-                    id="github-token"
-                    type={showGithubToken ? 'text' : 'password'}
-                    value={githubToken}
-                    onChange={(e) => setGithubToken(e.target.value)}
-                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2"
-                    onClick={() => setShowGithubToken(!showGithubToken)}
-                  >
-                    {showGithubToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Required for accessing private repositories. 
-                  <a 
-                    href="https://github.com/settings/tokens" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-1"
-                  >
-                    Create token on GitHub
-                  </a>
-                </p>
-              </div>
-
-              {settings.hasGithubToken() && (
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <CheckCircle2 className="h-4 w-4" />
-                  Token configured (masked for security)
-                </div>
-              )}
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Add the following to <code className="rounded bg-muted px-1 py-0.5">dashboard-backend/.env</code>:
+              </p>
+              <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
+                <li><code className="rounded bg-muted px-1 py-0.5">GITHUB_TOKEN</code> — for repo listing, tasks, commits, and file access</li>
+                <li><code className="rounded bg-muted px-1 py-0.5">KIMI_API_KEY</code> — for the Kimi chat assistant</li>
+              </ul>
+              <p className="text-sm text-muted-foreground">
+                See the backend <code className="rounded bg-muted px-1 py-0.5">README.md</code> for setup and links to create tokens.
+              </p>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Key className="h-5 w-5" />
-                Kimi API Key
-              </CardTitle>
-              <CardDescription>
-                API key for Kimi chat functionality
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="kimi-key">Kimi API Key</Label>
-                <div className="relative">
-                  <Input
-                    id="kimi-key"
-                    type={showKimiKey ? 'text' : 'password'}
-                    value={kimiApiKey}
-                    onChange={(e) => setKimiApiKey(e.target.value)}
-                    placeholder="sk-xxxxxxxxxxxxxxxxxxxx"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2"
-                    onClick={() => setShowKimiKey(!showKimiKey)}
-                  >
-                    {showKimiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Required for Kimi chat functionality.
-                  <a 
-                    href="https://platform.moonshot.cn/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline ml-1"
-                  >
-                    Get API key from Moonshot
-                  </a>
-                </p>
-              </div>
-
-              {settings.hasKimiApiKey() && (
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <CheckCircle2 className="h-4 w-4" />
-                  API key configured (masked for security)
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <div className="flex justify-end">
-            <Button onClick={saveApiKeys}>
-              <Save className="mr-2 h-4 w-4" />
-              Save API Keys
-            </Button>
-          </div>
         </TabsContent>
 
         {/* Defaults Tab */}
         <TabsContent value="defaults" className="space-y-4">
-          <Card>
+          <Card className={cn(isClawLens && "hud-card")}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
@@ -516,15 +403,85 @@ export function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button onClick={saveProjectDefaults}>
-              <Save className="mr-2 h-4 w-4" />
-              Save Defaults
+            <Button onClick={saveProjectDefaults} className={cn(isClawLens && "btn-cyan")}>
+              <Save className="mr-2 h-4 w-4" strokeWidth={sw} />Save Defaults
             </Button>
           </div>
         </TabsContent>
 
         {/* Appearance Tab */}
         <TabsContent value="appearance" className="space-y-4">
+          {/* UI Style Toggle */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Palette className="h-5 w-5" />
+                UI Style
+              </CardTitle>
+              <CardDescription>
+                Choose between the classic look or the ClawLens HUD aesthetic
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Classic */}
+                <button
+                  type="button"
+                  onClick={() => settings.updateUiStyle('classic')}
+                  className={`relative rounded-lg border-2 p-4 text-left transition-all ${
+                    settings.uiStyle === 'classic'
+                      ? 'border-primary ring-2 ring-primary/20'
+                      : 'border-border hover:border-muted-foreground/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-10 w-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center">
+                      <div className="h-4 w-4 rounded-full bg-gray-900" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">Classic</p>
+                      <p className="text-xs text-muted-foreground">Clean, neutral design</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-1.5">
+                    <div className="h-3 w-3 rounded-full bg-white border border-gray-200" />
+                    <div className="h-3 w-3 rounded-full bg-gray-100" />
+                    <div className="h-3 w-3 rounded-full bg-gray-900" />
+                    <div className="h-3 w-3 rounded-full bg-blue-500" />
+                  </div>
+                </button>
+
+                {/* ClawLens HUD */}
+                <button
+                  type="button"
+                  onClick={() => settings.updateUiStyle('clawlens')}
+                  className={`relative rounded-lg border-2 p-4 text-left transition-all ${
+                    settings.uiStyle === 'clawlens'
+                      ? 'border-primary ring-2 ring-primary/20'
+                      : 'border-border hover:border-muted-foreground/30'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-10 w-10 rounded-sm flex items-center justify-center" style={{ background: '#12141A', border: '1px solid #2A2E3D' }}>
+                      <div className="h-4 w-4 rounded-sm" style={{ background: '#00D4AA' }} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">ClawLens HUD</p>
+                      <p className="text-xs text-muted-foreground">Cyber-tactical interface</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-1.5">
+                    <div className="h-3 w-3 rounded-sm" style={{ background: '#12141A', border: '1px solid #2A2E3D' }} />
+                    <div className="h-3 w-3 rounded-sm" style={{ background: '#1A1D26' }} />
+                    <div className="h-3 w-3 rounded-sm" style={{ background: '#00D4AA' }} />
+                    <div className="h-3 w-3 rounded-sm" style={{ background: '#D64545' }} />
+                  </div>
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Theme (light/dark/system) */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
