@@ -70,4 +70,3 @@ Structure your test output as:
 - Check for command availability before using (`kimi`, `jq`, `timeout`)
 - Include both positive tests (it works) and negative tests (it fails gracefully)
 - Edge tests should verify graceful failure, not just that something fails
-

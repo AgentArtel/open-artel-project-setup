@@ -57,4 +57,3 @@ Structure your documentation as:
 - Include both the happy path and error cases
 - Test all code examples before including them
 - Match the tone and style of existing project documentation
-

@@ -56,4 +56,3 @@ Structure your findings as:
 - Prioritize by impact — focus on the biggest bottlenecks first
 - Be specific about file paths and line numbers
 - Consider the project's scale — don't over-optimize for small datasets
-

@@ -43,4 +43,3 @@ Structure your findings as:
 - Provide actionable fixes, not just diagnoses
 - If you can't determine the root cause, say so clearly and list what you've ruled out
 - Always check recent Git history (`git log --oneline -20`) for related changes
-
