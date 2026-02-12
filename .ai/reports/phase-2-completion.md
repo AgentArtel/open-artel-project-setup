@@ -107,4 +107,3 @@ Phase 2 implements Kimi session lifecycle management. A session manager script w
 ---
 
 <!-- Phase 2 of the Moonshot/Kimi Feature Integration Plan -->
-
