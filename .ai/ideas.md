@@ -4,7 +4,7 @@ Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
 
 ## Summary
 
-- **18 ideas** captured from TASK-002 brainstorm and research
+- **19 ideas** captured (18 from TASK-002; IDEA-019 from dashboard handoff)
 - **All researched** — enriched with findings from TASK-002-research.md
 - **8-phase roadmap** from foundation (Phase 1) through mono-repo support (Phase 8)
 
@@ -28,7 +28,7 @@ Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
 | Ready | 001, 002, 004, 008, 009, 014, 016, 017 |
 | Feasible | 003, 005, 007, 010, 012, 013, 018 |
 | Experimental | 011 |
-| Needs Research | 006 (partial), 015 |
+| Needs Research | 006 (partial), 015, 019 |
 
 ## Full Index
 
@@ -52,4 +52,5 @@ Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
 | IDEA-016 | Conversational Git operations | Git Workflow | Researched | Ready | 1 | [detail](ideas/IDEA-016-conversational-git.md) |
 | IDEA-017 | Context compression for histories | Kimi Integration | Researched | Ready | 4 | [detail](ideas/IDEA-017-context-compression.md) |
 | IDEA-018 | Approval workflow integration | Automation | Researched | Feasible | 5-7 | [detail](ideas/IDEA-018-approval-workflow.md) |
+| IDEA-019 | Dashboard backend: edge functions vs Node vs hybrid | Templates / Integration | Raw | Needs Research | — | [detail](ideas/IDEA-019-dashboard-backend-edge-functions-hybrid.md) |
 
