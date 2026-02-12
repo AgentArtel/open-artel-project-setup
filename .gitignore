@@ -20,3 +20,11 @@ __pycache__/
 
 # Upstream sync cache
 .git/open-artel-upstream/
+
+# External frontend app (deps and cache)
+dashboard-frontend-external/app/node_modules/
+dashboard-frontend-external/app/.vite/
+dashboard-frontend-external/frontend-external-V002-archive/
+
+# Cursor debug
+.cursor/debug.log
