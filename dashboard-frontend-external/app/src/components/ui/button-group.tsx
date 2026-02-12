@@ -75,9 +75,11 @@ function ButtonGroupSeparator({
   )
 }
 
+/* eslint-disable react-refresh/only-export-components -- buttonGroupVariants used by consumers */
 export {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
   buttonGroupVariants,
 }
+/* eslint-enable react-refresh/only-export-components */

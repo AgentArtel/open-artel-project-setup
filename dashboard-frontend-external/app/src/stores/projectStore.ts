@@ -46,7 +46,7 @@ export const useProjectStore = create<ProjectState>(
       try {
         const projects = await projectsApi.list();
         set({ projects, isLoading: false, usingMockData: false });
-      } catch (error) {
+      } catch {
         console.debug('[ProjectStore] API failed, falling back to mock data');
         set({ 
           projects: mockProjects,

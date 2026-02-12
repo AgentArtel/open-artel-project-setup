@@ -43,4 +43,5 @@ function Badge({
   )
 }
 
+/* eslint-disable-next-line react-refresh/only-export-components -- badgeVariants used by consumers */
 export { Badge, badgeVariants }

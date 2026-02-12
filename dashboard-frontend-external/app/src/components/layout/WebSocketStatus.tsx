@@ -18,12 +18,15 @@ export function WebSocketStatus() {
   const { connected, reconnecting, error, connect } = useWebSocket();
   const [showError, setShowError] = useState(false);
 
-  // Show error briefly when it changes
+  // Show error briefly when it changes (defer setState to avoid synchronous setState in effect)
   useEffect(() => {
     if (error) {
-      setShowError(true);
-      const timer = setTimeout(() => setShowError(false), 5000);
-      return () => clearTimeout(timer);
+      const showTimer = setTimeout(() => setShowError(true), 0);
+      const hideTimer = setTimeout(() => setShowError(false), 5000);
+      return () => {
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+      };
     }
   }, [error]);
 

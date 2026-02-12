@@ -43,7 +43,7 @@ export const useAgentStore = create<AgentState>(
       try {
         const agents = await agentsApi.list(owner, repo);
         set({ agents, isLoading: false, usingMockData: false });
-      } catch (error) {
+      } catch {
         console.debug('[AgentStore] API failed, falling back to mock data');
         set({ 
           agents: mockAgents,

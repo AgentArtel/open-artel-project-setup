@@ -57,7 +57,7 @@ export const useTaskStore = create<TaskState>(
       try {
         const tasks = await tasksApi.list(owner, repo);
         set({ tasks, isLoading: false, usingMockData: false });
-      } catch (error) {
+      } catch {
         console.debug('[TaskStore] API failed, falling back to mock data');
         set({ 
           tasks: mockTasks,

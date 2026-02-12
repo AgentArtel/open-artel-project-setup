@@ -17,8 +17,11 @@ export function Markdown({
   const [html, setHtml] = useState('');
   useEffect(() => {
     const out = marked.parse(content);
-    if (typeof out === 'string') setHtml(out);
-    else out.then(setHtml);
+    if (typeof out === 'string') {
+      queueMicrotask(() => setHtml(out));
+    } else {
+      out.then(setHtml);
+    }
   }, [content]);
   return (
     <div
