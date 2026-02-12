@@ -91,4 +91,3 @@ else
     echo -e "${GREEN}Ready to work!${NC}"
     exit 0
 fi
-

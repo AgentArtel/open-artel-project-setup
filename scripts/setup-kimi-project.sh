@@ -306,4 +306,3 @@ echo "  5. Read the integration guides:"
 echo "     - docs/cursor-kimi-integration.md"
 echo "     - docs/claude-kimi-coordination.md"
 echo ""
-

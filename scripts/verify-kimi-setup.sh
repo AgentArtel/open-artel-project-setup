@@ -329,4 +329,3 @@ else
     echo -e "${GREEN}All checks passed! Kimi integration is fully configured.${NC}"
     exit 0
 fi
-

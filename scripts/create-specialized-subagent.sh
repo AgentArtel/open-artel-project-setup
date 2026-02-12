@@ -269,4 +269,3 @@ case "${1:-}" in
         cmd_generate "$@"
         ;;
 esac
-
