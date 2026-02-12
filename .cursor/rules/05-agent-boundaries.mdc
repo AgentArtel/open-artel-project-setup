@@ -18,6 +18,7 @@ See AGENTS.md and .ai/boundaries.md for the complete map.
 - `.agents/subagents/` — subagent template files
 - `.agents/prompts/` — agent system prompts
 - `.ai/patterns/` — workflow pattern documentation
+- `.ai/agent-chats/<your-chat-name>/` — your agent chat workspace (create when starting a new chat that will produce multiple files)
 
 ## Do NOT Modify (Claude Code's Domain)
 

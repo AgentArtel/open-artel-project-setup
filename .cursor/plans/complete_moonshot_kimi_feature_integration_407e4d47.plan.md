@@ -361,19 +361,20 @@ Only after all gates pass can the next phase begin.---
 - [x] Documentation complete
 - [x] No circular dependencies detected
 
-**Gate**: Phase 3 Complete → Phase 4 Unlocked
-
----
+**Gate**: Phase 3 Complete → Phase 4 Unlocked---
 
 ## Phase 3: Completion Report & Lessons Learned
 
 **Status**: ✅ **COMPLETE** (2026-02-10)
+
 **Final Test Results**: 27/27 tests passed (10 structural + 6 live API + 8 edge + 3 integration)
+
 **Gate Status**: **UNLOCKED** — Phase 4 can begin
 
 ### Actual Implementation Summary
 
 **Files Created:**
+
 - `.agents/subagents/debugger-template.md` — Debugging specialist system prompt
 - `.agents/subagents/performance-analyzer-template.md` — Performance analysis system prompt
 - `.agents/subagents/documentation-writer-template.md` — Documentation generation system prompt
@@ -386,9 +387,7 @@ Only after all gates pass can the next phase begin.---
 - `scripts/test-phase-3.sh` — 27-test suite
 - `.ai/reports/phase-3-completion.md` — Completion report
 
-**Key Discovery**: CreateSubagent is a runtime tool call (name + system_prompt), not a YAML file. Templates are Markdown files containing system prompts.
-
----
+**Key Discovery**: CreateSubagent is a runtime tool call (name + system_prompt), not a YAML file. Templates are Markdown files containing system prompts.---
 
 ## Phase 4: Context Optimization
 
@@ -612,19 +611,20 @@ Only after all gates pass can the next phase begin.---
 4. **Non-blocking integration**: Context checks never block the Git workflow. They run in the background after relevant actions.
 5. **Builds on Phase 2**: The session manager's `--compact` flag already works. Phase 4 adds intelligence about *when* to compact.
 
-**Gate**: Phase 4 Complete → Phase 5 Unlocked
-
----
+**Gate**: Phase 4 Complete → Phase 5 Unlocked---
 
 ## Phase 4: Completion Report & Lessons Learned
 
 **Status**: ✅ **COMPLETE** (2026-02-10)
+
 **Final Test Results**: 21/21 tests passed (8 structural + 4 live API + 6 edge + 3 integration)
+
 **Gate Status**: **UNLOCKED** — Phase 5 can begin
 
 ### Actual Implementation Summary
 
 **Files Created:**
+
 - `scripts/kimi-context-monitor.sh` — 5 commands: check, auto-compact, report, history, thresholds
 - `.ai/metrics/thresholds.json` — Configurable context thresholds
 - `.ai/metrics/context-history.json` — Append-only measurement log
@@ -632,9 +632,7 @@ Only after all gates pass can the next phase begin.---
 - `scripts/test-phase-4.sh` — 21-test suite
 - `.ai/reports/phase-4-completion.md` — Completion report
 
-**Key Design Decision**: Proxy metrics (session age, file sizes, tool calls) instead of exact token counts. Kimi CLI's `context.jsonl` files contain `_usage` entries with actual `token_count` values for precise monitoring.
-
----
+**Key Design Decision**: Proxy metrics (session age, file sizes, tool calls) instead of exact token counts. Kimi CLI's `context.jsonl` files contain `_usage` entries with actual `token_count` values for precise monitoring.---
 
 ## Phase 5: Moonshot API Integration
 
@@ -684,19 +682,20 @@ Only after all gates pass can the next phase begin.---
 - [x] Documentation complete
 - [x] No regressions
 
-**Gate**: Phase 5 Complete → Phase 6 Unlocked
-
----
+**Gate**: Phase 5 Complete → Phase 6 Unlocked---
 
 ## Phase 5: Completion Report & Lessons Learned
 
 **Status**: ✅ **COMPLETE** (2026-02-10)
+
 **Final Test Results**: 25/25 tests passed (25 passed, 0 skipped, 0 failed)
+
 **Gate Status**: **UNLOCKED** — Phase 6 can begin
 
 ### Actual Implementation Summary
 
 **Files Created:**
+
 - `scripts/moonshot-api-client.py` — Moonshot Files API client (stdlib only: urllib, json, pathlib)
 - `scripts/upload-project-files.py` — Initial upload + incremental sync with change detection
 - `scripts/setup-project-api-key.sh` — Interactive API key setup with .env.project support
@@ -704,9 +703,7 @@ Only after all gates pass can the next phase begin.---
 - `scripts/test-phase-5.sh` — 25-test suite
 - `.ai/reports/phase-5-completion.md` — Completion report
 
-**Key Decision**: Used Python stdlib only (urllib.request, json, pathlib) — no external dependencies. OpenAI-compatible API spec with Moonshot endpoint.
-
----
+**Key Decision**: Used Python stdlib only (urllib.request, json, pathlib) — no external dependencies. OpenAI-compatible API spec with Moonshot endpoint.---
 
 ## Phase 6: Advanced Features
 
@@ -750,19 +747,20 @@ Only after all gates pass can the next phase begin.---
 - [x] Documentation complete
 - [x] No regressions
 
-**Gate**: Phase 6 Complete → All Features Integrated
-
----
+**Gate**: Phase 6 Complete → All Features Integrated---
 
 ## Phase 6: Completion Report & Lessons Learned
 
 **Status**: ✅ **COMPLETE** (2026-02-10)
+
 **Final Test Results**: 23/23 tests passed (23 passed, 0 skipped, 0 failed)
+
 **Gate Status**: **UNLOCKED** — Final integration complete
 
 ### Actual Implementation Summary
 
 **Files Created:**
+
 - `scripts/wire-daemon.py` — JSON-RPC 2.0 daemon with git event watching
 - `scripts/start-acp-server.sh` — ACP mode server for IDE integration
 - `docs/kimi-agent-swarm.md` — K2.5 Agent Swarm documentation
@@ -778,11 +776,13 @@ Only after all gates pass can the next phase begin.---
 ## Phase 7: Integration & Setup — Completion Report
 
 **Status**: ✅ **COMPLETE** (2026-02-10)
+
 **Final Test Results**: 30/30 tests passed (30 passed, 0 skipped, 0 failed)
 
 ### Actual Implementation Summary
 
 **Files Created:**
+
 - `scripts/install-wire-daemon.sh` — Wire daemon installation as system service
 - `scripts/setup-kimi-project.sh` — One-command Kimi project setup
 - `scripts/verify-kimi-setup.sh` — Kimi health check
@@ -952,25 +952,36 @@ Before marking a phase complete, verify:
 ## 🎉 Plan Status: ALL PHASES COMPLETE
 
 **Total Implementation**: 7 phases + upstream sync workflow + cleanup
+
 **Total Tests**: 198+ tests across 11 test scripts
+
 **Total Files Created/Modified**: 150+ files
-**Date Completed**: 2026-02-10
 
-| Phase | Tests | Status |
+**Date Completed**: 2026-02-10| Phase | Tests | Status |
+
 |-------|-------|--------|
-| Phase 1: Tool Expansion | 25/25 | ✅ COMPLETE |
-| Phase 2: Session Management | 10/10 | ✅ COMPLETE |
-| Phase 3: Dynamic Subagents | 27/27 | ✅ COMPLETE |
-| Phase 4: Context Optimization | 21/21 | ✅ COMPLETE |
-| Phase 5: Moonshot API | 25/25 | ✅ COMPLETE |
-| Phase 6: Advanced Features | 23/23 | ✅ COMPLETE |
-| Phase 7: Integration & Setup | 30/30 | ✅ COMPLETE |
-| Agent File Integration | 20/20 | ✅ COMPLETE |
-| Edge Cases | 17/17 | ✅ COMPLETE |
-| Upstream Sync Workflow | verified | ✅ COMPLETE |
-| Cleanup & Chat Auto-population | verified | ✅ COMPLETE |
 
----
+| Phase 1: Tool Expansion | 25/25 | ✅ COMPLETE |
+
+| Phase 2: Session Management | 10/10 | ✅ COMPLETE |
+
+| Phase 3: Dynamic Subagents | 27/27 | ✅ COMPLETE |
+
+| Phase 4: Context Optimization | 21/21 | ✅ COMPLETE |
+
+| Phase 5: Moonshot API | 25/25 | ✅ COMPLETE |
+
+| Phase 6: Advanced Features | 23/23 | ✅ COMPLETE |
+
+| Phase 7: Integration & Setup | 30/30 | ✅ COMPLETE |
+
+| Agent File Integration | 20/20 | ✅ COMPLETE |
+
+| Edge Cases | 17/17 | ✅ COMPLETE |
+
+| Upstream Sync Workflow | verified | ✅ COMPLETE |
+
+| Cleanup & Chat Auto-population | verified | ✅ COMPLETE |---
 
 ## Additional Infrastructure: Upstream Sync Workflow
 
@@ -1062,4 +1073,3 @@ git add -A && git commit -m '[AGENT:claude] [ACTION:update] [TASK:SYNC] Sync ups
 2. **Three file categories**: Clear separation between generic templates and project-specific data
 3. **Caching**: Upstream clone cached in `.git/` for fast subsequent syncs
 4. **Non-destructive by default**: Only updates generic files unless `--force` is used
-5. **Human-reviewable**: Always shows diffs before committing changes

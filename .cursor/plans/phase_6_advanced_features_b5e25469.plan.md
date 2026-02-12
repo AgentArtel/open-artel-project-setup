@@ -32,6 +32,7 @@ todos:
     status: pending
     dependencies:
       - p6-run-tests
+isProject: false
 ---
 
 # Phase 6: Advanced Features — Updated Plan
@@ -83,6 +84,8 @@ flowchart TD
     multimodal -->|"Uses"| kimiAPI[Moonshot API]
 ```
 
+
+
 ---
 
 ## Implementation Tasks
@@ -91,26 +94,26 @@ flowchart TD
 
 **Context**: Agent Swarm is not a feature to enable — it's the capability of K2.5 to handle many parallel subagents. We already use K2.5, so we need to test and document patterns.**Implementation**:
 
-1. **Create [`docs/kimi-agent-swarm.md`](docs/kimi-agent-swarm.md)**:
+1. **Create `[docs/kimi-agent-swarm.md](docs/kimi-agent-swarm.md)**`:
 
 - What Agent Swarm is (many parallel subagents, not a separate mode)
 - When to use parallel subagents vs sequential
 - K2.5 limits: 100 sub-agents, 1,500 tool calls per session
 - Best practices: task decomposition, independence, result aggregation
 
-2. **Create [`.ai/patterns/agent-swarm-parallel-review.md`](.ai/patterns/agent-swarm-parallel-review.md)**:
+1. **Create `[.ai/patterns/agent-swarm-parallel-review.md](.ai/patterns/agent-swarm-parallel-review.md)**`:
 
 - Pattern: Review multiple tasks in parallel
 - Example: Dispatch 5 reviewer subagents simultaneously
 - Use case: Sprint end review of all completed tasks
 
-3. **Create [`.ai/patterns/agent-swarm-research-split.md`](.ai/patterns/agent-swarm-research-split.md)**:
+1. **Create `[.ai/patterns/agent-swarm-research-split.md](.ai/patterns/agent-swarm-research-split.md)**`:
 
 - Pattern: Split research task across multiple researcher subagents
 - Example: Research 10 different APIs in parallel
 - Use case: Large research tasks that can be decomposed
 
-4. **Update [`.agents/prompts/overseer.md`](.agents/prompts/overseer.md)**:
+1. **Update `[.agents/prompts/overseer.md](.agents/prompts/overseer.md)**`:
 
 - Add "Agent Swarm Patterns" section
 - Document when to use parallel vs sequential subagents
@@ -132,7 +135,7 @@ flowchart TD
 - Test connection (if possible without IDE)
 - Document port, protocol, authentication
 
-2. **Create [`docs/kimi-acp-integration.md`](docs/kimi-acp-integration.md)**:
+1. **Create `[docs/kimi-acp-integration.md](docs/kimi-acp-integration.md)**`:
 
 - What ACP mode is (IDE integration protocol)
 - How to start ACP server (`kimi acp`)
@@ -140,7 +143,7 @@ flowchart TD
 - Setup for JetBrains IDEs
 - Troubleshooting: connection failures, port conflicts
 
-3. **Create helper script** [`scripts/start-acp-server.sh`](scripts/start-acp-server.sh):
+1. **Create helper script** `[scripts/start-acp-server.sh](scripts/start-acp-server.sh)`:
 
 - Wrapper to start ACP server with proper configuration
 - Check prerequisites (Kimi CLI, API key)
@@ -172,20 +175,20 @@ flowchart TD
 - Track session duration
 - Store metrics in `.ai/metrics/wire-metrics.json`
 
-2. **Improve error recovery**:
+1. **Improve error recovery**:
 
 - Detect Wire Mode disconnections
 - Auto-reconnect on failure
 - Retry failed requests with exponential backoff
 - Log recovery actions
 
-3. **Add more event handlers** (if available):
+1. **Add more event handlers** (if available):
 
 - `StepBegin` / `StepEnd` — track multi-step operations
 - `ContentPart` — track streaming content
 - `StatusUpdate` — track context/token usage
 
-4. **Create [`docs/kimi-wire-enhancements.md`](docs/kimi-wire-enhancements.md)**:
+1. **Create `[docs/kimi-wire-enhancements.md](docs/kimi-wire-enhancements.md)**`:
 
 - New event handlers available
 - Monitoring capabilities
@@ -194,7 +197,7 @@ flowchart TD
 
 **Files to modify**:
 
-- [`scripts/wire-daemon.py`](scripts/wire-daemon.py) — Add new event handlers, monitoring, error recovery
+- `[scripts/wire-daemon.py](scripts/wire-daemon.py)` — Add new event handlers, monitoring, error recovery
 
 **Design decisions**:
 
@@ -212,20 +215,20 @@ flowchart TD
 - Test if Kimi CLI accepts image files
 - Verify vision capabilities work
 
-2. **Create test script** [`scripts/test-multimodal.sh`](scripts/test-multimodal.sh):
+1. **Create test script** `[scripts/test-multimodal.sh](scripts/test-multimodal.sh)`:
 
 - Test image upload to Moonshot API
 - Test Kimi CLI with image input (if supported)
 - Verify vision processing works
 
-3. **Create [`docs/kimi-multimodal.md`](docs/kimi-multimodal.md)**:
+1. **Create `[docs/kimi-multimodal.md](docs/kimi-multimodal.md)**`:
 
 - What multi-modal means (vision + text)
 - How to use vision capabilities (if available)
 - Use cases: UI screenshots, diagram analysis, code visualization
 - Limitations and best practices
 
-4. **Create example pattern** [`.ai/patterns/multimodal-ui-review.md`](.ai/patterns/multimodal-ui-review.md):
+1. **Create example pattern** `[.ai/patterns/multimodal-ui-review.md](.ai/patterns/multimodal-ui-review.md)`:
 
 - Pattern: Review UI screenshots with vision
 - Use case: Lovable agent submits UI, reviewer uses vision to verify
@@ -236,7 +239,7 @@ flowchart TD
 - Document limitations if vision not available via CLI
 - Focus on practical use cases (UI review, diagram analysis)
 
-### Task 6.5: Create [`scripts/test-phase-6.sh`](scripts/test-phase-6.sh)
+### Task 6.5: Create `[scripts/test-phase-6.sh](scripts/test-phase-6.sh)`
 
 Following Phase 1-4 test template with **4 categories**:
 
@@ -262,13 +265,13 @@ Following Phase 1-4 test template with **4 categories**:
 
 ## Block Removal Criteria
 
-- [ ] All 8 structural tests pass
-- [ ] All 6 live API tests pass (generating real Moonshot console usage)
-- [ ] All 6 edge tests pass
-- [ ] All 3 integration tests pass (no regressions)
-- [ ] Success metrics met (6/6)
-- [ ] Documentation complete
-- [ ] At least 1 parallel subagent swarm successfully executed
+- All 8 structural tests pass
+- All 6 live API tests pass (generating real Moonshot console usage)
+- All 6 edge tests pass
+- All 3 integration tests pass (no regressions)
+- Success metrics met (6/6)
+- Documentation complete
+- At least 1 parallel subagent swarm successfully executed
 
 ## Phase 1-4 Lessons Applied
 
@@ -277,3 +280,4 @@ Following Phase 1-4 test template with **4 categories**:
 ## Key Design Decisions
 
 1. **Agent Swarm is already available**: K2.5 model supports it. We document patterns and test capabilities, not enable a feature.
+

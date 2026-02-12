@@ -24,6 +24,7 @@ todos:
     dependencies:
       - create-sync-script
       - apply-cursor-rules
+isProject: false
 ---
 
 # Upstream Update Workflow for Starter Kit Projects
@@ -55,7 +56,7 @@ flowchart LR
 
 ## Part 1: Create the Sync Script
 
-Create [`scripts/sync-upstream.sh`](scripts/sync-upstream.sh) that:
+Create `[scripts/sync-upstream.sh](scripts/sync-upstream.sh)` that:
 
 1. Clones (or pulls) the upstream repo to a temp directory
 2. Copies **generic files only** (scripts, docs, templates, patterns, skills, subagent templates) — skipping files with `[REPLACE]` placeholders that the project has already customized
@@ -74,7 +75,7 @@ This project (`open-artel-project-setup`) is unique — it IS the upstream repo,
 
 ## Part 3: Add Upstream Tracking to Starter Kit README
 
-Update [`setups/multi-agent-starter/README.md`](setups/multi-agent-starter/README.md) and [`BOOTSTRAP_PLAYBOOK.md`](setups/multi-agent-starter/BOOTSTRAP_PLAYBOOK.md) to document the update workflow:
+Update `[setups/multi-agent-starter/README.md](setups/multi-agent-starter/README.md)` and `[BOOTSTRAP_PLAYBOOK.md](setups/multi-agent-starter/BOOTSTRAP_PLAYBOOK.md)` to document the update workflow:
 
 - How to configure the upstream remote
 - How to run the sync script
@@ -86,3 +87,4 @@ Update [`setups/multi-agent-starter/README.md`](setups/multi-agent-starter/READM
 Add `scripts/sync-upstream.sh` to `setups/multi-agent-starter/scripts/` so every new project gets the update mechanism from day one.---
 
 ## Verification
+
