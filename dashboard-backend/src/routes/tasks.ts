@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ApiResponse, Task, TaskLifecycleEvent } from '../types';
 import { githubService } from '../services/github';
+import type { TaskBrief } from '../services/github';
 
 export const tasksRouter = Router({ mergeParams: true });
 
@@ -14,8 +15,18 @@ tasksRouter.get('/', async (req, res) => {
   const repo = params.repo || '';
   
   try {
-    const taskBriefs = await githubService.listTasks(owner, repo);
-    
+    let taskBriefs: TaskBrief[];
+    try {
+      taskBriefs = await githubService.listTasks(owner, repo);
+    } catch (listError: any) {
+      // Repo may not have Open Artel structure (.ai/tasks)
+      if (listError.message?.includes('Directory not found') || listError.message?.includes('not found')) {
+        taskBriefs = [];
+      } else {
+        throw listError;
+      }
+    }
+
     // Convert TaskBrief to Task format
     const tasks: Task[] = taskBriefs.map((brief) => ({
       id: brief.id,

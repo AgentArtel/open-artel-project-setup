@@ -74,6 +74,9 @@ npm start
 - `POST /api/projects` - Add new project
 - `DELETE /api/projects/:owner/:repo` - Remove project
 
+### Repos (GitHub)
+- `GET /api/repos` - List GitHub repositories for the authenticated user (uses GITHUB_TOKEN). Optional query: `?org=NAME` for organization repos. Used by the Dashboard "Load my repos from GitHub" flow when adding a project.
+
 ### Tasks
 - `GET /api/projects/:owner/:repo/tasks` - List all tasks
 - `GET /api/projects/:owner/:repo/tasks/:taskId` - Get task details
@@ -122,8 +125,12 @@ npm run dev
 
 ## Notes
 
+- **Linking a repo to a project:** There is no separate "link repo" step. Adding a project (Dashboard → Add Project) with a GitHub owner and repo name is how you link that repository. Use "Load my repos from GitHub" to pick from repos accessible with your `GITHUB_TOKEN`.
+- **Tasks:** The backend reads from the repo’s `.ai/tasks/` directory. If the repo doesn’t use the Open Artel structure, the tasks list is empty (no error).
+- **Agents:** The backend reads `.ai/status.md` for agent status. If missing, it returns a default agent list.
+- **Commits:** If the repo doesn’t exist or the token doesn’t have access, the API returns an empty list instead of an error.
 - GitHub API integration requires a valid `GITHUB_TOKEN`
-- Kimi chat requires a valid `KIMI_API_KEY`
+- Kimi chat requires a valid `KIMI_API_KEY` in `.env`; otherwise the agent chat returns "Kimi API key not configured"
 - All endpoints return JSON with `{ success: boolean, data?: T, error?: string }` format
 - WebSocket server runs on the same port as HTTP server
 

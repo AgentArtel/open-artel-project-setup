@@ -113,20 +113,34 @@ export class GitHubService {
     }
 
     try {
-      const response = org
-        ? await octokit.repos.listForOrg({ org })
-        : await octokit.repos.listForAuthenticatedUser({ type: 'all' });
+      // Paginate to get all repos (octokit defaults to 30 per page)
+      const allRepos: Repository[] = [];
+      const perPage = 100;
+      const maxPages = 5; // cap at 500 repos to avoid runaway pagination
 
-      return response.data.map((repo) => ({
-        id: repo.id,
-        name: repo.name,
-        full_name: repo.full_name,
-        owner: {
-          login: repo.owner.login,
-        },
-        html_url: repo.html_url,
-        description: repo.description,
-      }));
+      for (let page = 1; page <= maxPages; page++) {
+        const response = org
+          ? await octokit.repos.listForOrg({ org, per_page: perPage, page })
+          : await octokit.repos.listForAuthenticatedUser({ type: 'all', per_page: perPage, page });
+
+        const repos = response.data.map((repo) => ({
+          id: repo.id,
+          name: repo.name,
+          full_name: repo.full_name,
+          owner: {
+            login: repo.owner.login,
+          },
+          html_url: repo.html_url,
+          description: repo.description,
+        }));
+
+        allRepos.push(...repos);
+
+        // Stop if we got fewer than perPage (last page)
+        if (response.data.length < perPage) break;
+      }
+
+      return allRepos;
     } catch (error) {
       console.error('Error listing repositories:', error);
       throw error;

@@ -20,6 +20,15 @@ commitsRouter.get('/', async (req, res) => {
     };
     res.json(response);
   } catch (error: any) {
+    const status = error.response?.status ?? error.status;
+    if (status === 404) {
+      // Repo not found or token has no access
+      return res.json({
+        success: true,
+        data: [],
+        message: 'Repository not found or not accessible',
+      });
+    }
     console.error('Error fetching commits:', error);
     res.status(500).json({
       success: false,

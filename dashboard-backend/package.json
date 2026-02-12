@@ -20,6 +20,20 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^17.2.4"
+    "dotenv": "^17.2.4",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2",
+    "@octokit/rest": "^20.0.2",
+    "marked": "^11.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.3",
+    "@types/cors": "^2.8.17",
+    "typescript": "^5.9.3",
+    "ts-node": "^10.9.2",
+    "nodemon": "^3.0.2"
   }
 }
