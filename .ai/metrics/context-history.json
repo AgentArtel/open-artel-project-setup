@@ -1,110 +1,11 @@
 [
   {
-    "timestamp": "2026-02-10T09:23:49Z",
-    "session": "test-p2-spaces",
-    "token_count": 10594,
-    "file_size_bytes": 470,
-    "session_age_hours": 0,
-    "file_operations": 5,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T09:23:50Z",
-    "session": "test-p2-corrupt",
-    "token_count": 10594,
-    "file_size_bytes": 470,
-    "session_age_hours": 0,
-    "file_operations": 5,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T09:23:50Z",
-    "session": "test-p2-concurrent-a",
-    "token_count": 10594,
-    "file_size_bytes": 470,
-    "session_age_hours": 0,
-    "file_operations": 5,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T09:23:51Z",
-    "session": "test-p2-large",
-    "token_count": 10594,
-    "file_size_bytes": 470,
-    "session_age_hours": 0,
-    "file_operations": 1,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T09:23:51Z",
-    "session": "test-p2-delete-active",
-    "token_count": 10594,
-    "file_size_bytes": 470,
-    "session_age_hours": 0,
-    "file_operations": 3,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T10:34:58Z",
+    "timestamp": "2026-02-11T00:05:49Z",
     "session": "unknown",
-    "token_count": 10594,
-    "file_size_bytes": 470,
+    "token_count": 44437,
+    "file_size_bytes": 141280,
     "session_age_hours": 0,
     "file_operations": 0,
-    "status": "HEALTHY"
-  },
-  {
-    "timestamp": "2026-02-10T10:39:52Z",
-    "session": "unknown",
-    "token_count": 28860,
-    "file_size_bytes": 73090,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
-  },
-  {
-    "timestamp": "2026-02-10T10:40:10Z",
-    "session": "unknown",
-    "token_count": 28860,
-    "file_size_bytes": 73090,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
-  },
-  {
-    "timestamp": "2026-02-10T10:40:29Z",
-    "session": "unknown",
-    "token_count": 28860,
-    "file_size_bytes": 73090,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
-  },
-  {
-    "timestamp": "2026-02-10T10:40:52Z",
-    "session": "unknown",
-    "token_count": 28860,
-    "file_size_bytes": 73090,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
-  },
-  {
-    "timestamp": "2026-02-10T10:41:15Z",
-    "session": "unknown",
-    "token_count": 28860,
-    "file_size_bytes": 73090,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
-  },
-  {
-    "timestamp": "2026-02-10T12:12:06Z",
-    "session": "unknown",
-    "token_count": 29034,
-    "file_size_bytes": 74877,
-    "session_age_hours": 0,
-    "file_operations": 0,
-    "status": "WARNING"
+    "status": "CRITICAL"
   }
 ]

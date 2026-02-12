@@ -60,3 +60,52 @@ These benefit from discussion but aren't blocked on approval.
 | `reports/` | `<type>-<identifier>.md` | `sprint-3-summary.md` |
 | `chats/` | `<agent1>-<agent2>-<context>.md` | `kimi-cursor-TASK-P4-01.md` |
 | `ideas/` | `IDEA-XXX-<description>.md` | `IDEA-001-git-branch-workflow.md` |
+
+## Agent Chat Workspaces
+
+Agent chats should organize their work in dedicated workspaces to keep all related files together and trackable.
+
+### Structure
+
+- **Location**: `.ai/agent-chats/<chat-name>/`
+- **Naming**: Use descriptive names like `manager-a-<task>`, `manager-b-<task>`, `<agent>-<purpose>`
+- **Purpose**: Keep all work from a specific agent chat organized in one place
+
+### Workspace Contents
+
+Each workspace contains:
+- `instructions/` - Instructions created by this chat
+- `reports/` - Reports created by this chat
+- `chats/` - Chat logs for this coordination
+- `README.md` - Workspace documentation (purpose, status, key files)
+
+### When to Create a Workspace
+
+Create a workspace when:
+- Starting a new agent chat that will create multiple files
+- Coordinating a complex task that spans multiple phases
+- Managing parallel work streams (e.g., Manager Chat A and B)
+- Need to track all work from a specific agent chat in one place
+
+### Example
+
+```
+.ai/agent-chats/manager-a-frontend-coordinator/
+├── instructions/
+│   ├── EXTERNAL-KIMI-MESSAGE-phase1.md
+│   └── external-kimi-frontend-coordinator-phase1.md
+├── reports/
+│   ├── frontend-coordinator-coordination-2026-02-10.md
+│   └── frontend-coordinator-track-a.md
+├── chats/
+└── README.md
+```
+
+### Integration with Existing Structure
+
+- Workspaces are **in addition to** existing `.ai/` folders
+- Direct agent assignments (Kimi → Cursor) still go in `.ai/instructions/`
+- General project reports still go in `.ai/reports/`
+- Workspaces are for **agent chat-specific** work organization
+
+See `.ai/templates/agent-chat-workspace.md` for the full template and guidelines.
