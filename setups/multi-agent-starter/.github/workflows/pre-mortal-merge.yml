@@ -76,4 +76,3 @@ jobs:
           [ "${FORMAT_ISSUES:-0}" -eq 0 ] && echo "| Commit format | PASS |" >> "$GITHUB_STEP_SUMMARY" || echo "| Commit format | WARN ($FORMAT_ISSUES issues) |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Script syntax | PASS |" >> "$GITHUB_STEP_SUMMARY"
           echo "**Commit**: ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
-

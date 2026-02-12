@@ -119,4 +119,3 @@ jobs:
           echo "| Action | $ACTION |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Task | $TASK |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Branch | ${{ github.ref_name }} |" >> "$GITHUB_STEP_SUMMARY"
-
