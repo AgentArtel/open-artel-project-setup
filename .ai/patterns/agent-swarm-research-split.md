@@ -115,4 +115,3 @@ After all researchers complete, the overseer:
 - Use this swarm pattern only when researching 3+ independent topics
 - Always specify output file paths in the Task prompt
 - Review for contradictions across researcher reports before accepting
-

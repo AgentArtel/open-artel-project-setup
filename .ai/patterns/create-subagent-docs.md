@@ -74,4 +74,3 @@ Task(
 ```bash
 ./scripts/create-specialized-subagent.sh docs TASK-789
 ```
-

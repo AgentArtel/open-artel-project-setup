@@ -69,4 +69,3 @@ Task(
 ```bash
 ./scripts/create-specialized-subagent.sh performance TASK-456
 ```
-

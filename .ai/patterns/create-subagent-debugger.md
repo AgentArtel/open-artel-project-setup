@@ -73,4 +73,3 @@ Generate the Kimi prompt automatically:
 ```
 
 This reads the template and outputs a ready-to-use Kimi prompt.
-

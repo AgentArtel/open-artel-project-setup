@@ -160,4 +160,3 @@ with urllib.request.urlopen(req) as resp:
 - Use `moonshot-v1-8k-vision-preview` for quick checks (cheapest)
 - Use `kimi-k2.5` when the reviewer also needs tool access
 - Save screenshots in `.ai/reviews/` alongside the review file
-

@@ -103,4 +103,3 @@ After all reviews complete, the overseer reads all review files and:
 - Use this swarm pattern only when reviewing 3+ tasks simultaneously
 - Always specify output file paths in the Task prompt
 - Archive the session after a large swarm review
-

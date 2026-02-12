@@ -78,4 +78,3 @@ Task(
 ```bash
 ./scripts/create-specialized-subagent.sh test-generator TASK-101
 ```
-
