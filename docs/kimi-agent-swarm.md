@@ -160,4 +160,3 @@ Ensure the `Task` prompt specifies:
 ### Slow Parallel Execution
 
 Parallel subagents share the same API rate limits. If many subagents make API calls simultaneously, some may be rate-limited. This is normal — Kimi handles retries internally.
-

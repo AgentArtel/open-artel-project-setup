@@ -171,4 +171,3 @@ The context monitor (`scripts/kimi-context-monitor.sh`) can read wire metrics to
 ### Evaluation Script
 
 The evaluation script (`scripts/generate-evaluation.sh`) can reference wire metrics in its Kimi prompt for comprehensive project health assessment.
-

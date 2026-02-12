@@ -312,4 +312,3 @@ The `context-history.json` file is append-only. If it grows very large:
 
 1. Archive old measurements: `cp .ai/metrics/context-history.json .ai/metrics/context-history-$(date +%Y%m%d).json`
 2. Reset: `echo "[]" > .ai/metrics/context-history.json`
-

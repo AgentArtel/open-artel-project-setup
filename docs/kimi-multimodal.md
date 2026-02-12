@@ -236,4 +236,3 @@ Images consume significant tokens. To reduce usage:
 - Resize images before sending
 - Use the smallest vision model that meets your needs
 - Crop to the relevant area instead of sending full screenshots
-

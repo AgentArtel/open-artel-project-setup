@@ -155,4 +155,3 @@ Document the reason in the commit message or in `.ai/reviews/`.
 | Sprint status | `cat .ai/status.md` |
 | Session health | `./scripts/kimi-context-monitor.sh check` |
 | Full verification | `./scripts/verify-kimi-setup.sh` |
-

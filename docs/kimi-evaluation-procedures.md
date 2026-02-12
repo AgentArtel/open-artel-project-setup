@@ -190,4 +190,3 @@ git commit --allow-empty -m "[AGENT:kimi] [ACTION:approve] [TASK:TASK-TEST-01] A
 | Session not found | `./scripts/kimi-session-manager.sh list` |
 | Context too large | `./scripts/kimi-context-monitor.sh auto-compact` |
 | Tests failing | Check `.git/hooks/post-commit.log` for errors |
-

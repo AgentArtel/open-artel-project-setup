@@ -194,4 +194,3 @@ Term mode requires a terminal that supports modern TUI rendering. If display is 
 1. Try a different terminal emulator
 2. Ensure terminal supports UTF-8
 3. Check terminal size (minimum ~80x24)
-

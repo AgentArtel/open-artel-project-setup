@@ -120,4 +120,3 @@ Available subagent templates:
 - **Review says REJECTED**: Read the full review file for specific feedback
 - **No task assignments**: Check `.ai/status.md` — sprint may not have started
 - **Kimi not responding**: Verify setup with `./scripts/verify-kimi-setup.sh`
-

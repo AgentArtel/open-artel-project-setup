@@ -106,4 +106,3 @@ Each workflow run that calls Kimi CLI consumes API tokens:
 - **Pre-Mortal Merge**: No Kimi calls (validation only)
 
 Use `quick_mode` for sprint evaluations during development to save tokens.
-
