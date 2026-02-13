@@ -4,7 +4,6 @@
 
 import { io } from 'socket.io-client';
 import type { Socket } from 'socket.io-client';
-import { isBackendConfigured } from '@/lib/mockData';
 import type { 
   KimiChatMessage, 
   KimiStreamResponse,
@@ -140,12 +139,7 @@ function scheduleReconnect(): void {
  * Initialize Socket.io connection
  */
 export function initializeSocket(): Socket | null {
-  // Guard: don't connect if no real backend is configured
   const wsUrl = getWsUrl();
-  if (!isBackendConfigured(wsUrl)) {
-    console.debug('[WebSocket] Skipping connection — no backend configured');
-    return socket as Socket | null;
-  }
 
   if (socket?.connected) {
     return socket;
@@ -157,8 +151,11 @@ export function initializeSocket(): Socket | null {
     socket.close();
   }
 
-  socket = io(wsUrl, {
-    transports: ['websocket'],
+  // Socket.io expects an HTTP(S) URL for the initial polling handshake; ws:// breaks it.
+  const socketUrl = wsUrl.replace(/^ws:\/\//i, 'http://').replace(/^wss:\/\//i, 'https://');
+  // Use default transports (polling then websocket) for reliable connection.
+  socket = io(socketUrl, {
+    transports: ['polling', 'websocket'],
     reconnection: false, // We handle reconnection manually for better control
   });
 

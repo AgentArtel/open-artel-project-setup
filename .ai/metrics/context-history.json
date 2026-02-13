@@ -1,11 +1,20 @@
 [
   {
-    "timestamp": "2026-02-11T00:05:49Z",
+    "timestamp": "2026-02-12T08:10:32Z",
     "session": "unknown",
-    "token_count": 44437,
-    "file_size_bytes": 141280,
+    "token_count": 30701,
+    "file_size_bytes": 75225,
     "session_age_hours": 0,
     "file_operations": 0,
+    "status": "WARNING"
+  },
+  {
+    "timestamp": "2026-02-12T08:10:32Z",
+    "session": "test-p4-old",
+    "token_count": 30701,
+    "file_size_bytes": 75225,
+    "session_age_hours": 800,
+    "file_operations": 128,
     "status": "CRITICAL"
   }
 ]

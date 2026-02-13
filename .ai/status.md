@@ -36,6 +36,18 @@ Moonshot/Kimi Feature Integration — All 7 phases COMPLETE. Phase 7 (Integratio
 | — | Moonshot Phase 7: Integration & Setup | DONE | Starter kit updated (AGENTS.md + CLAUDE.md + BOOTSTRAP_PLAYBOOK.md), setup automation (setup-kimi-project.sh + verify-kimi-setup.sh + quick-kimi-check.sh), agent guides (cursor + claude), 4 skills updated, GitHub Actions in starter kit, evaluation procedures, 30/30 tests pass |
 | — | Moonshot Phase 6: Advanced Features | DONE | Agent Swarm patterns (2 patterns + docs), ACP/Web/Term integration (docs + helper script), Wire Mode enhancements (metrics + error recovery + .env.project + 3 new handlers), Multi-modal vision (docs + pattern + API verified), 23/23 tests pass |
 
+### Dashboard Phase 2 — Unified Ecosystem Hub (IDEA-020)
+
+The dashboard is 1 of 5 projects in a unified system. See IDEA-020 for the full ecosystem vision and data flow map.
+
+| ID | Title | Status | Assigned | Notes |
+|----|-------|--------|----------|-------|
+| TASK-D2-1 | Backend Data Source Abstraction | PENDING | cursor | Decouple from GitHub-only; add `source` discriminator. **Blocks all D2-* tasks.** |
+| TASK-D2-2 | OpenClaw Gateway Integration | PENDING | cursor | Connect to Even-Openclaw's Gateway API (WS :18789). Depends on D2-1. |
+| TASK-D2-3 | NHA / Legion X Integration | PENDING | cursor | Connect to NotHumanAllowed REST API. Depends on D2-1. |
+| TASK-D2-4 | Game Agent Integration (Open-RPG) | PENDING | cursor | Define API contract + stubs. Depends on D2-1. Low priority (needs Open-RPG API). |
+| TASK-D2-5 | Frontend Project Type Awareness | PENDING | cursor | UI adapts per source type. Depends on D2-1 + at least one of D2-2/3/4. |
+
 ## Backlog
 
 | ID | Title | Priority | Notes |

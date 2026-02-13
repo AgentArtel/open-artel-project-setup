@@ -4,9 +4,10 @@ Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
 
 ## Summary
 
-- **19 ideas** captured (18 from TASK-002; IDEA-019 from dashboard handoff)
+- **20 ideas** captured (18 from TASK-002; IDEA-019 from dashboard handoff; IDEA-020 from ecosystem vision)
 - **All researched** — enriched with findings from TASK-002-research.md
 - **8-phase roadmap** from foundation (Phase 1) through mono-repo support (Phase 8)
+- **Dashboard Phase 2** — IDEA-020 defines the unified 5-project ecosystem hub
 
 ### By Phase
 
@@ -53,4 +54,5 @@ Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
 | IDEA-017 | Context compression for histories | Kimi Integration | Researched | Ready | 4 | [detail](ideas/IDEA-017-context-compression.md) |
 | IDEA-018 | Approval workflow integration | Automation | Researched | Feasible | 5-7 | [detail](ideas/IDEA-018-approval-workflow.md) |
 | IDEA-019 | Dashboard backend: edge functions vs Node vs hybrid | Templates / Integration | Raw | Needs Research | — | [detail](ideas/IDEA-019-dashboard-backend-edge-functions-hybrid.md) |
+| IDEA-020 | Unified ecosystem hub — Dashboard as multi-project agent hub | Agent Architecture / Integration | Explored | Feasible | D2 | [detail](ideas/IDEA-020-unified-ecosystem-hub.md) |
 

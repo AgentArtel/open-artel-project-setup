@@ -1,13 +1,26 @@
-# External Agent Frontend Implementation
+# Open Artel Dashboard — AI Agent Hub
 
-This directory contains the complete frontend implementation built by an external agent for review and comparison.
+The primary frontend for the Open Artel Dashboard. This is the **production codebase** (9/10 audit score), built with React + TypeScript + Vite + Tailwind + shadcn/ui.
 
-## Purpose
+## Ecosystem Context
 
-This frontend is kept separate from `dashboard-frontend/` (Phase 1.1 setup) so we can:
-- Review the complete implementation
-- Compare it with the Phase 1.1 setup
-- Test and validate before merging or replacing
+This dashboard is **1 of 5 projects** in a unified agent ecosystem:
+
+| # | Project | Role | Dashboard relationship |
+|---|---------|------|----------------------|
+| 1 | **open-artel-project-setup** | .ai system dev + backend | Backend lives here; dashboard reads `.ai/` data via GitHub API |
+| 2 | **Even-Openclaw** | Agent communication | Dashboard will connect to OpenClaw Gateway (WS :18789) for agent CRUD, chat, skills |
+| 3 | **Open-RPG** | AI-integrated RPG game | Dashboard will manage game agents; game exposes its own API |
+| 4 | **open-artel-dashboad** | This dashboard (frontend) | Central hub for all agent systems |
+| 5 | **artelio** | Player-facing game portal | Separate from dashboard; embeds Open-RPG for players |
+
+See `.ai/ideas/IDEA-020-unified-ecosystem-hub.md` for the full vision, data flow map, and input/output contracts per project.
+
+## Current Status
+
+- **Phase 1 (D1)**: Backend API complete, frontend built, GitHub integration working, Kimi chat streaming
+- **Phase 2 (D2)**: Multi-source hub — backend data source abstraction, OpenClaw/NHA/Game integrations (PENDING)
+- See `.ai/status.md` for detailed task tracking
 
 ## Location
 

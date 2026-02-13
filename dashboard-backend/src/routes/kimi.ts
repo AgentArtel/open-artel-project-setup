@@ -23,8 +23,17 @@ kimiRouter.post('/chat', async (req, res) => {
     });
   }
   
+  const systemContent =
+    'You are a helpful assistant for the Open Artel Dashboard project.';
+  const contextParts: string[] = [];
+  if (context?.project) contextParts.push(`Project: ${context.project}`);
+  if (context?.task) contextParts.push(`Task: ${context.task}`);
+  const contextBlock =
+    contextParts.length > 0
+      ? `\n\nCurrent context:\n${contextParts.join('\n')}`
+      : '';
+
   try {
-    // TODO: Implement streaming response in future enhancement
     const response = await axios.post(
       `${config.kimi.baseUrl}/chat/completions`,
       {
@@ -32,7 +41,7 @@ kimiRouter.post('/chat', async (req, res) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a helpful assistant for the Open Artel Dashboard project.',
+            content: systemContent + contextBlock,
           },
           {
             role: 'user',

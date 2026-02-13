@@ -324,7 +324,7 @@ export class GitHubService {
       const response = await octokit.repos.getContent({
         owner,
         repo,
-        path,
+        path: path || '.',
       });
 
       if (!Array.isArray(response.data)) {
@@ -474,6 +474,45 @@ export class GitHubService {
       console.error('Error listing tasks:', error);
       throw error;
     }
+  }
+
+  /**
+   * Get task lifecycle events from commit history (commits with [TASK:taskId] in message)
+   */
+  async getTaskLifecycle(owner: string, repo: string, taskId: string): Promise<TaskLifecycleEvent[]> {
+    const commits = await this.listCommits(owner, repo);
+    const normalizedTaskId = taskId.toUpperCase().replace(/^TASK-?/, '');
+    const events: TaskLifecycleEvent[] = [];
+
+    for (const commit of commits) {
+      const parsed = commit.parsed;
+      if (!parsed?.task) continue;
+      const commitTask = parsed.task.toUpperCase().replace(/^TASK-?/, '');
+      if (commitTask !== normalizedTaskId && !commitTask.includes(normalizedTaskId) && !normalizedTaskId.includes(commitTask)) continue;
+
+      const action = (parsed.action || '').toLowerCase();
+      const typeMap: Record<string, TaskLifecycleEvent['type']> = {
+        submit: 'submitted',
+        approve: 'approved',
+        merge: 'merged',
+        report: 'done',
+        update: 'started',
+        reject: 'reviewed',
+      };
+      const type = typeMap[action] || 'done';
+
+      events.push({
+        id: commit.sha.slice(0, 7),
+        taskId,
+        type,
+        timestamp: commit.author?.date || new Date().toISOString(),
+        agent: parsed.agent,
+        data: { sha: commit.sha, action: parsed.action, description: parsed.description },
+      });
+    }
+
+    events.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    return events;
   }
 
   /**

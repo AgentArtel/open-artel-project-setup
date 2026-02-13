@@ -38,7 +38,7 @@ import {
 } from '@/components/ui/select';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { healthApi } from '@/lib/api';
-import { getSocket, initializeSocket, closeSocket } from '@/lib/websocket';
+import { getSocket, initializeSocket, closeSocket, subscribeToConnectionState } from '@/lib/websocket';
 import { toast } from 'sonner';
 import { useUiStyle } from '@/hooks/useUiStyle';
 import { cn } from '@/lib/utils';
@@ -81,35 +81,42 @@ export function SettingsPage() {
     }
   };
 
-  // Test WebSocket connection
+  // Test WebSocket connection (wait for connect or connect_error, max 5s)
   const testWebSocketConnection = () => {
     setIsTestingWebSocket(true);
-    const socket = getSocket();
-    
-    if (socket?.connected) {
-      toast.success('WebSocket connected', {
-        description: `Socket ID: ${socket.id}`,
-      });
+    const current = getSocket();
+    if (current?.connected) {
+      toast.success('WebSocket connected', { description: `Socket ID: ${current.id}` });
       setIsTestingWebSocket(false);
       return;
     }
-
-    // Try to connect
     initializeSocket();
-    
-    setTimeout(() => {
-      const updatedSocket = getSocket();
-      if (updatedSocket?.connected) {
-        toast.success('WebSocket connected', {
-          description: `Socket ID: ${updatedSocket.id}`,
-        });
+    const timeout = setTimeout(() => {
+      unsubscribe();
+      const updated = getSocket();
+      if (updated?.connected) {
+        toast.success('WebSocket connected', { description: `Socket ID: ${updated.id}` });
       } else {
         toast.error('WebSocket connection failed', {
-          description: 'Could not establish connection',
+          description: 'Could not establish connection within 5s',
         });
       }
       setIsTestingWebSocket(false);
-    }, 2000);
+    }, 5000);
+    const unsubscribe = subscribeToConnectionState((state) => {
+      if (state.connected) {
+        clearTimeout(timeout);
+        unsubscribe();
+        const s = getSocket();
+        toast.success('WebSocket connected', { description: s ? `Socket ID: ${s.id}` : undefined });
+        setIsTestingWebSocket(false);
+      } else if (state.error) {
+        clearTimeout(timeout);
+        unsubscribe();
+        toast.error('WebSocket connection failed', { description: state.error });
+        setIsTestingWebSocket(false);
+      }
+    });
   };
 
   // Save connection settings

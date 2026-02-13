@@ -137,14 +137,10 @@ export const mockAgents: MockAgent[] = [
 ];
 
 /**
- * Check if the backend URL looks like a real (non-default) backend
+ * Check if a backend URL is set (so we should call the API instead of using mock data).
+ * Treats localhost as configured so local development uses the real backend.
  */
 export function isBackendConfigured(apiBaseUrl: string): boolean {
-  const url = apiBaseUrl.toLowerCase().trim();
-  return !!(
-    url &&
-    !url.includes('localhost') &&
-    !url.includes('127.0.0.1') &&
-    !url.includes('0.0.0.0')
-  );
+  const url = (apiBaseUrl || '').trim();
+  return url.length > 0;
 }

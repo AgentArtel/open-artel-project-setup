@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { ApiResponse, Project } from '../types';
+import { loadProjects, saveProjects } from '../store/projects';
 
 export const projectsRouter = Router();
 
-// In-memory storage (replace with database in production)
-const projects: Project[] = [];
+const projects: Project[] = loadProjects();
 
 // GET /api/projects - List all monitored projects
 projectsRouter.get('/', (req, res) => {
@@ -74,13 +74,40 @@ projectsRouter.post('/', (req, res) => {
   };
   
   projects.push(project);
-  
+  saveProjects(projects);
+
   const response: ApiResponse<Project> = {
     success: true,
     data: project,
     message: 'Project added successfully',
   };
   res.status(201).json(response);
+});
+
+// PUT /api/projects/:owner/:repo - Update project settings
+projectsRouter.put('/:owner/:repo', (req, res) => {
+  const { owner, repo } = req.params;
+  const fullName = `${owner}/${repo}`;
+  const { settings: settingsUpdate } = req.body ?? {};
+
+  const project = projects.find(p => p.fullName === fullName);
+  if (!project) {
+    return res.status(404).json({
+      success: false,
+      error: 'Project not found',
+    });
+  }
+
+  if (settingsUpdate && typeof settingsUpdate === 'object') {
+    project.settings = { ...project.settings, ...settingsUpdate };
+    saveProjects(projects);
+  }
+
+  const response: ApiResponse<Project> = {
+    success: true,
+    data: project,
+  };
+  res.json(response);
 });
 
 // DELETE /api/projects/:owner/:repo - Remove project
@@ -98,7 +125,8 @@ projectsRouter.delete('/:owner/:repo', (req, res) => {
   }
   
   projects.splice(index, 1);
-  
+  saveProjects(projects);
+
   res.json({
     success: true,
     message: 'Project removed successfully',

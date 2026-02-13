@@ -5,9 +5,6 @@ import type { TaskBrief } from '../services/github';
 
 export const tasksRouter = Router({ mergeParams: true });
 
-// Placeholder lifecycle events (can be enhanced with Git history parsing)
-const lifecycleEvents: TaskLifecycleEvent[] = [];
-
 // GET /api/projects/:owner/:repo/tasks - List all tasks
 tasksRouter.get('/', async (req, res) => {
   const params = req.params as { owner?: string; repo?: string };
@@ -104,16 +101,32 @@ tasksRouter.get('/:taskId', async (req, res) => {
   }
 });
 
-// GET /api/projects/:owner/:repo/tasks/:taskId/lifecycle - Get task lifecycle
-tasksRouter.get('/:taskId/lifecycle', (req, res) => {
-  const { taskId } = req.params;
-  
-  const events = lifecycleEvents.filter(e => e.taskId === taskId);
-  
-  const response: ApiResponse<TaskLifecycleEvent[]> = {
-    success: true,
-    data: events,
-  };
-  res.json(response);
+// GET /api/projects/:owner/:repo/tasks/:taskId/lifecycle - Get task lifecycle from commit history
+tasksRouter.get('/:taskId/lifecycle', async (req, res) => {
+  const params = req.params as { owner?: string; repo?: string; taskId?: string };
+  const owner = params.owner || '';
+  const repo = params.repo || '';
+  const taskId = params.taskId || '';
+
+  try {
+    const events = await githubService.getTaskLifecycle(owner, repo, taskId);
+    const response: ApiResponse<TaskLifecycleEvent[]> = {
+      success: true,
+      data: events,
+    };
+    res.json(response);
+  } catch (error: any) {
+    if (error.message?.includes('token not configured')) {
+      return res.status(503).json({
+        success: false,
+        error: error.message,
+      });
+    }
+    console.error('Error fetching task lifecycle:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to fetch task lifecycle',
+    });
+  }
 });
 
