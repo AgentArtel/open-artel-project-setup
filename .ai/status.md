@@ -23,15 +23,17 @@ Phases 1-7 built by Cursor (152 tests passing). Dashboard prototype on `pre-mort
 | — | F1: Learn from Past Configurations | DONE | Lesson extraction, structure comparison, patterns |
 | — | CONCEPT-1-DASHBOARD | IN PROGRESS | Backend + 2 frontends, 3/7 sub-tasks done, P0 bug |
 
-## Pending Review Decisions
+## Review Decisions (Resolved 2026-02-13)
 
-| # | Question | Options | Blocking |
-|---|----------|---------|----------|
-| 1 | Should Cursor modify `.ai/`, `setups/`, root configs? | Accept / Revert / Share ownership | Phase 3-7 acceptance |
-| 2 | Is the repo still "pure markdown" with 38+ scripts? | Embrace scripts / Separate repo / Clarify | CLAUDE.md accuracy |
-| 3 | How to resolve Kimi Phase 5 rejection? | Accept / Require fixes / Waive | Process integrity |
-| 4 | Restore 5-stage idea pipeline or keep flat? | Restore / Flat / Hybrid | Ideas organization |
-| 5 | DRY strategy for root vs starter kit files? | Single source + copy / Accept duplication | Maintenance |
+All 5 governance questions resolved by Human PM:
+
+| # | Decision | Action Taken |
+|---|----------|-------------|
+| 1 | Cursor boundary violations accepted | Logged in boundaries.md. Revisit ownership later. |
+| 2 | Scripts are part of the repo | CLAUDE.md updated — no longer claims "pure markdown." |
+| 3 | Kimi rejection waved through | Logged in boundaries.md. Work accepted. |
+| 4 | Idea pipeline: 3 folders (backlog/active/done) | Simplified from 5 folders. WORKFLOW.md + ideas.md updated. |
+| 5 | Single source of truth in starter kit | Policy documented in boundaries.md. Root copies synced from setups/. |
 
 See `.ai/reviews/cursor-comprehensive-review-2026-02-13.md` for full analysis.
 
@@ -63,9 +65,9 @@ See `.ai/reviews/cursor-comprehensive-review-2026-02-13.md` for full analysis.
 ## Health
 
 - **Technical**: Strong. 152 tests passing across 7 phases. Dashboard backend functional.
-- **Governance**: Issues flagged. Boundary violations, ignored Kimi rejection, missing task briefs.
-- **Starter kit**: Massively expanded (16 scripts, 12 docs, 3 workflows). No longer "pure markdown."
-- **Dashboard**: 60-70% complete. P0 API key bug blocks production use.
+- **Governance**: All 5 review decisions resolved. Logged in boundaries.md.
+- **Starter kit**: Expanded (16 scripts, 12 docs, 3 workflows). Markdown + stdlib scripts.
+- **Dashboard**: Temporary, for testing Kimi/GitHub integrations. Will be removed.
 - **TASK-003**: 0% implemented. Plan is ready, 18 files to create.
-- **Ideas**: Cursor flattened the 5-stage pipeline back to flat structure. 7 idea files removed/lost.
+- **Ideas**: Reorganized into 3-folder pipeline (backlog/active/done).
 - **Branches**: 3 active (main, pre-mortal, cursor/concept-1-dashboard-test). My branch diverged.

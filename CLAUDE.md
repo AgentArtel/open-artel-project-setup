@@ -34,7 +34,7 @@ See `.ai/boundaries.md` for what you can do unilaterally vs. what needs human si
 
 ## Do NOT
 
-- Add runtime dependencies — this repo stays pure markdown
+- Add external runtime dependencies (pip, npm, etc.) — scripts use only bash and Python stdlib
 - Modify past-configurations without explicit approval (they're historical records)
 - Over-engineer templates — simplicity is the feature
 - Make assumptions about project tech stacks beyond what templates declare

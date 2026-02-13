@@ -27,7 +27,7 @@ These change the system's shape or strategy. Propose, explain reasoning, wait fo
 - **Deleting content**: Removing any setup, template, or past-configuration
 - **Protocol changes**: Modifying the workforce protocol, delegation rules, or review checklists
 - **Structural changes**: Reorganizing the repo layout, renaming directories
-- **Scope expansion**: Adding non-markdown content (scripts, tools, automation)
+- **Scope expansion**: Adding external dependencies or fundamentally new content types
 
 ## Shared Decisions
 
@@ -49,6 +49,35 @@ These benefit from discussion but aren't blocked on approval.
 | `.ai/chats/` | All agents | All agents | Conversation logs between agents |
 | `.ai/ideas/` | Claude Code | All agents + Human | Feature ideas backlog |
 | `.ai/templates/` | Claude Code | All agents | Templates for all file types |
+
+## Governance Notes
+
+Exceptions and decisions made by the Human PM, logged for future reference.
+
+| Date | Decision | Context |
+|------|----------|---------|
+| 2026-02-13 | Cursor's boundary violations on Phases 3-7 accepted | Cursor modified `.ai/`, `setups/`, root configs during Kimi/Moonshot build. Accepted since code works — revisit ownership rules later. |
+| 2026-02-13 | Kimi Phase 5 rejection waved through | Kimi Overseer rejected Phase 5 (missing brief, boundary violations). Human accepted the work regardless. |
+| 2026-02-13 | Scripts are part of the repo | Repo is no longer "pure markdown." Bash + Python stdlib scripts accepted. No external dependencies (pip/npm). |
+| 2026-02-13 | Dashboard is temporary | `pre-mortal` branch dashboard exists for testing Kimi/GitHub integrations. Will be removed when done. |
+| 2026-02-13 | Single source of truth for files | Files exist once in `setups/multi-agent-starter/`. Root-level copies are synced from there. No manual duplication. |
+
+## Source of Truth Policy
+
+Files that appear in both the root and `setups/multi-agent-starter/` must have **one authoritative location**:
+
+| File Type | Source of Truth | Synced To |
+|-----------|----------------|-----------|
+| Scripts (`scripts/`) | `setups/multi-agent-starter/scripts/` | Root `scripts/` |
+| Agent configs (`.agents/`) | `setups/multi-agent-starter/.agents/` | Root `.agents/` |
+| Docs (`docs/`) | `setups/multi-agent-starter/docs/` | Root `docs/` |
+| Templates (`.ai/templates/`) | `setups/multi-agent-starter/.ai/templates/` | Root `.ai/templates/` |
+| Cursor rules (`.cursor/rules/`) | `setups/multi-agent-starter/.cursor/rules/` | Root `.cursor/rules/` |
+| GitHub workflows (`.github/`) | `setups/multi-agent-starter/.github/` | Root `.github/` |
+
+**Why starter kit is the source**: The starter kit is what gets distributed to projects. It must be complete and correct. Root-level files are just this repo using its own system.
+
+**How to sync**: A `scripts/sync-from-starter.sh` script should copy from `setups/` to root. Run after any starter kit change.
 
 ### File Naming Conventions
 
