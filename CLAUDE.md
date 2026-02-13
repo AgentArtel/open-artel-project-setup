@@ -38,7 +38,7 @@ When Kimi Overseer is enabled, coordinate via commit-based routing. See `docs/cl
 
 ## Do NOT
 
-- Add runtime dependencies — this repo stays pure markdown
+- Add external runtime dependencies (pip, npm, etc.) — scripts use only bash and Python stdlib
 - Modify past-configurations without explicit approval (they're historical records)
 - Over-engineer templates — simplicity is the feature
 - Make assumptions about project tech stacks beyond what templates declare

@@ -2,9 +2,10 @@
 
 - **Category**: Automation
 - **Origin**: TASK-002
-- **Status**: researched
+- **Status**: complete
 - **Feasibility**: Ready
 - **Roadmap Phase**: Phase 3 (Flow Skills)
+- **Implemented**: Phase 3 (2026-02-10)
 
 ### The Idea
 
@@ -34,6 +35,18 @@ Both flows include conditional branches (reject → revise → re-review loops) 
 - **Git hook integration**: Hooks trigger `/flow:code-review` on submit commits.
 - **Conditional branches**: Yes — decision nodes with labeled paths.
 - **Error handling**: Loops (reject → fix → re-submit) and failure exits.
+
+### Implementation Summary
+
+**3 flow skills created**: `sprint-execution` (goals->tasks->review->merge->report), `code-review` (brief->diff->boundaries->criteria->verdict), `task-handoff` (submit->review->approve/reject->next). All use `type: flow` with Mermaid flowcharts.
+
+### Dev Log
+
+| Date | Stage | Action | By |
+|------|-------|--------|----|
+| 2026-02-10 | capture | Extracted from TASK-002 brainstorm | Claude Code |
+| 2026-02-10 | research | 2 flows designed (sprint-execution, code-review) | Claude Code |
+| 2026-02-10 | complete | 3 flow skills created (added task-handoff) | Cursor + Human |
 
 ### Related Ideas
 

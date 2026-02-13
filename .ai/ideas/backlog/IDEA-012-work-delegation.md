@@ -38,6 +38,39 @@ Human describes high-level goals; agents handle division of labor. PM bottleneck
 - **Tracking**: `.ai/status.md` + `.ai/chats/` logs.
 - **Failed delegation**: Mark BLOCKED, create resolution task, escalate to Human.
 
+### Human Task Offloading (from Cursor F20)
+
+Cursor identified explicit delegation boundaries that complement our delegation map:
+
+**Always agent** (no human needed):
+- Formatting, linting, test writing
+- Boilerplate code generation
+- Documentation updates from code changes
+- Dependency version updates (non-breaking)
+
+**Agent with human review**:
+- Feature implementation
+- Architecture decisions
+- Dependency updates (breaking)
+- API design changes
+
+**Always human**:
+- Business decisions and priority setting
+- UX design sign-off
+- Deployment approval
+- Security-critical changes
+- Budget and cost decisions
+
+**Escalation mechanism**: The `[TO:human]` routing type creates a PR or notification for human attention. Human approves/rejects via PR review or by committing to the channel.
+
+This maps well to our `.ai/boundaries.md` pattern — "Proceed Freely" vs "Needs Approval" columns can be generated from these delegation tiers.
+
+### Cross-reference: Cursor Features
+
+- Cursor F20 (human task offloading) — folded in above
+
 ### Related Ideas
 
 - IDEA-007 (subagents), IDEA-004 (folders), IDEA-013 (evaluation)
+- IDEA-018 (approval workflow implements the escalation mechanism)
+- IDEA-019 (sprint pipeline defines when delegation happens)

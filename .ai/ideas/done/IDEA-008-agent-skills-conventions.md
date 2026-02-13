@@ -2,9 +2,10 @@
 
 - **Category**: Kimi Integration
 - **Origin**: TASK-002
-- **Status**: researched
+- **Status**: complete
 - **Feasibility**: Ready
 - **Roadmap Phase**: Phase 2 (Agent Skills)
+- **Implemented**: Phase 2 (2026-02-10)
 
 ### The Idea
 
@@ -40,6 +41,18 @@ Consistency without manual prompting. Reusable across projects. Version-controll
 - **Location**: `.agents/skills/` at project level.
 - **Versioning**: Git — skills live in the repo.
 - **Composition**: Relative paths to reference other files. Subdirectories for detailed content.
+
+### Implementation Summary
+
+**9 skills created** (6 standard + 3 flow): `open-artel-workflow`, `task-protocol`, `git-routing`, `review-checklist`, `boundary-enforcement`, `sprint-management`, `sprint-execution` (flow), `code-review` (flow), `task-handoff` (flow). All in `.agents/skills/`.
+
+### Dev Log
+
+| Date | Stage | Action | By |
+|------|-------|--------|----|
+| 2026-02-10 | capture | Extracted from TASK-002 brainstorm | Claude Code |
+| 2026-02-10 | research | 6 skills designed with format spec | Claude Code |
+| 2026-02-10 | complete | 9 SKILL.md files created | Cursor + Human |
 
 ### Related Ideas
 

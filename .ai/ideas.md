@@ -1,58 +1,54 @@
 # Feature Ideas
 
-Quick-capture backlog. Ideas graduate to `.ai/tasks/` when ready for work.
+Ideas progress through 3 folders: **backlog** → **active** → **done**. See [WORKFLOW.md](ideas/WORKFLOW.md) for details.
 
-## Summary
+## Pipeline
 
-- **20 ideas** captured (18 from TASK-002; IDEA-019 from dashboard handoff; IDEA-020 from ecosystem vision)
-- **All researched** — enriched with findings from TASK-002-research.md
-- **8-phase roadmap** from foundation (Phase 1) through mono-repo support (Phase 8)
-- **Dashboard Phase 2** — IDEA-020 defines the unified 5-project ecosystem hub
+```
+backlog/ → active/ → done/
+  (18)      (0)       (8)
+```
 
-### By Phase
+**26 total ideas** — Claude's 25 (research + Cursor analysis) + Cursor's unified ecosystem hub (IDEA-020-unified-ecosystem-hub). Dashboard Phase 2 tasks (D2-1–D2-5) stem from the ecosystem hub.
 
-| Phase | Ideas | Theme |
-|-------|-------|-------|
-| 1 | 001, 002, 004, 016 | Foundation — branch workflow, commit routing, communication, conversational Git |
-| 2 | 008 | Agent Skills — SKILL.md convention files |
-| 3 | 009 | Flow Skills — Mermaid-based workflow definitions |
-| 4 | 005, 007, 012, 017 | Kimi Overseer — persistent oversight, subagents, delegation, compression |
-| 5 | 003, 010, 018 | Print Mode Automation — commit cycle, git hooks, approval workflows |
-| 6 | 013 | Evaluation — project metrics and quality tracking |
-| 7 | 006, 011, 018 | Wire Mode — terminal connection, JSON-RPC coordination, advanced approvals |
-| 8 | 014, 015 | Templates & Mono-repo — stack-specific templates, multi-project coordination |
+Cross-reference: [TASK-002-cursor-analysis.md](tasks/TASK-002-cursor-analysis.md) maps Cursor's 30-feature breakdown to these 25 ideas.
 
-### By Feasibility
+## done/ (8 ideas)
 
-| Rating | Ideas |
-|--------|-------|
-| Ready | 001, 002, 004, 008, 009, 014, 016, 017 |
-| Feasible | 003, 005, 007, 010, 012, 013, 018 |
-| Experimental | 011 |
-| Needs Research | 006 (partial), 015, 019 |
+| ID | Idea | Phase | Implemented | Detail |
+|----|------|-------|-------------|--------|
+| IDEA-001 | Git branch handoff workflow | 1 | 2026-02-10 | [detail](ideas/done/IDEA-001-git-branch-workflow.md) |
+| IDEA-002 | Commit message header routing | 1 | 2026-02-10 | [detail](ideas/done/IDEA-002-commit-message-routing.md) |
+| IDEA-004 | Agent communication folders | 1 | 2026-02-10 | [detail](ideas/done/IDEA-004-agent-communication-folders.md) |
+| IDEA-005 | Kimi Code persistent overseer | 4 | 2026-02-10 | [detail](ideas/done/IDEA-005-kimi-code-overseer.md) |
+| IDEA-008 | Agent Skills conventions | 2 | 2026-02-10 | [detail](ideas/done/IDEA-008-agent-skills-conventions.md) |
+| IDEA-009 | Flow Skills for handoffs | 3 | 2026-02-10 | [detail](ideas/done/IDEA-009-flow-skills-handoffs.md) |
+| IDEA-010 | Print Mode Git hooks | 5 | 2026-02-10 | [detail](ideas/done/IDEA-010-print-mode-git-hooks.md) |
+| IDEA-020 | `.ai/` folder standard | 1 | 2026-02-10 | [detail](ideas/done/IDEA-020-ai-folder-standard.md) |
 
-## Full Index
+## active/ (0 ideas)
 
-| ID | Idea | Category | Status | Feasibility | Phase | Detail |
-|----|------|----------|--------|-------------|-------|--------|
-| IDEA-001 | Git branch handoff workflow | Git Workflow | Researched | Ready | 1 | [detail](ideas/IDEA-001-git-branch-workflow.md) |
-| IDEA-002 | Commit message header routing | Automation | Researched | Ready | 1 | [detail](ideas/IDEA-002-commit-message-routing.md) |
-| IDEA-003 | Automated commit workflow cycle | Automation | Researched | Feasible | 5 | [detail](ideas/IDEA-003-automated-commit-workflow.md) |
-| IDEA-004 | Agent communication folders | Communication | Researched | Ready | 1 | [detail](ideas/IDEA-004-agent-communication-folders.md) |
-| IDEA-005 | Kimi Code persistent project overseer | Kimi Integration | Researched | Feasible | 4 | [detail](ideas/IDEA-005-kimi-code-overseer.md) |
-| IDEA-006 | Terminal connection to Kimi Code | Kimi Integration | Researched | Mixed | 4-7 | [detail](ideas/IDEA-006-terminal-connection.md) |
-| IDEA-007 | Kimi Code subagent architecture | Agent Architecture | Researched | Feasible | 4 | [detail](ideas/IDEA-007-subagent-architecture.md) |
-| IDEA-008 | Agent Skills for Open Artel conventions | Kimi Integration | Researched | Ready | 2 | [detail](ideas/IDEA-008-agent-skills-conventions.md) |
-| IDEA-009 | Flow Skills for agent handoff workflows | Automation | Researched | Ready | 3 | [detail](ideas/IDEA-009-flow-skills-handoffs.md) |
-| IDEA-010 | Print Mode for Git hooks automation | Automation | Researched | Feasible | 5 | [detail](ideas/IDEA-010-print-mode-git-hooks.md) |
-| IDEA-011 | Wire Mode custom coordination layer | Automation | Researched | Experimental | 7 | [detail](ideas/IDEA-011-wire-mode-coordination.md) |
-| IDEA-012 | Work delegation system | Agent Architecture | Researched | Feasible | 4-5 | [detail](ideas/IDEA-012-work-delegation.md) |
-| IDEA-013 | Project evaluation and metrics | Evaluation | Researched | Feasible | 6 | [detail](ideas/IDEA-013-project-evaluation.md) |
-| IDEA-014 | Project templates for specific types | Templates | Researched | Ready | 8 | [detail](ideas/IDEA-014-project-templates.md) |
-| IDEA-015 | Mono-repo coordination | Mono-repo | Researched | Needs Research | 8 | [detail](ideas/IDEA-015-mono-repo-coordination.md) |
-| IDEA-016 | Conversational Git operations | Git Workflow | Researched | Ready | 1 | [detail](ideas/IDEA-016-conversational-git.md) |
-| IDEA-017 | Context compression for histories | Kimi Integration | Researched | Ready | 4 | [detail](ideas/IDEA-017-context-compression.md) |
-| IDEA-018 | Approval workflow integration | Automation | Researched | Feasible | 5-7 | [detail](ideas/IDEA-018-approval-workflow.md) |
-| IDEA-019 | Dashboard backend: edge functions vs Node vs hybrid | Templates / Integration | Raw | Needs Research | — | [detail](ideas/IDEA-019-dashboard-backend-edge-functions-hybrid.md) |
-| IDEA-020 | Unified ecosystem hub — Dashboard as multi-project agent hub | Agent Architecture / Integration | Explored | Feasible | D2 | [detail](ideas/IDEA-020-unified-ecosystem-hub.md) |
+*No ideas currently being built.*
 
+## backlog/ (18 ideas)
+
+| ID | Idea | Phase | Feasibility | Detail |
+|----|------|-------|-------------|--------|
+| IDEA-003 | Automated commit workflow cycle | 5 | Feasible | [detail](ideas/backlog/IDEA-003-automated-commit-workflow.md) |
+| IDEA-006 | Terminal connection to Kimi Code | 4-7 | Mixed | [detail](ideas/backlog/IDEA-006-terminal-connection.md) |
+| IDEA-007 | Kimi Code subagent architecture | 4 | Feasible | [detail](ideas/backlog/IDEA-007-subagent-architecture.md) |
+| IDEA-011 | Wire Mode coordination layer | 7 | Experimental | [detail](ideas/backlog/IDEA-011-wire-mode-coordination.md) |
+| IDEA-012 | Work delegation system | 4-5 | Feasible | [detail](ideas/backlog/IDEA-012-work-delegation.md) |
+| IDEA-013 | Project evaluation and metrics | 6 | Feasible | [detail](ideas/backlog/IDEA-013-project-evaluation.md) |
+| IDEA-014 | Project templates for specific types | 8 | Ready | [detail](ideas/backlog/IDEA-014-project-templates.md) |
+| IDEA-015 | Mono-repo coordination | 8 | Needs Research | [detail](ideas/backlog/IDEA-015-mono-repo-coordination.md) |
+| IDEA-016 | Conversational Git operations | 1 | Ready | [detail](ideas/backlog/IDEA-016-conversational-git.md) |
+| IDEA-017 | Context compression for histories | 4 | Ready | [detail](ideas/backlog/IDEA-017-context-compression.md) |
+| IDEA-018 | Approval workflow integration | 5-7 | Feasible | [detail](ideas/backlog/IDEA-018-approval-workflow.md) |
+| IDEA-019 | Sprint-based task pipeline | 2 | Feasible | [detail](ideas/backlog/IDEA-019-sprint-task-pipeline.md) |
+| IDEA-021 | Auto-triggered review pipeline | 3 | Feasible | [detail](ideas/backlog/IDEA-021-auto-triggered-review.md) |
+| IDEA-022 | Agent tool integrations | 2-3 | Feasible | [detail](ideas/backlog/IDEA-022-agent-tool-integrations.md) |
+| IDEA-023 | Cross-agent API bridge | 5 | Feasible | [detail](ideas/backlog/IDEA-023-cross-agent-api-bridge.md) |
+| IDEA-024 | K2/K2.5 model exploitation | 4 | Feasible | [detail](ideas/backlog/IDEA-024-k2-k25-exploitation.md) |
+| IDEA-025 | Self-improving system | 8 | Experimental | [detail](ideas/backlog/IDEA-025-self-improving-system.md) |
+| — | Unified ecosystem hub (Dashboard Phase 2) | D2 | Feasible | [detail](ideas/IDEA-020-unified-ecosystem-hub.md) — 5-project vision, D2-1–D2-5 tasks |
