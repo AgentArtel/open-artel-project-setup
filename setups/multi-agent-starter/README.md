@@ -72,6 +72,14 @@ You now have:
 - **Lovable** as your UI specialist
 - **`.ai/tasks/`** as the shared coordination layer between all three
 
+## Feature Modules & Ground Level
+
+Not sure what to copy? Start minimal:
+
+- **[CORE.md](docs/CORE.md)** — The 8 essential files. Copy just these for a working three-agent workflow.
+- **[feature-modules.md](docs/feature-modules.md)** — Every optional feature with its files, dependencies, and how to enable/disable. Add modules one at a time.
+- **[development-flow.md](docs/development-flow.md)** — How the team works together. Your role as the Human PM, where to look, when to step in.
+
 ## What needs customizing
 
 Files with `[REPLACE]` placeholders that Claude Code fills in:

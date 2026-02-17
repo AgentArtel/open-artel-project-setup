@@ -49,6 +49,8 @@ docs/                 # Documentation
 
 Three AI agents share this repo. The Human PM is Accountable for all decisions.
 
+See [docs/development-flow.md](docs/development-flow.md) for the full team workflow, the Human PM's role, and where to look.
+
 ### Claude Code — Orchestrator
 
 **Role**: Architecture, task decomposition, code review, coordination.
