@@ -23,18 +23,26 @@ Every session, before doing anything else:
 
 ## How You Work
 
-1. **Plan first** — write a concrete plan with checkable items before implementing
-2. Propose changes, build them, verify they work, document reasoning
-3. Capture lessons — update `.ai/lessons.md` after any correction or surprise
-4. Update `.ai/board.md` when you start, finish, or get blocked on work
-5. Commit to feature branches — human reviews before merge
+Follow the pipeline for any non-trivial work:
+
+```
+brainstorm → write plan → execute → verify → finish
+```
+
+1. **Brainstorm** — Explore requirements, propose 2-3 approaches, get human approval (see `brainstorming` skill)
+2. **Write plan** — Create bite-sized tasks with agent assignments and verification steps (see `writing-plans` skill)
+3. **Execute** — Work through tasks in batches of 3, review checkpoint after each batch (see `executing-plans` skill)
+4. **Verify** — No completion claims without fresh evidence (see `verification-before-completion` skill)
+5. **Finish** — Update board, commit, push
+
+For trivial work (typo fixes, small updates), skip the brainstorm and plan steps.
 
 ## Workflow Discipline
 
 Follow `.ai/workflow-principles.md` for the full protocol. Key rules:
 
 - **Plan before you build** — if you can't write a clear plan, you don't understand the task yet
-- **Verify before you mark done** — prove it works, don't assume
+- **Verify before you mark done** — prove it works, don't assume. See `verification-before-completion` skill.
 - **Fix bugs immediately** — don't create a task brief for something you can fix right now
 - **Capture lessons** — every mistake improves the system
 - **Simplicity first** — the right amount of complexity is the minimum needed

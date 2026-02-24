@@ -10,7 +10,7 @@ The single source of truth for what's happening right now. Every agent reads thi
 
 | Agent | Task | Status | Branch | Notes |
 |-------|------|--------|--------|-------|
-| Claude Code | System consolidation | IN_PROGRESS | claude/review-improve-repo-bZXLH | Reducing redundancy, creating board, redesigning task system |
+| Claude Code | Pipeline skills + session hook | IN_PROGRESS | claude/review-improve-repo-bZXLH | brainstorm→plan→execute pipeline, verification, session-start hook |
 | Cursor | — | IDLE | — | No active assignment |
 | Lovable | — | IDLE | — | No active assignment |
 | Kimi | — | IDLE | — | No active assignment |
@@ -34,6 +34,7 @@ Tasks that are unblocked and unassigned. Agents: claim one by updating this boar
 
 | Task | Agent | Date | Notes |
 |------|-------|------|-------|
+| System consolidation (v1) | Claude Code | 2026-02-24 | board.md, skill dedup, task template v2, AGENTS/CLAUDE rewrite |
 | Workflow Discipline Integration | Claude Code | 2026-02-24 | workflow-principles.md, lessons.md, skill updates |
 | Phase 5: Git Automation | Claude Code | 2026-02-10 | post-commit hook, install script |
 | Phase 4: Kimi Overseer Agent | Claude Code | 2026-02-10 | YAML configs, prompts, subagents |

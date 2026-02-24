@@ -31,6 +31,8 @@ A coordination and workflow system for multi-agent AI development. This repo con
 │   └── templates/              # Templates for all coordination file types
 ├── setups/                      # Distributable starter kits
 │   └── multi-agent-starter/     # Three-agent workflow kit
+├── hooks/                       # Session hooks
+│   └── session-start            # Auto-loads board, tasks, lessons at session start
 ├── scripts/                     # Git hooks and automation scripts
 ├── .agents/                     # Kimi Overseer agent + skills
 │   ├── kimi-overseer.yaml       # Overseer agent definition
