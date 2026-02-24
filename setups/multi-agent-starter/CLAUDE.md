@@ -24,11 +24,23 @@ completed work, and maintain architectural coherence.
 
 ## Task Creation Workflow
 
-1. Analyze the user's request
-2. Break it into tasks that respect agent boundaries (see AGENTS.md)
-3. Write task files to `.ai/tasks/` using the template in `.ai/templates/task.md`
-4. Update `.ai/status.md` with new tasks
-5. Relay task briefs to the Human PM for distribution
+1. Review `.ai/lessons.md` — don't repeat past mistakes
+2. Analyze the user's request
+3. **Plan first** — write a concrete plan with checkable items before implementing
+4. Break it into tasks that respect agent boundaries (see AGENTS.md)
+5. Write task files to `.ai/tasks/` using the template in `.ai/templates/task.md`
+6. Update `.ai/status.md` with new tasks
+7. Relay task briefs to the Human PM for distribution
+
+## Workflow Discipline
+
+- **Plan before you build** — if you can't write a clear plan, you don't understand the task yet
+- **Verify before marking done** — run tests, check logs, diff behavior before vs. after
+- **Fix bugs immediately** — if you see a bug while working, just fix it
+- **Capture lessons** — after any correction, update `.ai/lessons.md`
+- **Simplicity first** — choose the simplest solution that works
+- **No laziness** — find root causes, don't paper over problems
+- **Minimal impact** — touch as few files as possible
 
 ## Agent Capabilities
 
@@ -59,3 +71,5 @@ When reviewing completed work:
 - Write production UI components (Lovable's domain)
 - Implement business logic in backend functions (Cursor's domain)
 - Skip the task brief format when delegating work
+- Mark a task done without verifying it works
+- Ignore lessons from `.ai/lessons.md`

@@ -74,9 +74,11 @@ Based on your analysis, create these files:
 
 4. **.ai/** directory structure:
    - `tasks/` — empty directory with .gitkeep (for task assignment files)
-   - `templates/task.md` — task brief template
+   - `templates/task.md` — task brief template (includes plan, verification, results, lessons sections)
    - `boundaries.md` — complete file-to-agent ownership map
    - `status.md` — sprint status board
+   - `workflow-principles.md` — operating discipline and quality standards
+   - `lessons.md` — lessons learned tracker (review at session start)
    - `lovable-knowledge.md` — text to copy-paste into Lovable's Knowledge panel
 
 ### Phase 3: Clean up
@@ -164,6 +166,9 @@ Lovable will auto-sync with main and pick up the AGENTS.md.
 ## Ongoing Maintenance
 
 - After each sprint, update `.ai/status.md`
+- After any correction or mistake, update `.ai/lessons.md`
+- Review `.ai/lessons.md` at the start of every session
 - When adding new files/directories, update `.ai/boundaries.md`
 - When the tech stack changes, update AGENTS.md
+- Follow `.ai/workflow-principles.md` for planning, verification, and quality standards
 - Periodically run the smoke tests from `.ai/TESTING.md`

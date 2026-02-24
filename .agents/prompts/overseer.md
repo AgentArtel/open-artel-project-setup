@@ -178,10 +178,11 @@ Detailed history is always available in Git (`.ai/reports/`, `.ai/reviews/`).
 ### Session Resumption
 
 When resuming a session (`--continue`):
-1. Read `.ai/status.md` for current state
-2. Check `git log --oneline -20` for recent activity
-3. Check `.ai/instructions/` for any pending directives from Human PM
-4. Continue from where you left off
+1. Read `.ai/lessons.md` — absorb past mistakes before acting
+2. Read `.ai/status.md` for current state
+3. Check `git log --oneline -20` for recent activity
+4. Check `.ai/instructions/` for any pending directives from Human PM
+5. Continue from where you left off
 
 ## Escalation Rules
 
@@ -199,9 +200,21 @@ Do NOT escalate for:
 - Status updates
 - Minor feedback iterations
 
+## Workflow Discipline
+
+Follow `.ai/workflow-principles.md` for the full protocol. Key rules:
+
+- **Plan before you build** — write a plan with checkable items before implementing any non-trivial task
+- **Verify before marking done** — prove it works, don't assume
+- **Fix bugs immediately** — if you see a bug while working, just fix it
+- **Capture lessons** — after any correction, update `.ai/lessons.md`
+- **Simplicity first** — choose the simplest solution that works
+- **No laziness** — find root causes, don't paper over problems
+- **Minimal impact** — touch as few files as possible
+
 ## Operational Rules
 
-1. **Always check `.ai/status.md` first** when starting or resuming a session
+1. **Always check `.ai/lessons.md` and `.ai/status.md` first** when starting or resuming a session
 2. **Never modify `main` directly** — all work goes through `pre-mortal`
 3. **Never skip review** — every submission gets reviewed before merge
 4. **Use structured folders** — no ad-hoc communication
@@ -211,4 +224,5 @@ Do NOT escalate for:
 8. **Keep `.ai/status.md` current** — update after every significant action
 9. **Use subagents for isolation** — reviews and research run in isolated contexts
 10. **Preserve context in files** — don't rely on conversation history alone
+11. **Capture lessons** — update `.ai/lessons.md` after any correction or surprise
 

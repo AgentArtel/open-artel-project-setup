@@ -1,10 +1,10 @@
 # Development Status
 
-Last updated: 2026-02-10
+Last updated: 2026-02-24
 
 ## Current Focus
 
-Phases 1-5 of the 8-phase roadmap are complete. The multi-agent coordination system now has communication folders, Agent Skills, Flow Skills, a Kimi Overseer agent, and Git automation hooks. Next: Phase 6 (Project Evaluation).
+Phases 1-5 of the 8-phase roadmap are complete. Workflow discipline (planning, verification, lessons learned, quality standards) has been integrated across the entire system. Next: Phase 6 (Project Evaluation).
 
 ## Active Sprint
 
@@ -17,6 +17,7 @@ Phases 1-5 of the 8-phase roadmap are complete. The multi-agent coordination sys
 | — | Phase 3: Flow Skills | DONE | 3 Flow Skills (sprint-execution, code-review, task-handoff) |
 | — | Phase 4: Kimi Overseer Agent | DONE | kimi-overseer.yaml, reviewer-sub.yaml, researcher-sub.yaml, overseer.md |
 | — | Phase 5: Git Automation | DONE | post-commit hook, install script, starter kit template, Print Mode integration |
+| — | Workflow Discipline Integration | DONE | workflow-principles.md, lessons.md, updated task template, workflow-discipline skill, CLAUDE.md updates |
 
 ## Backlog
 
@@ -33,6 +34,7 @@ Phases 1-5 of the 8-phase roadmap are complete. The multi-agent coordination sys
 
 | ID | Title | Date | Notes |
 |----|-------|------|-------|
+| — | Workflow Discipline Integration | 2026-02-24 | workflow-principles.md, lessons.md, task template v2, workflow-discipline skill, CLAUDE.md + overseer + bootstrap updates |
 | — | Phase 5: Git Automation | 2026-02-10 | post-commit hook, install script, starter kit template, Print Mode integration |
 | — | Phase 4: Kimi Overseer Agent | 2026-02-10 | Overseer YAML, reviewer/researcher subagents, system prompt |
 | — | Phase 3: Flow Skills | 2026-02-10 | sprint-execution, code-review, task-handoff Flow Skills |
@@ -46,10 +48,11 @@ Phases 1-5 of the 8-phase roadmap are complete. The multi-agent coordination sys
 ## Health
 
 - **Starter kit**: Stable. Complete templates with Git workflow, Agent Skills, and Kimi Overseer.
-- **Agent Skills**: 9 skills (6 standard + 3 flow) in `.agents/skills/`.
+- **Agent Skills**: 10 skills (7 standard + 3 flow) in `.agents/skills/`.
 - **Kimi Overseer**: Agent YAML + 2 subagents + system prompt ready. Kimi Code CLI v1.10.0 installed.
 - **Past configurations**: One example (Even-Openclaw). Needs more variety.
 - **Self-coordination**: Established. Task tracking active.
 - **Feature ideas**: Tracking system (`.ai/ideas/`) captures 18 ideas from TASK-002 brainstorm.
 - **Git Automation**: post-commit hook installed. Routes submit/approve/report actions to Kimi Print Mode.
+- **Workflow Discipline**: Integrated across CLAUDE.md, starter kit, overseer prompt, and task templates. Lessons tracking active.
 - **Next evolution**: Phase 6 (Project Evaluation) — metrics, quality tracking, evaluation reports.

@@ -14,10 +14,23 @@ You are the architect and primary builder of the Open Artel multi-agent coordina
 
 ## How You Work
 
-1. Check `.ai/status.md` for current priorities
-2. Check `.ai/tasks/` for active assignments
-3. Propose changes, build them, document reasoning
-4. Commit to feature branches — human reviews before merge
+1. Review `.ai/lessons.md` — don't repeat past mistakes
+2. Check `.ai/status.md` for current priorities
+3. Check `.ai/tasks/` for active assignments
+4. **Plan first** — write a concrete plan with checkable items before implementing
+5. Propose changes, build them, verify they work, document reasoning
+6. Capture lessons — update `.ai/lessons.md` after any correction or surprise
+7. Commit to feature branches — human reviews before merge
+
+## Workflow Discipline
+
+Follow `.ai/workflow-principles.md` for the full protocol. Key rules:
+
+- **Plan before you build** — if you can't write a clear plan, you don't understand the task yet
+- **Verify before you mark done** — prove it works, don't assume
+- **Fix bugs immediately** — don't create a task brief for something you can fix right now
+- **Capture lessons** — every mistake improves the system
+- **Simplicity first** — the right amount of complexity is the minimum needed
 
 ## Decision Authority
 

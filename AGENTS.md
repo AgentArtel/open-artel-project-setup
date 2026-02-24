@@ -18,6 +18,8 @@ A configuration and workflow distribution system for multi-agent AI development.
 ├── .ai/                         # Coordination layer (for THIS repo's development)
 │   ├── status.md                # Current sprint / development status
 │   ├── boundaries.md            # Decision authority map
+│   ├── workflow-principles.md   # Operating discipline and quality standards
+│   ├── lessons.md               # Lessons learned (review at session start)
 │   ├── ideas.md                 # Feature ideas index
 │   ├── ideas/                   # Individual idea files
 │   ├── tasks/                   # Active task briefs
@@ -32,6 +34,7 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       ├── report.md            # Report template
 │       ├── instruction.md       # Instruction template
 │       ├── review.md            # Review template
+│       ├── lessons.md           # Lessons learned entry template
 │       └── commit-message.md    # Commit routing format guide
 ├── setups/                      # Distributable starter kits
 │   ├── README.md                # How to use setups
@@ -58,6 +61,7 @@ A configuration and workflow distribution system for multi-agent AI development.
 │       ├── review-checklist/    # Code review standards
 │       ├── boundary-enforcement/# File ownership rules
 │       ├── sprint-management/   # Sprint planning and tracking
+│       ├── workflow-discipline/ # Operating principles and quality standards
 │       ├── sprint-execution/    # Flow: automated sprint workflow
 │       ├── code-review/         # Flow: automated review process
 │       └── task-handoff/        # Flow: agent-to-agent handoff
