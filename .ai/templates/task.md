@@ -1,7 +1,7 @@
 ## TASK-XXX: [Short descriptive name]
 
 - **Status**: PENDING | IN_PROGRESS | REVIEW | DONE | BLOCKED
-- **Assigned**: [Agent name or "Unassigned"]
+- **Assigned**: [Agent name — required when status is IN_PROGRESS]
 - **Priority**: P0-Critical | P1-High | P2-Medium | P3-Low
 - **Type**: Create | Improve | Fix | Research
 - **Depends on**: TASK-XXX | none
@@ -17,8 +17,11 @@
 
 ### Scope
 
-- [Files/areas in bounds]
-- [What's explicitly out of bounds]
+**In bounds**:
+- [Files/areas this task touches]
+
+**Out of bounds**:
+- [What's explicitly excluded]
 
 ### Plan
 
@@ -28,12 +31,15 @@ Before implementing, write the concrete plan here:
 - [ ] [Step 2]
 - [ ] [Verification — how you'll prove it works]
 
+**Files in scope**: [List exact file paths you'll touch]
+
 ### Acceptance Criteria
 
 - [ ] [Testable criterion 1]
 - [ ] [Testable criterion 2]
 - [ ] Changes are consistent with existing conventions
 - [ ] No regressions in other templates
+- [ ] Boundary compliance — changes stay within assigned agent's domain (see `.ai/boundaries.md`)
 
 ### Notes
 
@@ -41,7 +47,7 @@ Before implementing, write the concrete plan here:
 
 ---
 
-*Sections below are added as needed during implementation.*
+*Sections below are added as needed during and after implementation.*
 
 ### Research Findings
 
@@ -69,6 +75,13 @@ Before implementing, write the concrete plan here:
 - **What changed**: [Actual changes — may differ from plan]
 - **Decisions made**: [Choices made during implementation]
 - **Surprises**: [Anything unexpected]
+
+### Handoff Notes
+
+[Fill this in before marking REVIEW. What the next agent (or reviewer) needs to know:]
+- What works and has been verified
+- What's incomplete or needs follow-up
+- Any gotchas or non-obvious decisions
 
 ### Lessons
 

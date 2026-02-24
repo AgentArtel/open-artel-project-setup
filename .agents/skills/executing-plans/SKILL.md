@@ -38,7 +38,7 @@ Apply feedback, execute next batch. If the plan needs changes, update the plan d
 
 ### Step 5: Finish
 
-When all tasks are done, invoke `finishing-a-development-branch` skill (or update `.ai/board.md` and status).
+When all tasks are done, update `.ai/board.md` (move to Recently Completed), update `.ai/status.md`, and commit.
 
 ## Multi-Agent Execution (task briefs)
 

@@ -31,6 +31,8 @@ A coordination and workflow system for multi-agent AI development. This repo con
 │   └── templates/              # Templates for all coordination file types
 ├── setups/                      # Distributable starter kits
 │   └── multi-agent-starter/     # Three-agent workflow kit
+├── docs/                        # Documentation
+│   └── plans/                   # Brainstorm designs and implementation plans
 ├── hooks/                       # Session hooks
 │   └── session-start            # Auto-loads board, tasks, lessons at session start
 ├── scripts/                     # Git hooks and automation scripts
@@ -105,3 +107,6 @@ Requires Kimi Code CLI (`pipx install kimi-cli`). See `scripts/post-commit` for 
 | Task/review/report templates | `.ai/templates/` |
 | Commit message format | `.ai/templates/commit-message.md` |
 | Feature ideas pipeline | `.ai/ideas.md` + `.ai/ideas/` |
+| Brainstorm designs & plans | `docs/plans/` |
+| Agent skills (pipeline) | `.agents/skills/` |
+| Session context script | `hooks/session-start` |
