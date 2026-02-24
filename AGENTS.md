@@ -1,6 +1,6 @@
 # Open Artel Project Setup
 
-A configuration and workflow distribution system for multi-agent AI development. This repo contains the starter kits, templates, and reference configurations that agent teams use across projects.
+A coordination and workflow system for multi-agent AI development. This repo contains starter kits, templates, and reference configurations that agent teams use across projects.
 
 ## Tech Stack
 
@@ -13,108 +13,54 @@ A configuration and workflow distribution system for multi-agent AI development.
 ```
 .
 ├── AGENTS.md                    # This file — project identity and roles
-├── CLAUDE.md                    # Orchestrator instructions
+├── CLAUDE.md                    # Claude Code instructions
 ├── README.md                    # Public-facing repo docs
-├── .ai/                         # Coordination layer (for THIS repo's development)
-│   ├── status.md                # Current sprint / development status
-│   ├── boundaries.md            # Decision authority map
-│   ├── workflow-principles.md   # Operating discipline and quality standards
-│   ├── lessons.md               # Lessons learned (review at session start)
-│   ├── ideas.md                 # Feature ideas index
-│   ├── ideas/                   # Individual idea files
-│   ├── tasks/                   # Active task briefs
-│   ├── chats/                   # Agent-to-agent conversation logs
-│   ├── reports/                 # Status and completion reports
-│   ├── instructions/            # Task assignments and directives
-│   ├── reviews/                 # Code review feedback
-│   └── templates/
-│       ├── task.md              # Task brief template
-│       ├── idea.md              # Idea template
-│       ├── chat.md              # Chat log template
-│       ├── report.md            # Report template
-│       ├── instruction.md       # Instruction template
-│       ├── review.md            # Review template
-│       ├── lessons.md           # Lessons learned entry template
-│       └── commit-message.md    # Commit routing format guide
+├── .ai/                         # Coordination layer
+│   ├── board.md                 # Coordination board — who's doing what RIGHT NOW
+│   ├── status.md               # Sprint status and backlog
+│   ├── boundaries.md           # File ownership and decision authority
+│   ├── workflow-principles.md  # Operating discipline
+│   ├── lessons.md              # Lessons learned (read at session start)
+│   ├── ideas.md                # Feature ideas index
+│   ├── ideas/                  # Individual idea files (pipeline stages)
+│   ├── tasks/                  # Task briefs
+│   ├── chats/                  # Agent-to-agent conversation logs
+│   ├── reports/                # Status and completion reports
+│   ├── instructions/           # Task assignments and directives
+│   ├── reviews/                # Code review feedback
+│   └── templates/              # Templates for all coordination file types
 ├── setups/                      # Distributable starter kits
-│   ├── README.md                # How to use setups
 │   └── multi-agent-starter/     # Three-agent workflow kit
-│       ├── README.md
-│       ├── AGENTS.md            # Template (has [REPLACE] placeholders)
-│       ├── CLAUDE.md            # Template
-│       ├── BOOTSTRAP_PLAYBOOK.md
-│       ├── .ai/                 # Template coordination directory
-│       └── .cursor/rules/       # Template Cursor governance rules
-├── scripts/                     # Automation scripts
-│   ├── post-commit              # Git post-commit hook (source)
-│   └── install-git-hooks.sh     # Hook installation script
-├── .agents/                     # Agent Skills & Kimi Overseer (Kimi Code / Claude Code / Codex)
-│   ├── kimi-overseer.yaml       # Kimi Overseer agent definition
-│   ├── reviewer-sub.yaml        # Reviewer subagent definition
-│   ├── researcher-sub.yaml      # Researcher subagent definition
-│   ├── prompts/
-│   │   └── overseer.md          # Overseer system prompt
+├── scripts/                     # Git hooks and automation scripts
+├── .agents/                     # Kimi Overseer agent + skills
+│   ├── kimi-overseer.yaml       # Overseer agent definition
+│   ├── prompts/overseer.md      # Overseer system prompt
 │   └── skills/                  # Auto-discovered skill definitions
-│       ├── open-artel-workflow/ # Multi-agent workflow conventions
-│       ├── task-protocol/       # Task brief format and lifecycle
-│       ├── git-routing/         # Commit message routing rules
-│       ├── review-checklist/    # Code review standards
-│       ├── boundary-enforcement/# File ownership rules
-│       ├── sprint-management/   # Sprint planning and tracking
-│       ├── workflow-discipline/ # Operating principles and quality standards
-│       ├── sprint-execution/    # Flow: automated sprint workflow
-│       ├── code-review/         # Flow: automated review process
-│       └── task-handoff/        # Flow: agent-to-agent handoff
 └── past-configurations/         # Snapshots from real projects
-    └── Even-Openclaw/           # ClawLens project (30+ tasks, 4 phases)
+    └── Even-Openclaw/           # ClawLens project reference
 ```
 
 ## Team
 
-Two roles develop this system. The Human is the decision-maker and product owner.
-
 ### Claude Code — System Architect & Builder
 
-**Role**: Design, build, and maintain the multi-agent coordination system.
+**Owns**: `setups/`, `.ai/`, `AGENTS.md`, `CLAUDE.md`, `README.md`
 
-**Owns**:
-- All files in `setups/` — starter kit templates, playbooks, rules, coordination configs
-- All files in `.ai/` — this repo's own coordination layer
-- `AGENTS.md`, `CLAUDE.md` — this repo's configuration
-- `README.md` — public documentation
+**Does**: Evolve starter kits, maintain coordination layer, track development, propose improvements.
 
-**Does**:
-- Evolves starter kit templates (task format, boundaries, workforce protocol, cursor rules)
-- Adds and curates `past-configurations/` snapshots
-- Drafts new setups for different workflow patterns
-- Maintains architectural consistency across all templates
-- Proposes improvements based on patterns observed in past configurations
-- Tracks development via `.ai/status.md` and `.ai/tasks/`
-
-**Does NOT**:
-- Make strategic decisions without human alignment (new setup types, major format changes)
-- Delete or restructure `past-configurations/` entries without approval
-- Change the fundamental agent model (three-agent split) without discussion
+**Does NOT**: Make strategic decisions alone (new setup types, major format changes), modify `past-configurations/` without approval.
 
 ### Human — Product Owner & Decision-Maker
 
-**Role**: Set direction, approve changes, provide real-world feedback from projects using the system.
-
-**Does**:
-- Defines priorities and roadmap direction
-- Approves structural changes (new setup types, format overhauls)
-- Provides feedback from projects that used these templates
-- Adds new `past-configurations/` snapshots from active projects
-- Final sign-off on anything that ships
+**Does**: Set direction, approve structural changes, provide feedback from real projects, final sign-off.
 
 ## Content Conventions
 
-- Markdown files: ATX headings (`#`), no trailing whitespace, blank line before headings
+- Markdown: ATX headings (`#`), no trailing whitespace, blank line before headings
 - Templates use `[BRACKETED]` or `[REPLACE: description]` for placeholders
 - Task IDs: `TASK-XXX` (numeric) or `TASK-DESCRIPTIVE-NAME` (named)
 - Cursor rules: numbered prefix `NN-name.mdc` with YAML frontmatter
-- Past configurations: named by project `past-configurations/ProjectName/`
-- Keep templates under documented line limits (AGENTS.md < 300 lines, CLAUDE.md < 60 lines)
+- Past configurations: `past-configurations/ProjectName/`
 
 ## Git Workflow
 
@@ -129,25 +75,12 @@ main                            # Production-stable, human-reviewed
 
 - Agent branches from `pre-mortal`, merge back via review
 - Human reviews `pre-mortal` before merge to `main`
-- Commit messages use routing format: `[AGENT:x] [ACTION:y] [TASK:z]`
+- Commit messages: `[AGENT:x] [ACTION:y] [TASK:z]` — see `.ai/templates/commit-message.md`
 - No force-pushes to `main` or `pre-mortal`
 
 ## Git Automation (Optional)
 
-Git hooks automate the agent workflow by routing commits to Kimi Code CLI Print Mode:
-
-```
-Agent commits → post-commit hook → parse [AGENT:x] [ACTION:y] [TASK:z] → kimi --print
-```
-
-| ACTION | Automation |
-|--------|-----------|
-| `submit` | Triggers automated review (writes to `.ai/reviews/`) |
-| `approve` | Triggers merge to `pre-mortal` and status update |
-| `report` | Appends summary to `.ai/reports/sprint-current.md` |
-| `update`, `delegate`, `merge` | Logged only, no automation |
-
-### Setup
+Git hooks route commits to Kimi Code CLI for automated review and merge:
 
 ```bash
 ./scripts/install-git-hooks.sh           # Install hooks
@@ -155,24 +88,18 @@ Agent commits → post-commit hook → parse [AGENT:x] [ACTION:y] [TASK:z] → k
 ./scripts/install-git-hooks.sh --remove  # Remove hooks
 ```
 
-### Configuration
+Requires Kimi Code CLI (`pipx install kimi-cli`). See `scripts/post-commit` for details.
 
-- **Async mode**: ON by default (commits return immediately)
-- **Dry-run**: `export OPEN_ARTEL_DRY_RUN=true` to test without calling Kimi
-- **Logs**: `.git/hooks/post-commit.log`
-- **Disable**: `mv .git/hooks/post-commit .git/hooks/post-commit.disabled`
+## Where Things Live
 
-Requires Kimi Code CLI (`pipx install kimi-cli`) and authentication (`kimi` then `/login`).
-
-## Coordination
-
-Development of this system is tracked in `.ai/`:
-- `.ai/status.md` — Current priorities and sprint status
-- `.ai/boundaries.md` — Decision authority and folder ownership
-- `.ai/ideas.md` and `.ai/ideas/` — Feature ideas backlog (raw ideas that may graduate to tasks)
-- `.ai/tasks/` — Active task briefs
-- `.ai/instructions/` — Task assignments and directives
-- `.ai/reviews/` — Code review feedback
-- `.ai/reports/` — Status and completion reports
-- `.ai/chats/` — Agent-to-agent conversation logs
-- `.ai/templates/` — Templates for all coordination file types
+| What you need | Where to find it |
+|---------------|-----------------|
+| Who's doing what right now | `.ai/board.md` |
+| Sprint status and backlog | `.ai/status.md` |
+| File ownership rules | `.ai/boundaries.md` |
+| How agents work | `.ai/workflow-principles.md` |
+| Past mistakes to avoid | `.ai/lessons.md` |
+| Task briefs | `.ai/tasks/` |
+| Task/review/report templates | `.ai/templates/` |
+| Commit message format | `.ai/templates/commit-message.md` |
+| Feature ideas pipeline | `.ai/ideas.md` + `.ai/ideas/` |

@@ -1,53 +1,84 @@
-# Decision Authority
-
-What Claude Code can do unilaterally vs. what requires human approval.
+# Decision Authority & File Ownership
 
 ## Claude Code — Proceed Freely
 
 These actions stay within scope. Do them, commit, report.
 
-- **Template refinement**: Fix typos, improve clarity, tighten wording in any template
+- **Template refinement**: Fix typos, improve clarity, tighten wording
 - **Format consistency**: Align templates to match established conventions
 - **Task management**: Create, update, and close tasks in `.ai/tasks/`
-- **Idea management**: Create, update, and organize feature ideas in `.ai/ideas/` and `.ai/ideas.md`
+- **Idea management**: Create, update, organize ideas in `.ai/ideas/`
 - **Communication**: Write to `.ai/chats/`, `.ai/reports/`, `.ai/instructions/`, `.ai/reviews/`
-- **Status updates**: Keep `.ai/status.md` current
+- **Board and status updates**: Keep `.ai/board.md` and `.ai/status.md` current
 - **Documentation**: Update README.md, AGENTS.md, CLAUDE.md for accuracy
-- **Memory management**: Update persistent memory files for cross-session continuity
 - **Analysis**: Review past-configurations and propose improvements
-- **Bug fixes**: Fix broken references, dead links, inconsistencies across templates
+- **Bug fixes**: Fix broken references, dead links, inconsistencies
 
 ## Needs Human Approval
 
-These change the system's shape or strategy. Propose, explain reasoning, wait for sign-off.
+These change the system's shape or strategy. Propose, explain, wait.
 
-- **New setup types**: Adding a new directory under `setups/` (e.g., `two-agent-starter/`)
-- **Format overhauls**: Changing the task brief format, boundary format, or status board format
-- **New past-configurations**: Adding a new project snapshot to `past-configurations/`
+- **New setup types**: Adding a new directory under `setups/`
+- **Format overhauls**: Changing task brief format, boundary format, status board format
+- **New past-configurations**: Adding a new project snapshot
 - **Deleting content**: Removing any setup, template, or past-configuration
-- **Protocol changes**: Modifying the workforce protocol, delegation rules, or review checklists
+- **Protocol changes**: Modifying workforce protocol, delegation rules, review checklists
 - **Structural changes**: Reorganizing the repo layout, renaming directories
-- **Scope expansion**: Adding non-markdown content (scripts, tools, automation)
 
 ## Shared Decisions
 
-These benefit from discussion but aren't blocked on approval.
+Discuss but not blocked on approval.
 
-- **Cursor rule changes**: Modifying `.mdc` file content or adding new rule files
-- **Template additions**: Adding new files within an existing setup (e.g., a new template)
-- **Convention changes**: Updating naming conventions, commit message formats
+- **Cursor rule changes**: Modifying `.mdc` files
+- **Template additions**: Adding new files within an existing setup
+- **Convention changes**: Naming conventions, commit formats
 - **Agent Skills**: Creating or modifying skills in `.agents/skills/`
+
+## File Ownership (for downstream projects using the starter kit)
+
+| Domain | Owner | Examples |
+|--------|-------|---------|
+| **Business logic** | Cursor | Hooks, services, API clients, utilities |
+| **Visual components** | Lovable | Design system (`ui/`), layouts, styling, CSS |
+| **Config and docs** | Claude Code | AGENTS.md, package.json, tsconfig, .ai/ |
+| **Oversight** | Kimi Code | Reviews, instructions, status updates |
+
+### Typical Ownership Map
+
+```
+src/
+├── components/
+│   ├── ui/              → Lovable
+│   └── [features]/      → Cursor
+├── pages/               → Cursor
+├── hooks/               → Cursor
+├── services/            → Cursor
+├── lib/                 → Cursor
+├── types/               → Claude Code
+├── App.tsx              → Claude Code
+├── main.tsx             → Claude Code
+├── index.css            → Lovable
+└── App.css              → Lovable
+
+.ai/                     → Claude Code
+docs/                    → Claude Code
+package.json             → Claude Code
+tsconfig*.json           → Claude Code
+vite.config.ts           → Claude Code
+tailwind.config.ts       → Claude Code
+```
 
 ## Communication Folder Ownership
 
 | Folder | Who Writes | Who Reads | Purpose |
 |--------|-----------|-----------|---------|
-| `.ai/tasks/` | Claude Code | All agents | Task specifications (what to build) |
+| `.ai/board.md` | All agents | All agents | Real-time coordination state |
+| `.ai/tasks/` | Claude Code | All agents | Task specifications |
 | `.ai/instructions/` | Kimi, Claude Code | Target agent | Directives and assignments |
-| `.ai/reviews/` | Kimi, Claude Code | Submitting agent + Human | Code review feedback and decisions |
-| `.ai/reports/` | All agents, primarily Kimi | Human + all agents | Status reports, sprint summaries |
-| `.ai/chats/` | All agents | All agents | Conversation logs between agents |
-| `.ai/ideas/` | Claude Code | All agents + Human | Feature ideas backlog |
+| `.ai/reviews/` | Kimi, Claude Code | Submitting agent + Human | Code review feedback |
+| `.ai/reports/` | All agents | Human + all agents | Status reports |
+| `.ai/chats/` | All agents | All agents | Conversation logs |
+| `.ai/ideas/` | Claude Code | All agents + Human | Feature ideas |
 | `.ai/templates/` | Claude Code | All agents | Templates for all file types |
 
 ### File Naming Conventions

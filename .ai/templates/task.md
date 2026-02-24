@@ -1,10 +1,11 @@
 ## TASK-XXX: [Short descriptive name]
 
-- **Status**: PENDING
-- **Priority**: [P0-Critical | P1-High | P2-Medium | P3-Low]
-- **Type**: [Create | Improve | Fix | Research]
-- **Depends on**: [TASK-XXX | none]
-- **Blocks**: [TASK-XXX | none]
+- **Status**: PENDING | IN_PROGRESS | REVIEW | DONE | BLOCKED
+- **Assigned**: [Agent name or "Unassigned"]
+- **Priority**: P0-Critical | P1-High | P2-Medium | P3-Low
+- **Type**: Create | Improve | Fix | Research
+- **Depends on**: TASK-XXX | none
+- **Blocks**: TASK-XXX | none
 
 ### Context
 
@@ -16,8 +17,7 @@
 
 ### Scope
 
-- [File or template area affected]
-- [What's in bounds]
+- [Files/areas in bounds]
 - [What's explicitly out of bounds]
 
 ### Plan
@@ -26,7 +26,6 @@ Before implementing, write the concrete plan here:
 
 - [ ] [Step 1 — what you'll change and why]
 - [ ] [Step 2]
-- [ ] [Step 3]
 - [ ] [Verification — how you'll prove it works]
 
 ### Acceptance Criteria
@@ -42,19 +41,35 @@ Before implementing, write the concrete plan here:
 
 ---
 
-*Sections below are filled during and after implementation.*
+*Sections below are added as needed during implementation.*
+
+### Research Findings
+
+[For Research-type tasks: what you discovered, key findings, source links]
+
+### Implementation Phases
+
+[For complex tasks: break the plan into ordered phases]
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| A | [Phase description] | PENDING |
+| B | [Phase description] | PENDING |
+
+### File Changes
+
+[For multi-file tasks: track what was created/modified]
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `path/to/file` | Create/Modify | [Why] |
 
 ### Results
 
-- **What changed**: [Actual changes made — may differ from plan]
-- **Decisions made**: [Any choices made during implementation]
-- **Surprises**: [Anything unexpected or that almost went wrong]
-
-### Verification
-
-- [ ] [What was tested/checked to confirm it works]
-- [ ] Would a staff engineer approve this? [Yes/No — if no, explain what needs improvement]
+- **What changed**: [Actual changes — may differ from plan]
+- **Decisions made**: [Choices made during implementation]
+- **Surprises**: [Anything unexpected]
 
 ### Lessons
 
-[If anything was corrected, went wrong, or was harder than expected — capture it here AND add to `.ai/lessons.md`]
+[If anything was corrected or harder than expected — capture here AND add to `.ai/lessons.md`]
