@@ -36,6 +36,8 @@ A coordination and workflow system for multi-agent AI development. This repo con
 ├── hooks/                       # Session hooks
 │   └── session-start            # Auto-loads board, tasks, lessons at session start
 ├── scripts/                     # Git hooks and automation scripts
+│   ├── migrate-to-v2.sh         # Upgrade existing projects to v2 coordination
+│   └── install-git-hooks.sh     # Optional Kimi Code automation
 ├── .agents/                     # Kimi Overseer agent + skills
 │   ├── kimi-overseer.yaml       # Overseer agent definition
 │   ├── prompts/overseer.md      # Overseer system prompt
@@ -110,3 +112,4 @@ Requires Kimi Code CLI (`pipx install kimi-cli`). See `scripts/post-commit` for 
 | Brainstorm designs & plans | `docs/plans/` |
 | Agent skills (pipeline) | `.agents/skills/` |
 | Session context script | `hooks/session-start` |
+| Migration script | `scripts/migrate-to-v2.sh` |

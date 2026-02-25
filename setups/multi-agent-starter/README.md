@@ -18,10 +18,13 @@ multi-agent-starter/
 │       ├── 06-task-protocol.mdc      ← agent-requested: task handoff format
 │       └── 07-workforce-protocol.mdc ← agent-requested: manager/task chat system
 ├── .ai/
+│   ├── board.md                      ← Real-time coordination board
 │   ├── tasks/.gitkeep                ← Empty dir for task assignment files
 │   ├── templates/
-│   │   └── task.md                   ← Task brief template
-│   ├── status.md                     ← Sprint status board
+│   │   └── task.md                   ← Task brief template (v2)
+│   ├── status.md                     ← Sprint backlog and completed work
+│   ├── lessons.md                    ← Lessons learned tracker
+│   ├── workflow-principles.md        ← Operating discipline and pipeline
 │   ├── lovable-knowledge.md          ← Copy-paste into Lovable Settings → Knowledge
 │   └── CURSOR_WORKFORCE.md           ← Open in Cursor to set up manager + task chats
 └── (you create these after analysis)
@@ -39,6 +42,7 @@ multi-agent-starter/
 # From your project root:
 cp multi-agent-starter/AGENTS.md .
 cp multi-agent-starter/CLAUDE.md .
+cp multi-agent-starter/BOOTSTRAP_PLAYBOOK.md .
 cp -r multi-agent-starter/.cursor .
 cp -r multi-agent-starter/.ai .
 ```
@@ -70,7 +74,18 @@ You now have:
 - **Claude Code** as your architect and reviewer
 - **Cursor** as your implementation workforce (manager + task chats)
 - **Lovable** as your UI specialist
-- **`.ai/tasks/`** as the shared coordination layer between all three
+- **`.ai/board.md`** as the real-time coordination board
+- **`.ai/tasks/`** as the shared task layer between all three
+
+## How Agents Use It
+
+Every agent follows the same session protocol:
+
+1. **Session start**: Read `board.md` and `lessons.md`, check `tasks/` for assignments, update `board.md`
+2. **Work**: Follow the pipeline — brainstorm → plan → execute → verify → finish
+3. **Session end**: Update `board.md`, update `status.md`, commit
+
+The board is the single source of truth for real-time state. Agents update it when they start, finish, or get blocked.
 
 ## What needs customizing
 
@@ -88,8 +103,11 @@ Files that work as-is (no customization needed):
 
 | File | Purpose |
 |------|---------|
-| `CLAUDE.md` | Orchestrator role (generic) |
-| `.cursor/rules/06-task-protocol.mdc` | Task handoff format (generic) |
-| `.cursor/rules/07-workforce-protocol.mdc` | Chat roles and formats (generic) |
-| `.ai/templates/task.md` | Task brief template (generic) |
+| `CLAUDE.md` | Orchestrator role, pipeline, session protocols |
+| `.cursor/rules/06-task-protocol.mdc` | Task handoff format |
+| `.cursor/rules/07-workforce-protocol.mdc` | Chat roles and formats |
+| `.ai/templates/task.md` | Task brief template (v2 with scope, handoff, lessons) |
+| `.ai/board.md` | Coordination board (start with all agents IDLE) |
 | `.ai/status.md` | Sprint board (start empty) |
+| `.ai/lessons.md` | Lessons tracker (start empty) |
+| `.ai/workflow-principles.md` | Operating discipline and pipeline |

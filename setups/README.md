@@ -1,12 +1,19 @@
-# Setups — Drag & Drop into New Projects
+# Setups — Starter Kits for New Projects
 
-This folder contains **setup kits** you can copy into a new project to bootstrap multi-agent workflows, task coordination, and Cursor rules.
+This folder contains setup kits you can copy into a new project to bootstrap multi-agent workflows, task coordination, and Cursor rules.
 
 ## How to use
 
 1. **Choose a setup** from the list below.
-2. **Copy the setup folder** (or its contents) into your **new project root**.
-3. Follow that setup’s own README for customization and next steps.
+2. **Copy the files** into your new project root.
+3. Run `BOOTSTRAP_PLAYBOOK.md` in Claude Code to customize for your codebase.
+
+Already have an Open Artel project? Use the migration script instead:
+
+```bash
+./scripts/migrate-to-v2.sh          # Dry run — see what would change
+./scripts/migrate-to-v2.sh --apply  # Create missing files
+```
 
 ---
 
@@ -17,23 +24,20 @@ This folder contains **setup kits** you can copy into a new project to bootstrap
 **Use when:** You want a three-agent workflow (Claude Code + Cursor + Lovable) in a Lovable or similar React project.
 
 **What it includes:**
-- `AGENTS.md`, `CLAUDE.md` — coordination and roles
+- `AGENTS.md`, `CLAUDE.md` — coordination, roles, pipeline
 - `.cursor/rules/` — project context, boundaries, task protocol, workforce protocol
-- `.ai/` — tasks folder, templates, status board, Lovable knowledge snippet, Cursor workforce guide
+- `.ai/` — board, tasks, templates, status, lessons, workflow principles, Lovable knowledge, Cursor workforce guide
 
-**Quick start:** From your new project root:
+**Quick start:**
 
 ```bash
-cp multi-agent-starter/AGENTS.md .
-cp multi-agent-starter/CLAUDE.md .
-cp multi-agent-starter/BOOTSTRAP_PLAYBOOK.md .
-cp -r multi-agent-starter/.cursor .
-cp -r multi-agent-starter/.ai .
+cp multi-agent-starter/{AGENTS.md,CLAUDE.md,BOOTSTRAP_PLAYBOOK.md} your-project/
+cp -r multi-agent-starter/{.cursor,.ai} your-project/
 ```
 
-Then open the project in Claude Code and run through `BOOTSTRAP_PLAYBOOK.md` to customize placeholders and generate `.ai/boundaries.md`.
+Then open in Claude Code and run the prompt from `BOOTSTRAP_PLAYBOOK.md`.
 
-Full instructions are inside `multi-agent-starter/README.md`.
+Full instructions: `multi-agent-starter/README.md`
 
 ---
 
