@@ -73,11 +73,12 @@ Based on your analysis, create these files:
    - Each .mdc file MUST have YAML frontmatter with description, globs, alwaysApply
 
 4. **.ai/** directory structure:
+   - `board.md` — real-time coordination board (who's doing what RIGHT NOW)
    - `tasks/` — empty directory with .gitkeep (for task assignment files)
-   - `templates/task.md` — task brief template (includes plan, verification, results, lessons sections)
+   - `templates/task.md` — task brief template (includes plan, scope, handoff, results, lessons sections)
    - `boundaries.md` — complete file-to-agent ownership map
-   - `status.md` — sprint status board
-   - `workflow-principles.md` — operating discipline and quality standards
+   - `status.md` — sprint backlog and completed work (board.md handles real-time state)
+   - `workflow-principles.md` — operating discipline, pipeline, and quality standards
    - `lessons.md` — lessons learned tracker (review at session start)
    - `lovable-knowledge.md` — text to copy-paste into Lovable's Knowledge panel
 
@@ -114,6 +115,7 @@ Check:
 - [ ] File boundaries make sense (logic-heavy components assigned to Cursor)
 - [ ] .cursor/rules/ files have valid YAML frontmatter
 - [ ] .ai/boundaries.md maps every major file
+- [ ] .ai/board.md exists with agent rows
 - [ ] Build still passes
 
 ## Step 3: Set up the Cursor Workforce
@@ -165,10 +167,11 @@ Lovable will auto-sync with main and pick up the AGENTS.md.
 
 ## Ongoing Maintenance
 
+- Update `.ai/board.md` when you start, finish, or get blocked on work
 - After each sprint, update `.ai/status.md`
 - After any correction or mistake, update `.ai/lessons.md`
-- Review `.ai/lessons.md` at the start of every session
+- Review `.ai/board.md` and `.ai/lessons.md` at the start of every session
+- Follow the pipeline for non-trivial work: brainstorm → plan → execute → verify
 - When adding new files/directories, update `.ai/boundaries.md`
 - When the tech stack changes, update AGENTS.md
 - Follow `.ai/workflow-principles.md` for planning, verification, and quality standards
-- Periodically run the smoke tests from `.ai/TESTING.md`

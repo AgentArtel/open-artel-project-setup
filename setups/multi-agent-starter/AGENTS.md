@@ -334,11 +334,18 @@ The hook template is at `scripts/post-commit.template`. Look for `[REPLACE]` com
 
 ## Task Coordination
 
-All agents check `.ai/tasks/` for assignments.
-See `.ai/templates/task.md` for the task brief format.
-See `.ai/boundaries.md` for file-to-agent ownership.
-See `.ai/status.md` for current sprint status.
-See `.ai/templates/commit-message.md` for commit routing format.
+All agents read `.ai/board.md` at session start — it's the real-time view of who's doing what.
+
+| What you need | Where to find it |
+|---------------|-----------------|
+| Who's doing what right now | `.ai/board.md` |
+| Sprint backlog and completed work | `.ai/status.md` |
+| Task briefs | `.ai/tasks/` |
+| Task brief template | `.ai/templates/task.md` |
+| File-to-agent ownership | `.ai/boundaries.md` |
+| Commit routing format | `.ai/templates/commit-message.md` |
+| Operating discipline | `.ai/workflow-principles.md` |
+| Past mistakes to avoid | `.ai/lessons.md` |
 
 ## Do
 
