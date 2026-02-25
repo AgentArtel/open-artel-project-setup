@@ -83,12 +83,13 @@ When reviewing completed work:
 
 ## Session End
 
-Before ending a session:
+Before ending a session or when context is getting long:
 
 1. Update `.ai/board.md` — set your status, note what's in progress
 2. Update `.ai/status.md` if task statuses changed
-3. Commit any uncommitted work
-4. Note open questions in board.md's "Decisions Pending" section
+3. If work is incomplete, create a handoff file (see `.ai/templates/handoff.md`)
+4. Commit any uncommitted work
+5. Note open questions in board.md's "Decisions Pending" section
 
 ## Do NOT
 

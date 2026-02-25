@@ -78,6 +78,25 @@ Bugs don't need a task brief.
 - Zero context-switching cost — the agent who finds it fixes it
 - Fix failing CI immediately — don't leave the build broken for the next agent
 
+### 7. Systematic Debugging
+
+When debugging, use scientific method — not guesswork.
+
+- **Treat your own code as foreign** — read it as if someone else wrote it. You remember intent, not what you actually implemented
+- **Generate hypotheses before investigating** — write down 3+ possible causes before diving into code. Avoid anchoring on the first explanation
+- **Seek disconfirming evidence** — don't just look for proof your hypothesis is right. Ask: "What would prove me wrong?"
+- **Admit when your mental model is wrong** — the code's behavior is truth; your understanding is a guess
+- **Check what you changed first** — if you modified 100 lines and something breaks, those are prime suspects
+
+### 8. Context Window Awareness
+
+Context windows degrade. Plan for it.
+
+- **Watch for quality drops** — if Claude starts giving shorter answers, repeating itself, or losing track of earlier decisions, context is getting full
+- **Create handoff files early** — don't wait until you're forced to stop. Use `.ai/templates/handoff.md` when context is getting long
+- **Keep orchestration lean** — offload heavy work to subagents. They get fresh 200k context windows
+- **Commit often** — git is your persistent memory. Don't accumulate uncommitted work across a long session
+
 ---
 
 ## Task Management Protocol

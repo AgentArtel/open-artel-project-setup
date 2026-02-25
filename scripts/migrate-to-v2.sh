@@ -285,6 +285,7 @@ echo ""
 info "Checking task template..."
 
 copy_file "$SOURCE_DIR/.ai/templates/task.md" "$TARGET_DIR/.ai/templates/task.md" "Task template (v2)"
+copy_file "$SOURCE_DIR/.ai/templates/handoff.md" "$TARGET_DIR/.ai/templates/handoff.md" "Handoff template"
 
 echo ""
 
@@ -299,6 +300,7 @@ create_dir "$TARGET_DIR/.ai/reviews" "Code reviews directory"
 create_dir "$TARGET_DIR/.ai/chats" "Agent chat logs directory"
 create_dir "$TARGET_DIR/.ai/reports" "Status reports directory"
 create_dir "$TARGET_DIR/.ai/instructions" "Task assignments directory"
+create_dir "$TARGET_DIR/.ai/handoffs" "Session handoff files directory"
 
 echo ""
 

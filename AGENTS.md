@@ -112,4 +112,5 @@ Requires Kimi Code CLI (`pipx install kimi-cli`). See `scripts/post-commit` for 
 | Brainstorm designs & plans | `docs/plans/` |
 | Agent skills (pipeline) | `.agents/skills/` |
 | Session context script | `hooks/session-start` |
+| Session handoff template | `.ai/templates/handoff.md` |
 | Migration script | `scripts/migrate-to-v2.sh` |

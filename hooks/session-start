@@ -52,6 +52,47 @@ if [ -f "$AI_DIR/lessons.md" ]; then
     LESSONS=$(sed -n '/^## Entries/,$ p' "$AI_DIR/lessons.md" | tail -n +3)
 fi
 
+# Health checks
+HEALTH_WARNINGS=""
+
+# Check for stale IN_PROGRESS agents on board
+if [ -f "$AI_DIR/board.md" ]; then
+    STALE_AGENTS=$(grep -c 'IN_PROGRESS' "$AI_DIR/board.md" 2>/dev/null || true)
+    if [ "${STALE_AGENTS:-0}" -gt 0 ]; then
+        HEALTH_WARNINGS="${HEALTH_WARNINGS}
+- WARNING: ${STALE_AGENTS} agent(s) still marked IN_PROGRESS on the board. Verify this is current."
+    fi
+fi
+
+# Check for handoff files
+HANDOFF_LIST=""
+if [ -d "$AI_DIR/handoffs" ]; then
+    for hf in "$AI_DIR/handoffs"/*.md; do
+        [ -f "$hf" ] || continue
+        HANDOFF_LIST="${HANDOFF_LIST}
+  - $(basename "$hf")"
+    done
+    if [ -n "$HANDOFF_LIST" ]; then
+        HEALTH_WARNINGS="${HEALTH_WARNINGS}
+- HANDOFF FILES found. Read before starting work:${HANDOFF_LIST}"
+    fi
+fi
+
+# Check for blocked tasks
+if [ -d "$AI_DIR/tasks" ]; then
+    BLOCKED=0
+    for task_file in "$AI_DIR/tasks"/TASK-*.md; do
+        [ -f "$task_file" ] || continue
+        if grep -q '^\- \*\*Status\*\*: BLOCKED' "$task_file" 2>/dev/null; then
+            BLOCKED=$((BLOCKED + 1))
+        fi
+    done
+    if [ "$BLOCKED" -gt 0 ]; then
+        HEALTH_WARNINGS="${HEALTH_WARNINGS}
+- BLOCKED: ${BLOCKED} task(s) are blocked. Check if you can unblock them."
+    fi
+fi
+
 # ---------------------------------------------------------------------------
 # Output context
 # ---------------------------------------------------------------------------
@@ -65,12 +106,16 @@ ${BOARD:-"No board.md found. Create .ai/board.md to track who's doing what."}
 ## Active Tasks (${TASK_COUNT} in progress)
 ${ACTIVE_TASKS:-"No active tasks found."}
 
+## Health Check
+${HEALTH_WARNINGS:-"All clear — no warnings."}
+
 ## Lessons Learned
 ${LESSONS:-"No lessons recorded yet."}
 
 ## Reminders
 - Update .ai/board.md when you start, finish, or get blocked on work
 - Follow the pipeline: brainstorm → plan → execute → verify
-- No completion claims without fresh verification evidence
+- Verify at 3 levels before marking done: exists, substantive, wired
+- Create a handoff file (.ai/templates/handoff.md) when context gets long
 - Define each concept once — reference, don't restate
 CONTEXT

@@ -46,6 +46,12 @@ Pause before non-trivial changes. Implement the elegant solution. Skip for simpl
 ### 6. Autonomous Bug Fixing
 If you see a bug while working, just fix it. No task brief needed. Fix failing CI immediately.
 
+### 7. Systematic Debugging
+Treat your own code as foreign — read it as if someone else wrote it. Generate 3+ hypotheses before investigating any. Seek disconfirming evidence ("What would prove me wrong?"). Check what you changed first.
+
+### 8. Context Window Awareness
+Watch for quality drops (shorter answers, repetition, lost track of decisions). Create handoff files (`.ai/templates/handoff.md`) when context gets long. Keep orchestration lean — offload to subagents. Commit often — git is persistent memory.
+
 ## Task Execution Protocol
 
 ```

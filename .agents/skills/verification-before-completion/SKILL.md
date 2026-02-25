@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: The iron law of verification. No completion claims without fresh evidence. Includes rationalization prevention.
+description: The iron law of verification. No completion claims without fresh evidence. Three-level verification framework. Stub detection. Rationalization prevention.
 ---
 
 ## The Iron Law
@@ -9,14 +9,72 @@ description: The iron law of verification. No completion claims without fresh ev
 
 Not "it should work." Not "I'm confident." Not "I just tested it mentally." Run the actual command, read the actual output, confirm it actually passes.
 
+## Three-Level Verification
+
+Before claiming any feature, task, or change is complete, verify at all three levels:
+
+### Level 1: Exists
+
+Does the thing actually exist?
+
+- File was created and is in the expected path
+- Function/component was defined
+- Route/endpoint was added
+- Configuration entry is present
+
+**How to check**: `ls`, `grep`, read the file.
+
+### Level 2: Substantive
+
+Is it real implementation, not a stub or placeholder?
+
+- Component renders actual content (not `<div>Placeholder</div>`)
+- API route queries the database (not `return { ok: true }`)
+- Function contains actual logic (not `// TODO: implement`)
+- Form handler does something (not just `e.preventDefault()`)
+
+**How to check**: Read the implementation. Look for stub patterns (see below).
+
+### Level 3: Wired
+
+Is it connected to the rest of the system?
+
+- Component is imported and rendered somewhere
+- API route is called by the frontend
+- Function is invoked (not just defined)
+- State is both set and displayed
+
+**How to check**: Search for imports, references, and usage beyond the definition.
+
+### Stub Detection Patterns
+
+These are the most common ways "done" work is actually incomplete:
+
+**UI stubs**:
+- `return <div>Component Name</div>` — placeholder render
+- `return null` or `return <></>` — empty render
+- `onClick={() => {}}` — empty handler
+- `onChange={() => console.log('clicked')}` — log-only handler
+
+**API stubs**:
+- `return Response.json({ message: "Not implemented" })` — static response
+- `return Response.json([])` — empty array with no actual query
+- Handler only logs the request without processing it
+
+**Wiring gaps**:
+- `fetch('/api/endpoint')` with no `await`, no `.then`, no error handling
+- State declared (`useState`) but never rendered in JSX
+- Database query result not returned in the response
+- Component exists but is never imported anywhere
+
 ## The Gate
 
 Before claiming ANY task, step, or feature is done:
 
-1. **Identify** what command proves the claim
+1. **Identify** what command or check proves the claim
 2. **Execute** the command freshly (not from memory, not from a previous run)
 3. **Read** the complete output and exit code
-4. **Verify** the output actually confirms the claim
+4. **Verify** the output actually confirms the claim — at all three levels
 5. **Only then** mark it done
 
 ## Common Claims and Their Verification
@@ -27,6 +85,7 @@ Before claiming ANY task, step, or feature is done:
 | "Build succeeds" | "It built before my change" | Run `npm run build` NOW |
 | "No regressions" | "I only changed one file" | Run the full test suite |
 | "Linter is clean" | "I followed the patterns" | Run `npm run lint` NOW |
+| "Feature works" | "I created the component" | Check all 3 levels: exists, substantive, wired |
 | "Task brief is complete" | "I filled in all sections" | Read it back, check every field |
 | "Board is updated" | "I'll do it after" | Do it NOW, before claiming done |
 
